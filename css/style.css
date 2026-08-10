@@ -1,10 +1,24 @@
+/* =========================================================
+   FONTE
+========================================================= */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+
+/* =========================================================
+   VARIÁVEIS DE CORES
+========================================================= */
 
 :root {
     --bg: #0B0F17;
     --cyan: #41D8FF;
     --gray: #A8B2C7;
 }
+
+
+/* =========================================================
+   CONFIGURAÇÕES GERAIS
+========================================================= */
 
 * {
     margin: 0;
@@ -20,7 +34,9 @@ body {
 }
 
 
-/* FUNDO */
+/* =========================================================
+   ÁREA PRINCIPAL / FUNDO
+========================================================= */
 
 .hero {
     min-height: 100vh;
@@ -29,45 +45,78 @@ body {
     overflow: hidden;
 }
 
+
+/* =========================================================
+   CÍRCULO AZUL - LADO ESQUERDO
+========================================================= */
+
 .hero::before {
     content: "";
     position: absolute;
+
     width: 500px;
     height: 500px;
+
     background: #173F8A;
     border-radius: 50%;
+
     left: -220px;
     top: 110px;
-    opacity: .35;
+
+    opacity: 0.35;
 }
+
+
+/* =========================================================
+   CÍRCULO AZUL - LADO DIREITO
+========================================================= */
 
 .hero::after {
     content: "";
     position: absolute;
+
     width: 380px;
     height: 380px;
+
     background: #17CFFF;
     border-radius: 50%;
+
     right: -180px;
     bottom: -120px;
-    opacity: .18;
+
+    opacity: 0.18;
 }
 
 
-/* MENU */
+/* =========================================================
+   MENU / NAVBAR
+========================================================= */
 
 .navbar {
     display: flex;
+
     justify-content: space-between;
     align-items: center;
+
     margin-bottom: 40px;
+
     position: relative;
     z-index: 2;
 }
 
+
+/* =========================================================
+   LOGO DO MENU
+========================================================= */
+
 .logo img {
     width: 220px;
 }
+
+
+/* =========================================================
+   LINKS DO MENU
+========================================================= */
 
 .nav-links {
     display: flex;
@@ -75,101 +124,297 @@ body {
     gap: 40px;
 }
 
+
+/* =========================================================
+   ESTILO DOS LINKS
+========================================================= */
+
 .nav-links a {
     color: white;
     text-decoration: none;
     font-weight: 500;
-    transition: .3s;
+    transition: 0.3s;
 }
+
+
+/* =========================================================
+   EFEITO DOS LINKS
+========================================================= */
 
 .nav-links a:hover {
     color: var(--cyan);
 }
 
 
-/* CONTEÚDO */
+/* =========================================================
+   CONTEÚDO CENTRAL
+========================================================= */
 
 .hero-container {
     min-height: 75vh;
+
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    gap: 120px;
+
     position: relative;
     z-index: 2;
 }
 
+
+/* =========================================================
+   ÁREA DO CONTEÚDO
+========================================================= */
+
 .hero-content {
     max-width: 560px;
+    text-align: center;
 }
 
-.tag {
+
+/* =========================================================
+   LOGO CENTRAL
+========================================================= */
+
+.logo-central {
     display: block;
-    font-size: 17px;
-    margin-bottom: 15px;
+
+    width: 180px;
+
+    /* Espaçamento entre o logo e o título */
+    margin: 0 auto 30px;
 }
+
+
+/* =========================================================
+   TÍTULO "RITMO ÚNICO"
+========================================================= */
 
 .hero-content h1 {
     font-size: 64px;
+
     line-height: 1.1;
+
     font-weight: 800;
+
+    /* Remove o espaçamento automático acima do título */
+    margin-top: 0;
+
+    /* Espaçamento entre o título e a tag */
     margin-bottom: 20px;
 }
 
+
+/* =========================================================
+   TAG / SUBTÍTULO
+========================================================= */
+
+.tag {
+    display: block;
+
+    font-size: 17px;
+
+    margin-bottom: 15px;
+}
+
+
+/* =========================================================
+   TEXTO PRINCIPAL
+========================================================= */
+
 .hero-content p {
     color: var(--gray);
+
     font-size: 20px;
+
     line-height: 1.5;
+
     margin-bottom: 40px;
 }
 
 
-/* BOTÕES */
+/* =========================================================
+   BOTÕES
+========================================================= */
 
 .buttons {
     display: flex;
+
+    justify-content: center;
+
     gap: 20px;
 }
+
+
+/* =========================================================
+   CONFIGURAÇÃO DOS BOTÕES
+========================================================= */
 
 .btn-primary,
 .btn-secondary {
     padding: 16px 42px;
+
     border-radius: 50px;
+
     text-decoration: none;
+
     font-weight: 600;
-    transition: .3s;
+
+    transition: 0.3s;
 }
 
+
+/* =========================================================
+   BOTÃO "ENTRAR"
+========================================================= */
+
 .btn-primary {
-    background: linear-gradient(90deg,#4F7CFF,#41D8FF);
+    background: linear-gradient(
+        90deg,
+        #4F7CFF,
+        #41D8FF
+    );
+
     color: white;
 }
+
+
+/* =========================================================
+   EFEITO DO BOTÃO "ENTRAR"
+========================================================= */
 
 .btn-primary:hover {
     transform: translateY(-3px);
 }
 
+
+/* =========================================================
+   BOTÃO "CRIAR CONTA"
+========================================================= */
+
 .btn-secondary {
     border: 2px solid var(--cyan);
+
     color: var(--cyan);
 }
 
+
+/* =========================================================
+   EFEITO DO BOTÃO "CRIAR CONTA"
+========================================================= */
+
 .btn-secondary:hover {
     background: var(--cyan);
+
     color: #0B0F17;
 }
 
 
-/* IMAGEM */
+/* =========================================================
+   IMAGEM
+========================================================= */
 
 .hero-image {
     display: flex;
+
     justify-content: center;
     align-items: center;
 }
 
 .hero-image img {
     width: 420px;
+
     max-width: 100%;
-    filter: drop-shadow(0 20px 35px rgba(0,0,0,.5));
+
+    filter: drop-shadow(
+        0 20px 35px rgba(0, 0, 0, 0.5)
+    );
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE - CELULAR
+========================================================= */
+
+@media (max-width: 768px) {
+
+    /* -----------------------------------------------------
+       MENU
+    ----------------------------------------------------- */
+
+    .navbar {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+
+    /* -----------------------------------------------------
+       LINKS DO MENU
+    ----------------------------------------------------- */
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+
+
+    /* -----------------------------------------------------
+       CONTEÚDO CENTRAL
+    ----------------------------------------------------- */
+
+    .hero-container {
+        min-height: 70vh;
+    }
+
+
+    /* -----------------------------------------------------
+       LOGO CENTRAL
+    ----------------------------------------------------- */
+
+    .logo-central {
+        width: 140px;
+
+        /* Mantém o espaçamento do logo no celular */
+        margin: 0 auto 30px;
+    }
+
+
+    /* -----------------------------------------------------
+       TÍTULO
+    ----------------------------------------------------- */
+
+    .hero-content h1 {
+        font-size: 45px;
+    }
+
+
+    /* -----------------------------------------------------
+       TEXTO
+    ----------------------------------------------------- */
+
+    .hero-content p {
+        font-size: 17px;
+    }
+
+
+    /* -----------------------------------------------------
+       BOTÕES
+    ----------------------------------------------------- */
+
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+
+    /* -----------------------------------------------------
+       TAMANHO DOS BOTÕES
+    ----------------------------------------------------- */
+
+    .btn-primary,
+    .btn-secondary {
+        width: 200px;
+        text-align: center;
+    }
 }

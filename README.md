@@ -107,7 +107,7 @@ A Inteligência Artificial foi utilizada como ferramenta de apoio ao desenvolvim
 
 ---
 
-## Tutoria
+## Tutora
 
 Este projeto contou com a orientação da tutora **Taina Couto Gonçalves**, que acompanhou o desenvolvimento, contribuiu com sugestões e auxiliou no aprimoramento da experiência do usuário e da identidade visual do projeto.
 

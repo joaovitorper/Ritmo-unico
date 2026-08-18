@@ -128,8 +128,6 @@ As principais telas desenvolvidas são:
 ---
 
 ## Estrutura do Projeto
-
-```text
 ritmo-unico/
 │
 ├── config/
@@ -143,7 +141,6 @@ ritmo-unico/
 ├── login.php
 ├── logout.php
 └── README.md
-```
 
 ---
 
@@ -170,7 +167,7 @@ A Inteligência Artificial foi utilizada como ferramenta de apoio ao desenvolvim
 
 ---
 
-## Tutoria
+## Tutora
 
 O projeto contou com a orientação da tutora **Taina Couto Gonçalves**, que acompanhou o desenvolvimento e contribuiu com sugestões para o aprimoramento da experiência do usuário e da identidade visual do projeto.
 

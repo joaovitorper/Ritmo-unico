@@ -1,11 +1,20 @@
 # Ritmo Único
 
+<<<<<<< HEAD
 Aplicação desenvolvida para o **CRIA Senac 2026**, na categoria **Design de Interação**, com foco em uma experiência de corrida personalizada, acessível e centrada no usuário.
+=======
+## Apresentação
+
+O **Ritmo Único** é um projeto desenvolvido para o **CRIA Senac 2026**, na categoria **Design de Interação**, com o objetivo de oferecer uma experiência de corrida mais humana, personalizada e acessível.
+
+A proposta do projeto é colocar o usuário no centro da experiência, respeitando seu ritmo, seus limites e sua evolução. Em vez de priorizar a competição e a comparação entre usuários, o aplicativo busca incentivar a constância, o bem-estar e o desenvolvimento individual.
+>>>>>>> b6486c6a303083315f6d5909eed50d76e07b3d3c
 
 ---
 
 ## 1. Visão Geral
 
+<<<<<<< HEAD
 O **Ritmo Único** é uma aplicação voltada ao acompanhamento da prática de corrida e da evolução individual do usuário.
 
 O projeto parte da percepção de que muitas plataformas de corrida são fortemente orientadas ao desempenho, utilizando métricas, metas e rankings como principais elementos de motivação. Embora esses recursos sejam relevantes, essa abordagem pode não atender usuários que estão iniciando a prática esportiva, retornando às atividades físicas ou que não se identificam com experiências competitivas.
@@ -13,11 +22,34 @@ O projeto parte da percepção de que muitas plataformas de corrida são forteme
 Diante desse cenário, o Ritmo Único propõe uma experiência baseada na evolução pessoal, respeitando o ritmo, os objetivos e as necessidades de cada usuário.
 
 > **Cada pessoa possui seu próprio ritmo.**
+=======
+Aplicativos tradicionais de corrida costumam apresentar uma abordagem fortemente baseada em desempenho, velocidade, distância e rankings. Embora essas informações sejam relevantes, esse modelo pode gerar pressão, comparação e desmotivação para determinados usuários.
+
+O **Ritmo Único** propõe uma abordagem diferente, baseada na valorização da evolução individual.
+
+O aplicativo foi desenvolvido para proporcionar uma experiência mais acolhedora, permitindo que cada usuário acompanhe seu próprio desenvolvimento e estabeleça objetivos de acordo com suas necessidades e possibilidades.
+
+---
+
+## Objetivo
+
+O principal objetivo do Ritmo Único é desenvolver uma experiência digital que incentive a prática da corrida de maneira acessível, personalizada e segura.
+
+O projeto busca promover:
+
+* Bem-estar;
+* Evolução pessoal;
+* Constância;
+* Segurança;
+* Acessibilidade;
+* Personalização da experiência.
+>>>>>>> b6486c6a303083315f6d5909eed50d76e07b3d3c
 
 ---
 
 ## 2. Problema
 
+<<<<<<< HEAD
 A prática de corrida pode ser acompanhada por uma forte pressão relacionada ao desempenho.
 
 A comparação de resultados, a busca constante por melhores tempos e a utilização de rankings podem transformar uma atividade voltada ao bem-estar em uma experiência de cobrança e competição.
@@ -31,11 +63,29 @@ Esse cenário pode contribuir para:
 * Falta de identificação com aplicativos tradicionais de corrida.
 
 O projeto busca responder a esse problema por meio de uma experiência mais personalizada e centrada nas necessidades individuais.
+=======
+O projeto conta com funcionalidades voltadas ao acompanhamento e à personalização da experiência do usuário:
+
+* Cadastro e login;
+* Página inicial;
+* Dashboard;
+* Registro de corridas;
+* Histórico de atividades;
+* Comunidade;
+* Perfil do usuário;
+* Configurações;
+* Acompanhamento da evolução;
+* Objetivos personalizados;
+* Sistema de conquistas;
+* Recursos de acessibilidade;
+* Recursos de Inteligência Artificial como ferramenta de apoio.
+>>>>>>> b6486c6a303083315f6d5909eed50d76e07b3d3c
 
 ---
 
 ## 3. Proposta de Solução
 
+<<<<<<< HEAD
 O **Ritmo Único** propõe uma plataforma que acompanha o usuário durante sua jornada de corrida, oferecendo recursos para registro, acompanhamento, personalização e análise da evolução.
 
 A aplicação prioriza o desenvolvimento individual em vez da competição entre usuários.
@@ -82,11 +132,22 @@ O Ritmo Único foi desenvolvido principalmente para pessoas que:
 * Desejam acompanhar sua própria evolução;
 * Possuem diferentes níveis de experiência com corrida;
 * Necessitam ou se beneficiam de recursos de acessibilidade.
+=======
+O aplicativo foi desenvolvido principalmente para pessoas que:
+
+* Estão começando a correr;
+* Desejam voltar a praticar atividades físicas;
+* Possuem uma rotina intensa;
+* Procuram uma experiência menos competitiva;
+* Desejam acompanhar sua própria evolução;
+* Necessitam de recursos de acessibilidade.
+>>>>>>> b6486c6a303083315f6d5909eed50d76e07b3d3c
 
 ---
 
 ## 6. Funcionalidades
 
+<<<<<<< HEAD
 A aplicação reúne funcionalidades destinadas ao acompanhamento da jornada do usuário.
 
 ### 6.1 Cadastro e Login
@@ -140,11 +201,53 @@ Inclui recursos pensados para tornar a aplicação mais acessível e adequada a 
 ### 6.13 Inteligência Artificial
 
 Utilizada como ferramenta de apoio para análise, organização de informações e personalização da experiência.
+=======
+### Personalização
+
+A experiência é desenvolvida considerando o perfil, os objetivos e o ritmo de cada usuário.
+
+### Evolução individual
+
+O aplicativo prioriza a evolução pessoal em vez da comparação direta com outros usuários.
+
+### Experiência acolhedora
+
+A interface foi planejada para proporcionar uma experiência simples, intuitiva e acessível.
+
+### Acessibilidade
+
+O projeto considera diferentes necessidades de usuários, buscando ampliar a inclusão e facilitar a utilização da aplicação.
+
+### Inteligência Artificial
+
+A Inteligência Artificial é utilizada como ferramenta de apoio para auxiliar na análise de informações e na personalização da experiência do usuário.
+
+---
+
+## Design e Prototipação
+
+O projeto foi desenvolvido com apoio do **Figma**, utilizado para a criação dos protótipos, definição da identidade visual e planejamento da experiência do usuário.
+
+As principais telas desenvolvidas são:
+
+1. Splash Screen;
+2. Onboarding;
+3. Login;
+4. Cadastro;
+5. Página Inicial;
+6. Dashboard;
+7. Corrida;
+8. Histórico;
+9. Mapa;
+10. Perfil;
+11. Configurações.
+>>>>>>> b6486c6a303083315f6d5909eed50d76e07b3d3c
 
 ---
 
 ## 7. Experiência do Usuário
 
+<<<<<<< HEAD
 A experiência do Ritmo Único foi estruturada considerando a jornada do usuário desde o primeiro acesso até o acompanhamento de sua evolução.
 
 A jornada principal pode ser representada da seguinte forma:
@@ -233,6 +336,24 @@ Apoio na programação, implementação e revisão do código.
 ## 10. Estrutura do Projeto
 
 ```text
+=======
+| Tecnologia | Utilização                              |
+| ---------- | --------------------------------------- |
+| HTML5      | Estrutura das páginas                   |
+| CSS3       | Estilização e identidade visual         |
+| JavaScript | Interatividade                          |
+| PHP        | Backend e lógica da aplicação           |
+| MySQL      | Banco de dados                          |
+| Figma      | Prototipação e design                   |
+| Git        | Versionamento                           |
+| GitHub     | Hospedagem e gerenciamento do código    |
+| ChatGPT    | Apoio na documentação e desenvolvimento |
+| Codex      | Apoio na programação                    |
+
+---
+
+## Estrutura do Projeto
+>>>>>>> b6486c6a303083315f6d5909eed50d76e07b3d3c
 ritmo-unico/
 │
 ├── config/
@@ -251,16 +372,19 @@ ritmo-unico/
 │   └── Scripts JavaScript
 │
 ├── views/
+<<<<<<< HEAD
 │   └── Páginas e interfaces da aplicação
+=======
+>>>>>>> b6486c6a303083315f6d5909eed50d76e07b3d3c
 │
 ├── index.php
 ├── login.php
 ├── logout.php
 └── README.md
-```
 
 ---
 
+<<<<<<< HEAD
 ## 11. Processo de Desenvolvimento
 
 O desenvolvimento do projeto foi realizado de forma progressiva, passando por diferentes etapas.
@@ -317,6 +441,34 @@ Sua utilização envolveu:
 As principais ferramentas utilizadas foram **ChatGPT** e **Codex**.
 
 A Inteligência Artificial foi utilizada como recurso de apoio ao desenvolvimento. As decisões relacionadas ao conceito, design, funcionalidades e implementação permaneceram sob responsabilidade do projeto.
+=======
+## Inteligência Artificial no Desenvolvimento
+
+Durante o desenvolvimento do projeto, ferramentas de Inteligência Artificial foram utilizadas como apoio em diferentes etapas do processo.
+
+Entre as principais aplicações estão:
+
+* Organização e estruturação de ideias;
+* Documentação do projeto;
+* Revisão de conteúdos;
+* Apoio ao desenvolvimento do código;
+* Identificação e correção de problemas;
+* Sugestões de melhorias;
+* Apoio na experiência do usuário.
+
+Foram utilizadas as ferramentas:
+
+* ChatGPT;
+* Codex.
+
+A Inteligência Artificial foi utilizada como ferramenta de apoio ao desenvolvimento. As decisões relacionadas ao projeto, ao design e à implementação permaneceram sob responsabilidade da equipe.
+
+---
+
+## Tutora
+
+O projeto contou com a orientação da tutora **Taina Couto Gonçalves**, que acompanhou o desenvolvimento e contribuiu com sugestões para o aprimoramento da experiência do usuário e da identidade visual do projeto.
+>>>>>>> b6486c6a303083315f6d5909eed50d76e07b3d3c
 
 ---
 
@@ -340,6 +492,7 @@ A participação no evento representa uma oportunidade de apresentar o processo 
 
 **João Vitor Pereira Paulo**
 
+<<<<<<< HEAD
 Projeto desenvolvido para o **CRIA Senac 2026**.
 
 **Categoria:** Design de Interação
@@ -363,3 +516,20 @@ Este projeto é de autoria de João Vitor Pereira Paulo e foi desenvolvido para 
 O código-fonte, design, identidade visual, documentação e demais materiais relacionados ao projeto não podem ser copiados, modificados, redistribuídos ou utilizados comercialmente sem autorização prévia do autor.
 
 **Todos os direitos reservados.**
+=======
+Projeto desenvolvido para o **CRIA Senac 2026**, na categoria **Design de Interação**.
+
+---
+
+## Status do Projeto
+
+**Em desenvolvimento.**
+
+O Ritmo Único encontra-se em processo de desenvolvimento e aprimoramento para apresentação no CRIA Senac 2026.
+
+---
+
+## Licença
+
+Este projeto foi desenvolvido para fins acadêmicos e de apresentação no **CRIA Senac 2026**.
+>>>>>>> b6486c6a303083315f6d5909eed50d76e07b3d3c

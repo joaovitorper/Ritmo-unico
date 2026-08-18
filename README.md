@@ -2,61 +2,111 @@
 
 ## Apresentação
 
-O **Ritmo Único** é um projeto desenvolvido durante o **CRIA Senac 2026**, na categoria **Design de Interação**, com o objetivo de oferecer uma experiência de corrida mais humana, personalizada e acessível.
+O **Ritmo Único** é um projeto desenvolvido para o **CRIA Senac 2026**, na categoria **Design de Interação**, com o objetivo de oferecer uma experiência de corrida mais humana, personalizada e acessível.
 
-Em vez de incentivar comparações e metas rígidas, o projeto coloca o usuário no centro da experiência, respeitando seu ritmo, seus limites e sua evolução.
+A proposta do projeto é colocar o usuário no centro da experiência, respeitando seu ritmo, seus limites e sua evolução. Em vez de priorizar a competição e a comparação entre usuários, o aplicativo busca incentivar a constância, o bem-estar e o desenvolvimento individual.
 
 ---
 
 ## Sobre o Projeto
 
-Os aplicativos tradicionais de corrida costumam focar em desempenho, velocidade e rankings, o que pode gerar frustração e desmotivação.
+Aplicativos tradicionais de corrida costumam apresentar uma abordagem fortemente baseada em desempenho, velocidade, distância e rankings. Embora essas informações sejam relevantes, esse modelo pode gerar pressão, comparação e desmotivação para determinados usuários.
 
-O **Ritmo Único** propõe uma abordagem diferente, incentivando a prática da corrida com foco em:
+O **Ritmo Único** propõe uma abordagem diferente, baseada na valorização da evolução individual.
 
-* Bem-estar
-* Evolução pessoal
-* Constância
-* Segurança
-* Acessibilidade
+O aplicativo foi desenvolvido para proporcionar uma experiência mais acolhedora, permitindo que cada usuário acompanhe seu próprio desenvolvimento e estabeleça objetivos de acordo com suas necessidades e possibilidades.
+
+---
+
+## Objetivo
+
+O principal objetivo do Ritmo Único é desenvolver uma experiência digital que incentive a prática da corrida de maneira acessível, personalizada e segura.
+
+O projeto busca promover:
+
+* Bem-estar;
+* Evolução pessoal;
+* Constância;
+* Segurança;
+* Acessibilidade;
+* Personalização da experiência.
 
 ---
 
 ## Funcionalidades
 
-* Cadastro e Login
-* Página Inicial
-* Dashboard
-* Corrida
-* Histórico
-* Comunidade
-* Perfil
-* Configurações
-* Acompanhamento da evolução
-* Recursos de acessibilidade
+O projeto conta com funcionalidades voltadas ao acompanhamento e à personalização da experiência do usuário:
+
+* Cadastro e login;
+* Página inicial;
+* Dashboard;
+* Registro de corridas;
+* Histórico de atividades;
+* Comunidade;
+* Perfil do usuário;
+* Configurações;
+* Acompanhamento da evolução;
+* Objetivos personalizados;
+* Sistema de conquistas;
+* Recursos de acessibilidade;
+* Recursos de Inteligência Artificial como ferramenta de apoio.
 
 ---
 
 ## Público-Alvo
 
-O aplicativo foi desenvolvido para pessoas que:
+O aplicativo foi desenvolvido principalmente para pessoas que:
 
 * Estão começando a correr;
 * Desejam voltar a praticar atividades físicas;
-* Possuem rotina intensa;
+* Possuem uma rotina intensa;
 * Procuram uma experiência menos competitiva;
+* Desejam acompanhar sua própria evolução;
 * Necessitam de recursos de acessibilidade.
 
 ---
 
 ## Diferenciais
 
-* Treinos personalizados;
-* Evolução baseada no ritmo do usuário;
-* Interface intuitiva;
-* Experiência acolhedora;
-* Recursos de acessibilidade;
-* Uso de Inteligência Artificial como ferramenta de apoio.
+### Personalização
+
+A experiência é desenvolvida considerando o perfil, os objetivos e o ritmo de cada usuário.
+
+### Evolução individual
+
+O aplicativo prioriza a evolução pessoal em vez da comparação direta com outros usuários.
+
+### Experiência acolhedora
+
+A interface foi planejada para proporcionar uma experiência simples, intuitiva e acessível.
+
+### Acessibilidade
+
+O projeto considera diferentes necessidades de usuários, buscando ampliar a inclusão e facilitar a utilização da aplicação.
+
+### Inteligência Artificial
+
+A Inteligência Artificial é utilizada como ferramenta de apoio para auxiliar na análise de informações e na personalização da experiência do usuário.
+
+---
+
+## Design e Prototipação
+
+O projeto foi desenvolvido com apoio do **Figma**, utilizado para a criação dos protótipos, definição da identidade visual e planejamento da experiência do usuário.
+
+As principais telas desenvolvidas são:
+
+1. Splash Screen;
+2. Onboarding;
+3. Login;
+4. Cadastro;
+5. Página Inicial;
+6. Dashboard;
+7. Corrida;
+8. Histórico;
+9. Mapa;
+10. Perfil;
+11. Configurações.
 
 ---
 
@@ -65,13 +115,13 @@ O aplicativo foi desenvolvido para pessoas que:
 | Tecnologia | Utilização                              |
 | ---------- | --------------------------------------- |
 | HTML5      | Estrutura das páginas                   |
-| CSS3       | Estilização                             |
+| CSS3       | Estilização e identidade visual         |
 | JavaScript | Interatividade                          |
-| PHP        | Backend                                 |
-| MySQL      | Banco de Dados                          |
-| Figma      | Protótipos e Design                     |
+| PHP        | Backend e lógica da aplicação           |
+| MySQL      | Banco de dados                          |
+| Figma      | Prototipação e design                   |
 | Git        | Versionamento                           |
-| GitHub     | Hospedagem do código                    |
+| GitHub     | Hospedagem e gerenciamento do código    |
 | ChatGPT    | Apoio na documentação e desenvolvimento |
 | Codex      | Apoio na programação                    |
 
@@ -88,6 +138,7 @@ ritmo-unico/
 ├── includes/
 ├── js/
 ├── views/
+│
 ├── index.php
 ├── login.php
 ├── logout.php
@@ -96,20 +147,32 @@ ritmo-unico/
 
 ---
 
-## Ferramentas de Inteligência Artificial
+## Inteligência Artificial no Desenvolvimento
 
-Durante o desenvolvimento do projeto foram utilizadas ferramentas de Inteligência Artificial para auxiliar na organização das ideias, documentação, revisão de conteúdos, apoio à programação e melhoria da experiência do usuário.
+Durante o desenvolvimento do projeto, ferramentas de Inteligência Artificial foram utilizadas como apoio em diferentes etapas do processo.
 
-* ChatGPT
-* Codex
+Entre as principais aplicações estão:
 
-A Inteligência Artificial foi utilizada como ferramenta de apoio ao desenvolvimento, mantendo todas as decisões finais sob responsabilidade da equipe.
+* Organização e estruturação de ideias;
+* Documentação do projeto;
+* Revisão de conteúdos;
+* Apoio ao desenvolvimento do código;
+* Identificação e correção de problemas;
+* Sugestões de melhorias;
+* Apoio na experiência do usuário.
+
+Foram utilizadas as ferramentas:
+
+* ChatGPT;
+* Codex.
+
+A Inteligência Artificial foi utilizada como ferramenta de apoio ao desenvolvimento. As decisões relacionadas ao projeto, ao design e à implementação permaneceram sob responsabilidade da equipe.
 
 ---
 
-## Tutora
+## Tutoria
 
-Este projeto contou com a orientação da tutora **Taina Couto Gonçalves**, que acompanhou o desenvolvimento, contribuiu com sugestões e auxiliou no aprimoramento da experiência do usuário e da identidade visual do projeto.
+O projeto contou com a orientação da tutora **Taina Couto Gonçalves**, que acompanhou o desenvolvimento e contribuiu com sugestões para o aprimoramento da experiência do usuário e da identidade visual do projeto.
 
 ---
 
@@ -117,4 +180,18 @@ Este projeto contou com a orientação da tutora **Taina Couto Gonçalves**, que
 
 **João Vitor Pereira Paulo**
 
-Projeto desenvolvido para o **CRIA Senac 2026**.
+Projeto desenvolvido para o **CRIA Senac 2026**, na categoria **Design de Interação**.
+
+---
+
+## Status do Projeto
+
+**Em desenvolvimento.**
+
+O Ritmo Único encontra-se em processo de desenvolvimento e aprimoramento para apresentação no CRIA Senac 2026.
+
+---
+
+## Licença
+
+Este projeto foi desenvolvido para fins acadêmicos e de apresentação no **CRIA Senac 2026**.

@@ -1,0 +1,722 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* =========================================
+   VARIÁVEIS
+========================================= */
+
+:root {
+    --bg: #080c14;
+    --bg-card: rgba(17, 23, 35, 0.88);
+
+    --cyan: #41d8ff;
+    --blue: #4f7cff;
+    --blue-dark: #173f8a;
+
+    --gray: #9da9bd;
+    --gray-light: #dce5f2;
+
+    --white: #ffffff;
+
+    --border: rgba(255, 255, 255, 0.10);
+    --border-hover: rgba(65, 216, 255, 0.45);
+}
+
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =========================================
+   BODY
+========================================= */
+
+body {
+    min-height: 100vh;
+
+    font-family: 'Poppins', sans-serif;
+
+    color: var(--white);
+
+    background: var(--bg);
+
+    overflow-x: hidden;
+}
+
+/* =========================================
+   PÁGINA
+========================================= */
+
+.perfil-page {
+    position: relative;
+
+    min-height: 100vh;
+    width: 100%;
+
+    padding: 45px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(79, 124, 255, 0.10),
+            transparent 35%
+        ),
+        #080c14;
+}
+
+/* =========================================
+   LUZES DO FUNDO
+========================================= */
+
+.perfil-page::before {
+    content: "";
+
+    position: absolute;
+
+    width: 520px;
+    height: 520px;
+
+    left: -300px;
+    top: 70px;
+
+    border-radius: 50%;
+
+    background: #173f8a;
+
+    opacity: 0.30;
+
+    filter: blur(2px);
+
+    pointer-events: none;
+}
+
+.perfil-page::after {
+    content: "";
+
+    position: absolute;
+
+    width: 430px;
+    height: 430px;
+
+    right: -250px;
+    bottom: -170px;
+
+    border-radius: 50%;
+
+    background: #17cfff;
+
+    opacity: 0.13;
+
+    pointer-events: none;
+}
+
+/* =========================================
+   GLOW
+========================================= */
+
+.perfil-glow {
+    position: absolute;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    filter: blur(90px);
+}
+
+.perfil-glow-left {
+    width: 230px;
+    height: 230px;
+
+    left: -80px;
+    top: 20%;
+
+    background: #245cff;
+
+    opacity: 0.13;
+}
+
+.perfil-glow-right {
+    width: 250px;
+    height: 250px;
+
+    right: -90px;
+    bottom: 15%;
+
+    background: #00d9ff;
+
+    opacity: 0.10;
+}
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.perfil-container {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+    max-width: 520px;
+
+    margin: 0 auto;
+}
+
+/* =========================================
+   CONTEÚDO
+========================================= */
+
+.perfil-content {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+/* =========================================
+   LOGO
+========================================= */
+
+.perfil-logo {
+    width: 150px;
+    height: auto;
+
+    margin-bottom: 10px;
+
+    filter:
+        drop-shadow(
+            0 8px 20px rgba(65, 216, 255, 0.08)
+        );
+}
+
+/* =========================================
+   TAG
+========================================= */
+
+.perfil-tag {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 14px;
+
+    margin-bottom: 25px;
+
+    border: 1px solid rgba(65, 216, 255, 0.16);
+
+    border-radius: 50px;
+
+    background: rgba(65, 216, 255, 0.04);
+
+    color: #b9eaff;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    letter-spacing: 0.2px;
+
+    box-shadow:
+        0 0 20px rgba(65, 216, 255, 0.03);
+}
+
+/* =========================================
+   CAIXA DO PERFIL
+========================================= */
+
+.perfil-box {
+    width: 100%;
+
+    padding: 34px 38px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(24, 31, 45, 0.94),
+            rgba(12, 17, 27, 0.94)
+        );
+
+    border: 1px solid var(--border);
+
+    border-radius: 24px;
+
+    text-align: left;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
+    backdrop-filter: blur(18px);
+}
+
+/* =========================================
+   AVATAR
+========================================= */
+
+.perfil-foto {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 18px;
+}
+
+.avatar {
+    width: 94px;
+    height: 94px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4f7cff 0%,
+            #41d8ff 100%
+        );
+
+    border: 3px solid rgba(255, 255, 255, 0.14);
+
+    box-shadow:
+        0 0 0 6px rgba(79, 124, 255, 0.06),
+        0 0 35px rgba(65, 216, 255, 0.20);
+
+    transition: 0.3s ease;
+}
+
+.avatar:hover {
+    transform: translateY(-3px) scale(1.03);
+
+    box-shadow:
+        0 0 0 7px rgba(79, 124, 255, 0.08),
+        0 0 45px rgba(65, 216, 255, 0.30);
+}
+
+#avatarInicial {
+    color: var(--white);
+
+    font-size: 38px;
+    font-weight: 700;
+
+    text-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================================
+   TÍTULO
+========================================= */
+
+.perfil-box h2 {
+    color: var(--white);
+
+    font-size: 27px;
+    font-weight: 700;
+
+    text-align: center;
+
+    margin-bottom: 4px;
+
+    letter-spacing: -0.5px;
+}
+
+/* =========================================
+   DESCRIÇÃO
+========================================= */
+
+.perfil-email {
+    color: var(--gray);
+
+    font-size: 12px;
+
+    text-align: center;
+
+    margin-bottom: 26px;
+}
+
+/* =========================================
+   INFORMAÇÕES
+========================================= */
+
+.perfil-info {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+/* =========================================
+   CAMPO
+========================================= */
+
+.info-item {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 13px;
+
+    display: flex;
+    flex-direction: column;
+
+    transition:
+        border-color 0.25s ease,
+        background 0.25s ease,
+        transform 0.25s ease;
+}
+
+.info-item:hover {
+    background:
+        rgba(65, 216, 255, 0.035);
+
+    border-color:
+        rgba(65, 216, 255, 0.22);
+
+    transform: translateY(-1px);
+}
+
+/* =========================================
+   LABEL
+========================================= */
+
+.info-item label {
+    color: #aeb9ca;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    margin-bottom: 7px;
+
+    letter-spacing: 0.2px;
+}
+
+/* =========================================
+   INPUT
+========================================= */
+
+.info-item input {
+    width: 100%;
+    height: 42px;
+
+    padding: 0 12px;
+
+    background: #0d131e;
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    border-radius: 9px;
+
+    outline: none;
+
+    color: var(--white);
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 12px;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+/* =========================================
+   PLACEHOLDER
+========================================= */
+
+.info-item input::placeholder {
+    color: #69758a;
+
+    opacity: 1;
+}
+
+/* =========================================
+   INPUT FOCUS
+========================================= */
+
+.info-item input:focus {
+    background: #0f1723;
+
+    border-color: var(--cyan);
+
+    box-shadow:
+        0 0 0 3px rgba(65, 216, 255, 0.08),
+        0 0 18px rgba(65, 216, 255, 0.05);
+}
+
+/* =========================================
+   CAMPO IDADE
+   SEM SETINHAS
+========================================= */
+
+.info-item input[type="number"] {
+    color: var(--white);
+
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.info-item input[type="number"]::-webkit-inner-spin-button,
+.info-item input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+
+    margin: 0;
+}
+
+/* =========================================
+   BOTÕES
+========================================= */
+
+.perfil-botoes {
+    width: 100%;
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 23px;
+}
+
+/* =========================================
+   BOTÃO SALVAR / SAIR
+========================================= */
+
+.perfil-button,
+.logout-button {
+    flex: 1;
+
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50px;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: 0.3s ease;
+}
+
+/* =========================================
+   SALVAR
+========================================= */
+
+.perfil-button {
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            100deg,
+            #4f7cff,
+            #41d8ff
+        );
+
+    color: var(--white);
+
+    border: none;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 25px rgba(65, 216, 255, 0.12);
+}
+
+.perfil-button::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.20),
+            transparent
+        );
+
+    transition: 0.5s;
+}
+
+.perfil-button:hover::before {
+    left: 100%;
+}
+
+.perfil-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 30px rgba(65, 216, 255, 0.22);
+}
+
+/* =========================================
+   SAIR
+========================================= */
+
+.logout-button {
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    color: var(--gray);
+}
+
+.logout-button:hover {
+    color: var(--white);
+
+    border-color:
+        rgba(65, 216, 255, 0.35);
+
+    background:
+        rgba(65, 216, 255, 0.04);
+
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   STATUS
+========================================= */
+
+.perfil-status {
+    min-height: 18px;
+
+    margin-top: 12px;
+
+    color: var(--cyan);
+
+    font-size: 11px;
+
+    text-align: center;
+}
+
+.perfil-status.erro {
+    color: #ff6b7a;
+}
+
+/* =========================================
+   VOLTAR
+========================================= */
+
+.back-home {
+    display: inline-block;
+
+    margin-top: 18px;
+
+    color: #7f8ba0;
+
+    font-size: 11px;
+    font-weight: 500;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    transition: 0.25s;
+}
+
+.back-home:hover {
+    color: var(--cyan);
+
+    transform: translateY(-1px);
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+    .perfil-page {
+        padding: 35px 20px;
+    }
+
+    .perfil-box {
+        padding: 30px;
+    }
+}
+
+/* =========================================
+   CELULAR
+========================================= */
+
+@media (max-width: 480px) {
+
+    .perfil-page {
+        padding: 28px 14px;
+    }
+
+    .perfil-box {
+        padding: 25px 18px;
+
+        border-radius: 20px;
+    }
+
+    .perfil-logo {
+        width: 135px;
+    }
+
+    .perfil-tag {
+        font-size: 11px;
+
+        margin-bottom: 20px;
+    }
+
+    .perfil-box h2 {
+        font-size: 23px;
+    }
+
+    .perfil-botoes {
+        flex-direction: column;
+    }
+
+    .perfil-button,
+    .logout-button {
+        width: 100%;
+    }
+
+    .avatar {
+        width: 84px;
+        height: 84px;
+    }
+
+    #avatarInicial {
+        font-size: 34px;
+    }
+}

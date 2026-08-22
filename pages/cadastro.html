@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar conta | Ritmo Único</title>
+    <link rel="stylesheet" href="../css/cadastro.css">
+</head>
+
+<body>
+
+    <div class="cadastro-page">
+
+        <div class="cadastro-glow cadastro-glow-left"></div>
+        <div class="cadastro-glow cadastro-glow-right"></div>
+
+        <main class="cadastro-container">
+
+            <div class="cadastro-content">
+
+                <h1>Ritmo Único</h1>
+
+                <span class="cadastro-tag">
+                    Tecnologia para corredores
+                </span>
+
+                <div class="cadastro-box">
+
+                    <h2>Crie sua conta</h2>
+
+                    <p class="cadastro-description">
+                        Crie sua conta e comece a acompanhar sua evolução na corrida.
+                    </p>
+
+                    <form id="formCadastro" action="#" method="POST">
+
+                        <div class="input-group">
+
+                            <label for="nome">
+                                Nome completo
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nome"
+                                name="nome"
+                                placeholder="Digite seu nome completo"
+                                required
+                                minlength="3"
+                                maxlength="100"
+                                autocomplete="name"
+                            >
+
+                            <small class="erro" id="erroNome"></small>
+
+                        </div>
+
+                        <div class="input-group">
+
+                            <label for="email">
+                                E-mail
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Digite seu e-mail"
+                                required
+                                maxlength="150"
+                                autocomplete="email"
+                            >
+
+                            <small class="erro" id="erroEmail"></small>
+
+                        </div>
+
+                        <div class="input-group">
+
+                            <label for="data-nascimento">
+                                Data de nascimento
+                            </label>
+
+                            <input
+                                type="date"
+                                id="data-nascimento"
+                                name="data_nascimento"
+                                required
+                            >
+
+                            <small class="erro" id="erroData"></small>
+
+                        </div>
+
+                        <div class="input-group">
+
+                            <label for="senha">
+                                Senha
+                            </label>
+
+                            <input
+                                type="password"
+                                id="senha"
+                                name="senha"
+                                placeholder="Crie uma senha"
+                                minlength="6"
+                                maxlength="100"
+                                required
+                                autocomplete="new-password"
+                            >
+
+                            <small class="erro" id="erroSenha"></small>
+
+                        </div>
+
+                        <div class="input-group">
+
+                            <label for="confirmar-senha">
+                                Confirmar senha
+                            </label>
+
+                            <input
+                                type="password"
+                                id="confirmar-senha"
+                                name="confirmar_senha"
+                                placeholder="Digite a senha novamente"
+                                minlength="6"
+                                maxlength="100"
+                                required
+                                autocomplete="new-password"
+                            >
+
+                            <small class="erro" id="erroConfirmarSenha"></small>
+
+                        </div>
+
+                        <label class="terms">
+
+                            <input
+                                type="checkbox"
+                                id="termos"
+                                name="termos"
+                                required
+                            >
+
+                            <span>
+                                Aceito os
+                                <a href="#">termos de uso</a>
+                                e a
+                                <a href="#">política de privacidade</a>.
+                            </span>
+
+                        </label>
+
+                        <small class="erro" id="erroTermos"></small>
+
+                        <button
+                            type="submit"
+                            class="cadastro-button"
+                        >
+                            Criar minha conta
+                        </button>
+
+                    </form>
+
+                    <div class="divider">
+                        <span>ou</span>
+                    </div>
+
+                    <p class="already-account">
+                        Já possui uma conta?
+
+                        <a href="login.html">
+                            Entrar
+                        </a>
+                    </p>
+
+                </div>
+
+                <a
+                    href="index.html"
+                    class="back-home"
+                >
+                    ← Voltar para o início
+                </a>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+
+        const form = document.getElementById("formCadastro");
+        const nome = document.getElementById("nome");
+        const email = document.getElementById("email");
+        const dataNascimento = document.getElementById("data-nascimento");
+        const senha = document.getElementById("senha");
+        const confirmarSenha = document.getElementById("confirmar-senha");
+        const termos = document.getElementById("termos");
+
+        const hoje = new Date().toISOString().split("T")[0];
+
+        dataNascimento.max = hoje;
+
+        form.addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            let valido = true;
+
+            document.querySelectorAll(".erro").forEach(function(elemento) {
+                elemento.textContent = "";
+            });
+
+            const nomeValor = nome.value.trim();
+
+            if (nomeValor.length < 3) {
+
+                document.getElementById("erroNome").textContent =
+                    "Digite seu nome completo.";
+
+                valido = false;
+
+            } else if (!nomeValor.includes(" ")) {
+
+                document.getElementById("erroNome").textContent =
+                    "Digite seu nome e sobrenome.";
+
+                valido = false;
+            }
+
+            const emailValor = email.value.trim();
+
+            const emailValido =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailValido.test(emailValor)) {
+
+                document.getElementById("erroEmail").textContent =
+                    "Digite um e-mail válido.";
+
+                valido = false;
+            }
+
+            if (!dataNascimento.value) {
+
+                document.getElementById("erroData").textContent =
+                    "Informe sua data de nascimento.";
+
+                valido = false;
+
+            } else {
+
+                const nascimento =
+                    new Date(dataNascimento.value);
+
+                const dataAtual =
+                    new Date();
+
+                let idade =
+                    dataAtual.getFullYear() -
+                    nascimento.getFullYear();
+
+                const mes =
+                    dataAtual.getMonth() -
+                    nascimento.getMonth();
+
+                if (
+                    mes < 0 ||
+                    (
+                        mes === 0 &&
+                        dataAtual.getDate() < nascimento.getDate()
+                    )
+                ) {
+                    idade--;
+                }
+
+                if (idade < 13) {
+
+                    document.getElementById("erroData").textContent =
+                        "É necessário ter pelo menos 13 anos.";
+
+                    valido = false;
+                }
+
+                if (nascimento > dataAtual) {
+
+                    document.getElementById("erroData").textContent =
+                        "A data de nascimento não pode ser futura.";
+
+                    valido = false;
+                }
+            }
+
+            const senhaValor = senha.value;
+
+            if (senhaValor.length < 6) {
+
+                document.getElementById("erroSenha").textContent =
+                    "A senha deve ter pelo menos 6 caracteres.";
+
+                valido = false;
+            }
+
+            if (confirmarSenha.value !== senhaValor) {
+
+                document.getElementById("erroConfirmarSenha").textContent =
+                    "As senhas não são iguais.";
+
+                valido = false;
+            }
+
+            if (!termos.checked) {
+
+                document.getElementById("erroTermos").textContent =
+                    "Você precisa aceitar os termos de uso.";
+
+                valido = false;
+            }
+
+            if (valido) {
+
+                alert("Cadastro validado com sucesso!");
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

@@ -1,120 +1,236 @@
 # Ritmo Único
 
-## Apresentação
-
-O **Ritmo Único** é um projeto desenvolvido durante o **CRIA Senac 2026**, na categoria **Design de Interação**, com o objetivo de oferecer uma experiência de corrida mais humana, personalizada e acessível.
-
-Em vez de incentivar comparações e metas rígidas, o projeto coloca o usuário no centro da experiência, respeitando seu ritmo, seus limites e sua evolução.
+Aplicação desenvolvida para o **CRIA Senac 2026**, na categoria **Design de Interação**, com foco em uma experiência de corrida personalizada, acessível e centrada no usuário.
 
 ---
 
-## Sobre o Projeto
+## 1. Apresentação
 
-Os aplicativos tradicionais de corrida costumam focar em desempenho, velocidade e rankings, o que pode gerar frustração e desmotivação.
+O **Ritmo Único** é um projeto desenvolvido para o **CRIA Senac 2026**, na categoria **Design de Interação**, com o objetivo de oferecer uma experiência de corrida mais humana, personalizada e acessível.
 
-O **Ritmo Único** propõe uma abordagem diferente, incentivando a prática da corrida com foco em:
+A proposta do projeto é colocar o usuário no centro da experiência, respeitando seu ritmo, seus limites, seus objetivos e sua evolução individual.
 
-* Bem-estar
-* Evolução pessoal
-* Constância
-* Segurança
-* Acessibilidade
+Em vez de priorizar a competição e a comparação entre usuários, o aplicativo busca incentivar a constância, o bem-estar e o desenvolvimento pessoal.
+
+> **Cada pessoa possui seu próprio ritmo.**
 
 ---
 
-## Funcionalidades
+## 2. Visão Geral
 
-* Cadastro e Login
-* Página Inicial
-* Dashboard
-* Corrida
-* Histórico
-* Comunidade
-* Perfil
-* Configurações
-* Acompanhamento da evolução
-* Recursos de acessibilidade
+O **Ritmo Único** é uma aplicação voltada ao acompanhamento da prática de corrida e da evolução individual do usuário.
+
+O projeto parte da percepção de que muitas plataformas de corrida são fortemente orientadas ao desempenho, utilizando métricas, metas e rankings como principais elementos de motivação.
+
+Embora esses recursos sejam relevantes, essa abordagem pode não atender usuários que estão iniciando a prática esportiva, retornando às atividades físicas ou que não se identificam com experiências competitivas.
+
+Diante desse cenário, o Ritmo Único propõe uma experiência baseada na evolução pessoal, respeitando o ritmo, os objetivos e as necessidades de cada usuário.
 
 ---
 
-## Público-Alvo
+## 3. Problema
 
-O aplicativo foi desenvolvido para pessoas que:
+A prática de corrida pode ser acompanhada por uma forte pressão relacionada ao desempenho.
+
+A comparação de resultados, a busca constante por melhores tempos e a utilização de rankings podem transformar uma atividade voltada ao bem-estar em uma experiência de cobrança e competição.
+
+Esse cenário pode contribuir para:
+
+* Desmotivação;
+* Comparação excessiva;
+* Abandono da prática;
+* Dificuldade em manter a constância;
+* Falta de identificação com aplicativos tradicionais de corrida.
+
+O projeto busca responder a esse problema por meio de uma experiência mais personalizada e centrada nas necessidades individuais.
+
+---
+
+## 4. Proposta de Solução
+
+O **Ritmo Único** propõe uma plataforma que acompanha o usuário durante sua jornada de corrida, oferecendo recursos para registro, acompanhamento, personalização e análise da evolução.
+
+A aplicação prioriza o desenvolvimento individual em vez da competição entre usuários.
+
+A solução é fundamentada em seis princípios:
+
+* Personalização;
+* Evolução individual;
+* Constância;
+* Bem-estar;
+* Segurança;
+* Acessibilidade.
+
+---
+
+## 5. Objetivos
+
+### 5.1 Objetivo Geral
+
+Desenvolver uma experiência digital de corrida que incentive a prática de atividades físicas de forma personalizada, acessível e centrada no usuário.
+
+### 5.2 Objetivos Específicos
+
+* Permitir o acompanhamento da evolução individual;
+* Registrar e organizar atividades de corrida;
+* Auxiliar na definição de objetivos pessoais;
+* Incentivar a constância na prática de atividades físicas;
+* Reduzir a dependência de elementos excessivamente competitivos;
+* Facilitar a visualização das informações relacionadas à evolução;
+* Incorporar recursos de acessibilidade;
+* Utilizar Inteligência Artificial como ferramenta de apoio;
+* Proporcionar uma experiência simples e intuitiva.
+
+---
+
+## 6. Público-Alvo
+
+O Ritmo Único foi desenvolvido principalmente para pessoas que:
 
 * Estão começando a correr;
-* Desejam voltar a praticar atividades físicas;
-* Possuem rotina intensa;
+* Desejam retornar à prática de atividades físicas;
+* Possuem uma rotina intensa;
 * Procuram uma experiência menos competitiva;
-* Necessitam de recursos de acessibilidade.
+* Desejam acompanhar sua própria evolução;
+* Possuem diferentes níveis de experiência com corrida;
+* Necessitam ou se beneficiam de recursos de acessibilidade.
 
 ---
 
-## Diferenciais
+## 7. Funcionalidades
 
-* Treinos personalizados;
-* Evolução baseada no ritmo do usuário;
-* Interface intuitiva;
-* Experiência acolhedora;
-* Recursos de acessibilidade;
-* Uso de Inteligência Artificial como ferramenta de apoio.
+A aplicação reúne funcionalidades destinadas ao acompanhamento da jornada do usuário.
 
----
+### 7.1 Cadastro e Login
 
-## Tecnologias Utilizadas
+Permite que o usuário crie sua conta e tenha acesso à aplicação de maneira individualizada.
 
-| Tecnologia | Utilização                              |
-| ---------- | --------------------------------------- |
-| HTML5      | Estrutura das páginas                   |
-| CSS3       | Estilização                             |
-| JavaScript | Interatividade                          |
-| PHP        | Backend                                 |
-| MySQL      | Banco de Dados                          |
-| Figma      | Protótipos e Design                     |
-| Git        | Versionamento                           |
-| GitHub     | Hospedagem do código                    |
-| ChatGPT    | Apoio na documentação e desenvolvimento |
-| Codex      | Apoio na programação                    |
+### 7.2 Página Inicial
 
----
+Apresenta informações relevantes e acesso aos principais recursos da aplicação.
 
-## Estrutura do Projeto
+### 7.3 Dashboard
 
-```text
-ritmo-unico/
-│
-├── config/
-├── css/
-├── img/
-├── includes/
-├── js/
-├── views/
-├── index.php
-├── login.php
-├── logout.php
-└── README.md
-```
+Centraliza informações relacionadas à atividade e à evolução do usuário.
 
----
+### 7.4 Registro de Corridas
 
-## Ferramentas de Inteligência Artificial
+Permite registrar informações relacionadas às atividades realizadas.
 
-Durante o desenvolvimento do projeto foram utilizadas ferramentas de Inteligência Artificial para auxiliar na organização das ideias, documentação, revisão de conteúdos, apoio à programação e melhoria da experiência do usuário.
+### 7.5 Histórico
 
-* ChatGPT
-* Codex
+Organiza as atividades anteriores para facilitar o acompanhamento da evolução.
 
-A Inteligência Artificial foi utilizada como ferramenta de apoio ao desenvolvimento, mantendo todas as decisões finais sob responsabilidade da equipe.
+### 7.6 Objetivos
 
----
+Permite estabelecer objetivos de acordo com as necessidades e características do usuário.
 
-## Tutoria
+### 7.7 Conquistas
 
-Este projeto contou com a orientação da tutora **Taina Couto Gonçalves**, que acompanhou o desenvolvimento, contribuiu com sugestões e auxiliou no aprimoramento da experiência do usuário e da identidade visual do projeto.
+Apresenta conquistas relacionadas à constância e à evolução do usuário.
+
+### 7.8 Comunidade
+
+Possibilita uma experiência de interação entre usuários, mantendo o foco em uma abordagem mais acolhedora.
+
+### 7.9 Perfil
+
+Centraliza informações relacionadas ao usuário e sua experiência na aplicação.
+
+### 7.10 Configurações
+
+Permite realizar ajustes relacionados à utilização da aplicação.
+
+### 7.11 Mapa
+
+Auxilia no acompanhamento das informações relacionadas ao percurso.
+
+### 7.12 Acessibilidade
+
+Inclui recursos pensados para tornar a aplicação mais acessível e adequada a diferentes necessidades.
+
+### 7.13 Inteligência Artificial
+
+Utilizada como ferramenta de apoio para análise, organização de informações e personalização da experiência.
 
 ---
 
-## Autor
+## 8. Experiência do Usuário
+
+A experiência do Ritmo Único foi estruturada considerando a jornada do usuário desde o primeiro acesso até o acompanhamento de sua evolução.
+
+A jornada principal pode ser representada da seguinte forma:
+
+**Entrada → Personalização → Objetivos → Corrida → Acompanhamento → Evolução**
+
+O objetivo dessa estrutura é proporcionar uma navegação clara e intuitiva, reduzindo a complexidade e facilitando o acesso às informações relevantes.
+
+---
+
+## 9. Inteligência Artificial
+
+Durante o desenvolvimento do Ritmo Único, ferramentas de Inteligência Artificial foram utilizadas como apoio em diferentes etapas do projeto.
+
+A utilização da IA envolveu:
+
+* Organização e estruturação de ideias;
+* Documentação;
+* Revisão de conteúdos;
+* Apoio à programação;
+* Identificação de problemas;
+* Sugestões de melhorias;
+* Apoio à análise do código;
+* Apoio à experiência do usuário.
+
+As principais ferramentas utilizadas foram:
+
+* **ChatGPT**;
+* **Codex**.
+
+A Inteligência Artificial foi utilizada como ferramenta de apoio ao desenvolvimento. As decisões relacionadas ao conceito, design, funcionalidades e implementação permaneceram sob responsabilidade do projeto.
+
+---
+
+## 10. Tutoria
+
+O desenvolvimento do Ritmo Único contou com a orientação da tutora **Taina Couto Gonçalves**.
+
+Durante o projeto, sua orientação contribuiu para o acompanhamento das etapas de desenvolvimento, além de fornecer sugestões e feedbacks relacionados à proposta, à experiência do usuário, à identidade visual e ao aprimoramento da aplicação.
+
+---
+
+## 11. CRIA Senac 2026
+
+O Ritmo Único foi desenvolvido como projeto para o **CRIA Senac 2026**, na categoria **Design de Interação**.
+
+A participação no evento representa uma oportunidade de apresentar o processo de desenvolvimento, a solução proposta e os resultados obtidos ao longo do projeto.
+
+---
+
+## 12. Autoria
 
 **João Vitor Pereira Paulo**
 
 Projeto desenvolvido para o **CRIA Senac 2026**.
+
+**Categoria:** Design de Interação
+
+---
+
+## 13. Status do Projeto
+
+**Em desenvolvimento**
+
+O Ritmo Único encontra-se em processo de desenvolvimento, testes e aprimoramento para apresentação no **CRIA Senac 2026**.
+
+---
+
+## 14. Licença
+
+Copyright © 2026 **João Vitor Pereira Paulo**.
+
+Este projeto foi desenvolvido para fins acadêmicos e de participação no **CRIA Senac 2026**.
+
+O código-fonte, design, identidade visual, documentação e demais materiais relacionados ao projeto não podem ser copiados, modificados, redistribuídos ou utilizados comercialmente sem autorização prévia do autor.
+
+**Todos os direitos reservados.**

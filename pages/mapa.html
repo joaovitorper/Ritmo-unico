@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Mapa | Ritmo Único</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/mapa.css"
+    >
+
+    <!-- Leaflet -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+</head>
+
+<body>
+
+<main class="mapa-page">
+
+    <div class="mapa-glow mapa-glow-left"></div>
+    <div class="mapa-glow mapa-glow-right"></div>
+
+    <div class="mapa-container">
+
+        <!-- LOGO -->
+        <img
+            src="../assets/img/identidade Visual/Final logo.png"
+            alt="Logo Ritmo Único"
+            class="mapa-logo"
+        >
+
+        <span class="mapa-tag">
+            Tecnologia para corredores
+        </span>
+
+        <!-- CABEÇALHO -->
+        <section class="mapa-header">
+
+            <span class="mapa-label">
+                SUA CORRIDA
+            </span>
+
+            <h1>
+                Mapa da corrida
+            </h1>
+
+            <p>
+                Veja sua localização e acompanhe o percurso da sua corrida.
+            </p>
+
+        </section>
+
+        <!-- MAPA -->
+        <section class="mapa-box">
+
+            <div
+                id="mapa"
+                class="mapa-area"
+            >
+
+                <div
+                    id="mapa-carregando"
+                    class="mapa-carregando"
+                >
+                    Aguardando localização...
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- STATUS DO GPS -->
+        <section class="mapa-status">
+
+            <span id="statusGPS">
+                📍 GPS aguardando
+            </span>
+
+        </section>
+
+        <!-- INFORMAÇÕES -->
+        <section class="mapa-info">
+
+            <div class="mapa-card">
+
+                <span>
+                    Distância
+                </span>
+
+                <strong id="distanciaMapa">
+                    0,00 km
+                </strong>
+
+            </div>
+
+            <div class="mapa-card">
+
+                <span>
+                    Tempo
+                </span>
+
+                <strong id="tempoMapa">
+                    00:00
+                </strong>
+
+            </div>
+
+            <div class="mapa-card">
+
+                <span>
+                    Ritmo
+                </span>
+
+                <strong id="ritmoMapa">
+                    0:00 /km
+                </strong>
+
+            </div>
+
+        </section>
+
+        <!-- AÇÕES -->
+        <section class="mapa-acoes">
+
+            <a
+                href="corrida.html"
+                class="mapa-button"
+            >
+                🏃 Iniciar corrida
+            </a>
+
+            <a
+                href="historico.html"
+                class="mapa-button secondary"
+            >
+                Ver histórico
+            </a>
+
+        </section>
+
+        <!-- MENU -->
+        <nav class="mapa-menu">
+
+            <a href="home.html">
+                Início
+            </a>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="corrida.html">
+                Corrida
+            </a>
+
+            <a href="historico.html">
+                Histórico
+            </a>
+
+            <a href="perfil.html">
+                Perfil
+            </a>
+
+            <a href="configuracoes.html">
+                Configurações
+            </a>
+
+        </nav>
+
+    </div>
+
+</main>
+
+<!-- Leaflet -->
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+<!-- JavaScript do mapa -->
+<script src="../js/mapa.js"></script>
+
+</body>
+
+</html>

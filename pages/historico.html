@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico | Ritmo Único</title>
+    <link rel="stylesheet" href="../css/historico.css">
+</head>
+
+<body>
+
+    <main class="historico-page">
+
+        <div class="historico-glow historico-glow-left"></div>
+        <div class="historico-glow historico-glow-right"></div>
+
+        <div class="historico-container">
+
+            <img
+                src="../assets/img/identidade Visual/Final logo.png"
+                alt="Logo Ritmo Único"
+                class="historico-logo"
+            >
+
+            <span class="historico-tag">
+                Tecnologia para corredores
+            </span>
+
+            <section class="historico-header">
+
+                <span class="historico-label">
+                    Seu histórico
+                </span>
+
+                <h1>
+                    Histórico de corridas
+                </h1>
+
+                <p>
+                    Acompanhe suas corridas e sua evolução.
+                </p>
+
+            </section>
+
+            <section class="historico-resumo">
+
+                <div class="resumo-card">
+                    <span>Distância</span>
+                    <strong id="distanciaTotal">0 km</strong>
+                    <p>Distância percorrida</p>
+                </div>
+
+                <div class="resumo-card">
+                    <span>Corridas</span>
+                    <strong id="totalCorridas">0</strong>
+                    <p>Atividades realizadas</p>
+                </div>
+
+                <div class="resumo-card">
+                    <span>Tempo</span>
+                    <strong id="tempoTotal">0h 00min</strong>
+                    <p>Tempo em atividade</p>
+                </div>
+
+            </section>
+
+            <section class="historico-box">
+
+                <div class="historico-box-header">
+
+                    <div>
+
+                        <span class="historico-label">
+                            Atividades
+                        </span>
+
+                        <h2>
+                            Suas corridas
+                        </h2>
+
+                    </div>
+
+                    <a href="corrida.html" class="nova-corrida">
+                        Iniciar corrida
+                    </a>
+
+                </div>
+
+                <div id="listaCorridas" class="historico-lista"></div>
+
+                <div id="historicoVazio" class="historico-vazio">
+
+                    <h3>
+                        Nenhuma corrida registrada
+                    </h3>
+
+                    <p>
+                        Comece sua primeira corrida para acompanhar sua evolução.
+                    </p>
+
+                    <a href="corrida.html" class="historico-button">
+                        Começar primeira corrida
+                    </a>
+
+                </div>
+
+            </section>
+
+            <nav class="historico-menu">
+
+                <a href="home.html">
+                    Início
+                </a>
+
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+
+                <a href="corrida.html">
+                    Corrida
+                </a>
+
+                <a href="perfil.html">
+                    Perfil
+                </a>
+
+                <a href="configuracoes.html">
+                    Configurações
+                </a>
+
+            </nav>
+
+        </div>
+
+    </main>
+
+    <script src="../js/historico.js"></script>
+
+</body>
+
+</html>

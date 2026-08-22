@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../css/perfil.css">
+
+    <title>Perfil | Ritmo Único</title>
+</head>
+
+<body>
+
+    <div class="perfil-page">
+
+        <!-- Efeitos de fundo -->
+        <div class="perfil-glow perfil-glow-left"></div>
+        <div class="perfil-glow perfil-glow-right"></div>
+
+
+        <!-- Conteúdo principal -->
+        <main class="perfil-container">
+
+            <div class="perfil-content">
+
+
+                <!-- Logo -->
+                <img
+                    src="../assets/img/identidade Visual/Final logo.png"
+                    alt="Logo do Ritmo Único"
+                    class="perfil-logo"
+                >
+
+
+                <!-- Identificação -->
+                <span class="perfil-tag">
+                    Tecnologia pra corredores
+                </span>
+
+
+                <!-- Caixa do perfil -->
+                <section class="perfil-box">
+
+
+                    <!-- Avatar -->
+                    <div class="perfil-foto">
+
+                        <div
+                            class="avatar"
+                            id="avatar"
+                            aria-label="Avatar do usuário"
+                        >
+                            <span id="avatarInicial">?</span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Título -->
+                    <h2>Meu perfil</h2>
+
+                    <p
+                        class="perfil-email"
+                        id="perfilMensagem"
+                    >
+                        Preencha seus dados
+                    </p>
+
+
+                    <!-- Formulário -->
+                    <form id="perfilForm">
+
+                        <div class="perfil-info">
+
+
+                            <!-- Nome -->
+                            <div class="info-item">
+
+                                <label for="nome">
+                                    Nome
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="nome"
+                                    name="nome"
+                                    placeholder="Digite seu nome"
+                                    autocomplete="name"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- E-mail -->
+                            <div class="info-item">
+
+                                <label for="email">
+                                    E-mail
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Digite seu e-mail"
+                                    autocomplete="email"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- Idade -->
+                            <div class="info-item">
+
+                                <label for="idade">
+                                    Idade
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="idade"
+                                    name="idade"
+                                    placeholder="Digite sua idade"
+                                    min="1"
+                                    max="120"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- Objetivo -->
+                            <div class="info-item">
+
+                                <label for="objetivo">
+                                    Objetivo
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="objetivo"
+                                    name="objetivo"
+                                    placeholder="Ex: Melhorar meu desempenho"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Mensagem de status -->
+                        <p
+                            class="perfil-status"
+                            id="perfilStatus"
+                            aria-live="polite"
+                        ></p>
+
+
+                        <!-- Botões -->
+                        <div class="perfil-botoes">
+
+                            <button
+                                type="submit"
+                                class="perfil-button"
+                            >
+                                Salvar perfil
+                            </button>
+
+                            <a
+                                href="login.html"
+                                class="logout-button"
+                                id="logoutButton"
+                            >
+                                Sair
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </section>
+
+
+                <!-- Voltar -->
+                <a
+                    href="../index.html"
+                    class="back-home"
+                >
+                    ← Voltar para o início
+                </a>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- JavaScript -->
+    <script src="../js/perfil.js"></script>
+
+</body>
+
+</html>

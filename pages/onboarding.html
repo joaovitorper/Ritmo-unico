@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding | Ritmo Único</title>
+    <link rel="stylesheet" href="../css/onboarding.css">
+</head>
+
+<body>
+
+    <main class="onboarding-page">
+
+        <div class="onboarding-container">
+
+            <img
+                src="../assets/img/identidade Visual/Final logo.png"
+                alt="Logo do Ritmo Único"
+                class="onboarding-logo"
+            >
+
+            <h1>Bem-vindo ao Ritmo Único!</h1>
+
+            <p class="onboarding-description">
+                Antes de começar, conte um pouco sobre você para
+                personalizarmos sua experiência.
+            </p>
+
+            <form id="formOnboarding">
+
+                <div class="input-group">
+
+                    <label for="objetivo">
+                        Qual é o seu objetivo?
+                    </label>
+
+                    <select id="objetivo" name="objetivo">
+
+                        <option value="">
+                            Selecione seu objetivo
+                        </option>
+
+                        <option value="saude">
+                            Melhorar minha saúde
+                        </option>
+
+                        <option value="performance">
+                            Melhorar meu desempenho
+                        </option>
+
+                        <option value="distancia">
+                            Correr maiores distâncias
+                        </option>
+
+                        <option value="competicao">
+                            Me preparar para competições
+                        </option>
+
+                    </select>
+
+                    <small
+                        class="erro"
+                        id="erroObjetivo">
+                    </small>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label for="nivel">
+                        Qual é o seu nível?
+                    </label>
+
+                    <select id="nivel" name="nivel">
+
+                        <option value="">
+                            Selecione seu nível
+                        </option>
+
+                        <option value="iniciante">
+                            Iniciante
+                        </option>
+
+                        <option value="intermediario">
+                            Intermediário
+                        </option>
+
+                        <option value="avancado">
+                            Avançado
+                        </option>
+
+                    </select>
+
+                    <small
+                        class="erro"
+                        id="erroNivel">
+                    </small>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="onboarding-button"
+                >
+                    Continuar
+                </button>
+
+            </form>
+
+            <a
+                href="../index.html"
+                class="back-home"
+            >
+                ← Voltar para o início
+            </a>
+
+        </div>
+
+    </main>
+
+    <script src="../js/onboarding.js"></script>
+
+</body>
+
+</html>

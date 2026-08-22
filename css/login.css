@@ -30,7 +30,6 @@ body {
     overflow: hidden;
 }
 
-/* Círculo decorativo esquerdo */
 .login-page::before {
     content: "";
     position: absolute;
@@ -43,7 +42,6 @@ body {
     opacity: 0.35;
 }
 
-/* Círculo decorativo direito */
 .login-page::after {
     content: "";
     position: absolute;
@@ -94,10 +92,6 @@ body {
     text-align: center;
 }
 
-/* =========================
-   LOGO
-========================= */
-
 .login-logo {
     display: block;
     width: 190px;
@@ -106,10 +100,6 @@ body {
     margin: 0 auto 5px;
 }
 
-/* =========================
-   TAG
-========================= */
-
 .login-tag {
     display: block;
     color: white;
@@ -117,10 +107,6 @@ body {
     font-weight: 500;
     margin-bottom: 20px;
 }
-
-/* =========================
-   CAIXA DE LOGIN
-========================= */
 
 .login-box {
     width: 100%;
@@ -146,10 +132,6 @@ body {
     text-align: center;
     margin-bottom: 22px;
 }
-
-/* =========================
-   CAMPOS
-========================= */
 
 .input-group {
     width: 100%;
@@ -186,9 +168,13 @@ body {
     box-shadow: 0 0 0 2px rgba(65, 216, 255, 0.08);
 }
 
-/* =========================
-   ESQUECEU SENHA
-========================= */
+.erro {
+    display: block;
+    color: #ff5c5c;
+    font-size: 11px;
+    margin-top: 5px;
+    min-height: 16px;
+}
 
 .forgot-password {
     width: 100%;
@@ -208,10 +194,6 @@ body {
 .forgot-password a:hover {
     color: white;
 }
-
-/* =========================
-   BOTÃO
-========================= */
 
 .login-button {
     width: 100%;
@@ -236,9 +218,44 @@ body {
     box-shadow: 0 8px 20px rgba(65, 216, 255, 0.18);
 }
 
-/* =========================
-   DIVISOR
-========================= */
+.recuperacao {
+    width: 100%;
+}
+
+.recuperacao h2 {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.recuperacao .login-description {
+    margin-bottom: 22px;
+}
+
+.recuperacao .input-group {
+    margin-bottom: 18px;
+}
+
+.recuperacao .login-button {
+    margin-top: 2px;
+}
+
+.voltar-login {
+    display: block;
+    width: 100%;
+    margin-top: 15px;
+    padding: 8px;
+    background: transparent;
+    border: none;
+    color: var(--gray);
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.voltar-login:hover {
+    color: var(--cyan);
+}
 
 .divider {
     display: flex;
@@ -257,10 +274,6 @@ body {
     background: rgba(255, 255, 255, 0.12);
 }
 
-/* =========================
-   CRIAR CONTA
-========================= */
-
 .create-account {
     color: var(--gray);
     text-align: center;
@@ -278,10 +291,6 @@ body {
     color: white;
 }
 
-/* =========================
-   VOLTAR
-========================= */
-
 .back-home {
     display: block;
     margin-top: 15px;
@@ -295,10 +304,6 @@ body {
 .back-home:hover {
     color: var(--cyan);
 }
-
-/* =========================
-   TABLET
-========================= */
 
 @media (max-width: 768px) {
 
@@ -319,10 +324,6 @@ body {
         padding: 27px 25px;
     }
 }
-
-/* =========================
-   CELULAR
-========================= */
 
 @media (max-width: 480px) {
 
@@ -355,5 +356,9 @@ body {
 
     .login-description {
         font-size: 11px;
+    }
+
+    .recuperacao h2 {
+        font-size: 21px;
     }
 }

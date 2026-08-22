@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:#090E1A;
+            color:#fff;
+            display:flex;
+            justify-content:center;
+            padding:60px 20px;
+        }
+
+        .container{
+            width:100%;
+            max-width:900px;
+        }
+
+        .card{
+            background:#141C2C;
+            border:1px solid rgba(255,255,255,.06);
+            border-radius:24px;
+            padding:35px;
+            box-shadow:0 20px 40px rgba(0,0,0,.35);
+        }
+
+        .subtitle{
+            color:#57C7FF;
+            font-size:12px;
+            font-weight:600;
+            text-transform:uppercase;
+            letter-spacing:2px;
+            margin-bottom:10px;
+        }
+
+        h1{
+            font-size:34px;
+            margin-bottom:8px;
+        }
+
+        .description{
+            color:#9AA4B8;
+            margin-bottom:35px;
+        }
+
+        .section{
+            margin-bottom:35px;
+        }
+
+        .section h2{
+            font-size:20px;
+            margin-bottom:18px;
+        }
+
+        .field{
+            display:flex;
+            flex-direction:column;
+            margin-bottom:18px;
+        }
+
+        label{
+            color:#AEB8CC;
+            margin-bottom:8px;
+            font-size:14px;
+        }
+
+        input{
+            background:#0D1525;
+            border:1px solid rgba(255,255,255,.08);
+            border-radius:14px;
+            padding:15px;
+            color:#fff;
+            font-size:15px;
+        }
+
+        input:focus{
+            outline:none;
+            border-color:#58C8FF;
+        }
+
+        .switch{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:18px;
+            background:#0D1525;
+            border-radius:16px;
+            margin-bottom:15px;
+        }
+
+        .switch input{
+            width:20px;
+            height:20px;
+            accent-color:#58C8FF;
+        }
+
+        .button{
+            width:100%;
+            padding:17px;
+            border:none;
+            border-radius:18px;
+            font-size:16px;
+            font-weight:600;
+            color:#fff;
+            cursor:pointer;
+            background:linear-gradient(90deg,#5667F2,#58C8FF);
+            transition:.3s;
+        }
+
+        .button:hover{
+            transform:translateY(-2px);
+            box-shadow:0 10px 25px rgba(88,200,255,.25);
+        }
+
+        @media(max-width:768px){
+            .card{
+                padding:25px;
+            }
+
+            h1{
+                font-size:28px;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="subtitle">CONFIGURAÇÕES</div>
+
+        <h1>Personalize sua conta</h1>
+
+        <p class="description">
+            Altere suas informações e preferências de uso.
+        </p>
+
+        <div class="section">
+
+            <h2>Perfil</h2>
+
+            <div class="field">
+                <label>Nome</label>
+                <input type="text" placeholder="Seu nome">
+            </div>
+
+            <div class="field">
+                <label>E-mail</label>
+                <input type="email" placeholder="email@exemplo.com">
+            </div>
+
+            <div class="field">
+                <label>Objetivo semanal (km)</label>
+                <input type="number" placeholder="20">
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h2>Preferências</h2>
+
+            <div class="switch">
+                <span>Receber notificações</span>
+                <input type="checkbox" checked>
+            </div>
+
+            <div class="switch">
+                <span>Modo escuro</span>
+                <input type="checkbox" checked>
+            </div>
+
+            <div class="switch">
+                <span>Compartilhar estatísticas</span>
+                <input type="checkbox">
+            </div>
+
+        </div>
+
+        <button class="button">
+            Salvar Alterações
+        </button>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,10 +1,16 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Criar conta | Ritmo Único</title>
+
     <link rel="stylesheet" href="../css/cadastro.css">
 </head>
 
@@ -33,7 +39,11 @@
                         Crie sua conta e comece a acompanhar sua evolução na corrida.
                     </p>
 
-                    <form id="formCadastro" action="#" method="POST">
+                    <form
+                        id="formCadastro"
+                        action="#"
+                        method="POST"
+                    >
 
                         <div class="input-group">
 
@@ -52,7 +62,10 @@
                                 autocomplete="name"
                             >
 
-                            <small class="erro" id="erroNome"></small>
+                            <small
+                                class="erro"
+                                id="erroNome"
+                            ></small>
 
                         </div>
 
@@ -72,7 +85,10 @@
                                 autocomplete="email"
                             >
 
-                            <small class="erro" id="erroEmail"></small>
+                            <small
+                                class="erro"
+                                id="erroEmail"
+                            ></small>
 
                         </div>
 
@@ -89,7 +105,10 @@
                                 required
                             >
 
-                            <small class="erro" id="erroData"></small>
+                            <small
+                                class="erro"
+                                id="erroData"
+                            ></small>
 
                         </div>
 
@@ -110,7 +129,10 @@
                                 autocomplete="new-password"
                             >
 
-                            <small class="erro" id="erroSenha"></small>
+                            <small
+                                class="erro"
+                                id="erroSenha"
+                            ></small>
 
                         </div>
 
@@ -131,7 +153,10 @@
                                 autocomplete="new-password"
                             >
 
-                            <small class="erro" id="erroConfirmarSenha"></small>
+                            <small
+                                class="erro"
+                                id="erroConfirmarSenha"
+                            ></small>
 
                         </div>
 
@@ -146,14 +171,21 @@
 
                             <span>
                                 Aceito os
-                                <a href="#">termos de uso</a>
+                                <a href="#">
+                                    termos de uso
+                                </a>
                                 e a
-                                <a href="#">política de privacidade</a>.
+                                <a href="#">
+                                    política de privacidade
+                                </a>.
                             </span>
 
                         </label>
 
-                        <small class="erro" id="erroTermos"></small>
+                        <small
+                            class="erro"
+                            id="erroTermos"
+                        ></small>
 
                         <button
                             type="submit"
@@ -169,17 +201,19 @@
                     </div>
 
                     <p class="already-account">
+
                         Já possui uma conta?
 
-                        <a href="login.html">
+                        <a href="login.php">
                             Entrar
                         </a>
+
                     </p>
 
                 </div>
 
                 <a
-                    href="index.html"
+                    href="../index.php"
                     class="back-home"
                 >
                     ← Voltar para o início
@@ -194,6 +228,7 @@
     <script>
 
         const form = document.getElementById("formCadastro");
+
         const nome = document.getElementById("nome");
         const email = document.getElementById("email");
         const dataNascimento = document.getElementById("data-nascimento");
@@ -201,7 +236,9 @@
         const confirmarSenha = document.getElementById("confirmar-senha");
         const termos = document.getElementById("termos");
 
-        const hoje = new Date().toISOString().split("T")[0];
+        const hoje = new Date()
+            .toISOString()
+            .split("T")[0];
 
         dataNascimento.max = hoje;
 
@@ -211,9 +248,13 @@
 
             let valido = true;
 
-            document.querySelectorAll(".erro").forEach(function(elemento) {
-                elemento.textContent = "";
-            });
+            document
+                .querySelectorAll(".erro")
+                .forEach(function(elemento) {
+
+                    elemento.textContent = "";
+
+                });
 
             const nomeValor = nome.value.trim();
 
@@ -230,6 +271,7 @@
                     "Digite seu nome e sobrenome.";
 
                 valido = false;
+
             }
 
             const emailValor = email.value.trim();
@@ -243,6 +285,7 @@
                     "Digite um e-mail válido.";
 
                 valido = false;
+
             }
 
             if (!dataNascimento.value) {
@@ -272,10 +315,13 @@
                     mes < 0 ||
                     (
                         mes === 0 &&
-                        dataAtual.getDate() < nascimento.getDate()
+                        dataAtual.getDate() <
+                        nascimento.getDate()
                     )
                 ) {
+
                     idade--;
+
                 }
 
                 if (idade < 13) {
@@ -284,6 +330,7 @@
                         "É necessário ter pelo menos 13 anos.";
 
                     valido = false;
+
                 }
 
                 if (nascimento > dataAtual) {
@@ -292,7 +339,9 @@
                         "A data de nascimento não pode ser futura.";
 
                     valido = false;
+
                 }
+
             }
 
             const senhaValor = senha.value;
@@ -303,6 +352,7 @@
                     "A senha deve ter pelo menos 6 caracteres.";
 
                 valido = false;
+
             }
 
             if (confirmarSenha.value !== senhaValor) {
@@ -311,6 +361,7 @@
                     "As senhas não são iguais.";
 
                 valido = false;
+
             }
 
             if (!termos.checked) {
@@ -319,6 +370,7 @@
                     "Você precisa aceitar os termos de uso.";
 
                 valido = false;
+
             }
 
             if (valido) {

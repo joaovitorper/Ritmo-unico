@@ -1,12 +1,35 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION["usuario_id"])) {
+    header("Location: login.php");
+    exit;
+}
+
+$nomeUsuario = $_SESSION["usuario_nome"] ?? "Corredor";
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Home | Ritmo Único</title>
 
-    <link rel="stylesheet" href="../css/home.css">
+    <link
+        rel="stylesheet"
+        href="../css/home.css"
+    >
+
 </head>
 
 <body>
@@ -39,6 +62,7 @@
                 </h1>
 
                 <p>
+                    Olá, <?= htmlspecialchars($nomeUsuario) ?>!
                     Acompanhe suas corridas, seus objetivos e sua evolução em um só lugar.
                 </p>
 
@@ -46,7 +70,10 @@
 
             <section class="home-cards">
 
-                <a href="dashboard.html" class="home-card">
+                <a
+                    href="dashboard.php"
+                    class="home-card"
+                >
 
                     <span class="home-card-label">
                         Desempenho
@@ -62,7 +89,10 @@
 
                 </a>
 
-                <a href="corrida.html" class="home-card">
+                <a
+                    href="corrida.php"
+                    class="home-card"
+                >
 
                     <span class="home-card-label">
                         Treino
@@ -78,7 +108,10 @@
 
                 </a>
 
-                <a href="historico.html" class="home-card">
+                <a
+                    href="historico.php"
+                    class="home-card"
+                >
 
                     <span class="home-card-label">
                         Atividades
@@ -94,7 +127,10 @@
 
                 </a>
 
-                <a href="perfil.html" class="home-card">
+                <a
+                    href="perfil.php"
+                    class="home-card"
+                >
 
                     <span class="home-card-label">
                         Conta
@@ -126,7 +162,10 @@
                     Registre seus treinos e acompanhe seu progresso para alcançar seus objetivos.
                 </p>
 
-                <a href="corrida.html" class="home-button">
+                <a
+                    href="corrida.php"
+                    class="home-button"
+                >
                     Iniciar corrida
                 </a>
 
@@ -134,27 +173,31 @@
 
             <nav class="home-menu">
 
-                <a href="home.html">
+                <a href="home.php">
                     Início
                 </a>
 
-                <a href="dashboard.html">
+                <a href="dashboard.php">
                     Dashboard
                 </a>
 
-                <a href="corrida.html">
+                <a href="corrida.php">
                     Corrida
                 </a>
 
-                <a href="historico.html">
+                <a href="historico.php">
                     Histórico
                 </a>
 
-                <a href="perfil.html">
+                <a href="mapa.php">
+                    Mapa
+                </a>
+
+                <a href="perfil.php">
                     Perfil
                 </a>
 
-                <a href="configuracoes.html">
+                <a href="configuracoes.php">
                     Configurações
                 </a>
 

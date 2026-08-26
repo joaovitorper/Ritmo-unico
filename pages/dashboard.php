@@ -1,11 +1,35 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION["usuario_id"])) {
+    header("Location: login.php");
+    exit;
+}
+
+$nomeUsuario = $_SESSION["usuario_nome"] ?? "Corredor";
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Dashboard | Ritmo Único</title>
-    <link rel="stylesheet" href="../css/dashboard.css">
+
+    <link
+        rel="stylesheet"
+        href="../css/dashboard.css"
+    >
+
 </head>
 
 <body>
@@ -36,7 +60,7 @@
                     </span>
 
                     <h1>
-                        Olá, corredor! 👋
+                        Olá, <?= htmlspecialchars($nomeUsuario) ?>! 👋
                     </h1>
 
                     <p>
@@ -51,13 +75,15 @@
 
                 <div class="dashboard-card">
 
-                    <span class="card-icon">🏃</span>
+                    <span class="card-icon">
+                        🏃
+                    </span>
 
                     <span class="card-label">
                         DISTÂNCIA
                     </span>
 
-                    <strong>
+                    <strong id="totalDistancia">
                         0 km
                     </strong>
 
@@ -69,13 +95,15 @@
 
                 <div class="dashboard-card">
 
-                    <span class="card-icon">⏱️</span>
+                    <span class="card-icon">
+                        ⏱️
+                    </span>
 
                     <span class="card-label">
                         TEMPO
                     </span>
 
-                    <strong>
+                    <strong id="tempoTotal">
                         0h 00min
                     </strong>
 
@@ -87,13 +115,15 @@
 
                 <div class="dashboard-card">
 
-                    <span class="card-icon">🔥</span>
+                    <span class="card-icon">
+                        🔥
+                    </span>
 
                     <span class="card-label">
                         CALORIAS
                     </span>
 
-                    <strong>
+                    <strong id="totalCalorias">
                         0
                     </strong>
 
@@ -105,13 +135,15 @@
 
                 <div class="dashboard-card">
 
-                    <span class="card-icon">🎯</span>
+                    <span class="card-icon">
+                        🎯
+                    </span>
 
                     <span class="card-label">
                         OBJETIVO
                     </span>
 
-                    <strong>
+                    <strong id="porcentagemObjetivo">
                         0%
                     </strong>
 
@@ -138,10 +170,13 @@
                 </p>
 
                 <div class="evolucao-barra">
+
                     <div
                         class="evolucao-progresso"
+                        id="progressoSemanal"
                         style="width: 0%;"
                     ></div>
+
                 </div>
 
                 <div class="evolucao-info">
@@ -150,7 +185,7 @@
                         Progresso semanal
                     </span>
 
-                    <strong>
+                    <strong id="progressoTexto">
                         0%
                     </strong>
 
@@ -160,47 +195,66 @@
 
             <section class="dashboard-acoes">
 
-                <a href="corrida.html" class="dashboard-button">
+                <a
+                    href="corrida.php"
+                    class="dashboard-button"
+                >
                     🏃 Iniciar corrida
                 </a>
 
-                <a href="historico.html" class="dashboard-button secondary">
-                    📊 Ver históricSo
+                <a
+                    href="historico.php"
+                    class="dashboard-button secondary"
+                >
+                    📊 Ver histórico
                 </a>
 
             </section>
 
             <nav class="dashboard-menu">
 
-                <a href="../index.html">
+                <a href="home.php">
                     Início
                 </a>
 
-                <a href="corrida.html">
+                <a href="dashboard.php">
+                    Dashboard
+                </a>
+
+                <a href="corrida.php">
                     Corrida
                 </a>
 
-                <a href="historico.html">
+                <a href="historico.php">
                     Histórico
                 </a>
 
-                <a href="perfil.html">
+                <a href="mapa.php">
+                    Mapa
+                </a>
+
+                <a href="perfil.php">
                     Perfil
                 </a>
 
-                <a href="configuracoes.html">
+                <a href="configuracoes.php">
                     Configurações
                 </a>
 
             </nav>
 
-            <a href="../index.html" class="back-home">
+            <a
+                href="home.php"
+                class="back-home"
+            >
                 ← Voltar para o início
             </a>
 
         </div>
 
     </main>
+
+    <script src="../js/dashboard.js"></script>
 
 </body>
 

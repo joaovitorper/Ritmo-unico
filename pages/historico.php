@@ -1,11 +1,33 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION["usuario_id"])) {
+    header("Location: login.php");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Histórico | Ritmo Único</title>
-    <link rel="stylesheet" href="../css/historico.css">
+
+    <link
+        rel="stylesheet"
+        href="../css/historico.css"
+    >
+
 </head>
 
 <body>
@@ -46,21 +68,51 @@
             <section class="historico-resumo">
 
                 <div class="resumo-card">
-                    <span>Distância</span>
-                    <strong id="distanciaTotal">0 km</strong>
-                    <p>Distância percorrida</p>
+
+                    <span>
+                        Distância
+                    </span>
+
+                    <strong id="distanciaTotal">
+                        0 km
+                    </strong>
+
+                    <p>
+                        Distância percorrida
+                    </p>
+
                 </div>
 
                 <div class="resumo-card">
-                    <span>Corridas</span>
-                    <strong id="totalCorridas">0</strong>
-                    <p>Atividades realizadas</p>
+
+                    <span>
+                        Corridas
+                    </span>
+
+                    <strong id="totalCorridas">
+                        0
+                    </strong>
+
+                    <p>
+                        Atividades realizadas
+                    </p>
+
                 </div>
 
                 <div class="resumo-card">
-                    <span>Tempo</span>
-                    <strong id="tempoTotal">0h 00min</strong>
-                    <p>Tempo em atividade</p>
+
+                    <span>
+                        Tempo
+                    </span>
+
+                    <strong id="tempoTotal">
+                        0h 00min
+                    </strong>
+
+                    <p>
+                        Tempo em atividade
+                    </p>
+
                 </div>
 
             </section>
@@ -81,15 +133,24 @@
 
                     </div>
 
-                    <a href="corrida.html" class="nova-corrida">
+                    <a
+                        href="corrida.php"
+                        class="nova-corrida"
+                    >
                         Iniciar corrida
                     </a>
 
                 </div>
 
-                <div id="listaCorridas" class="historico-lista"></div>
+                <div
+                    id="listaCorridas"
+                    class="historico-lista"
+                ></div>
 
-                <div id="historicoVazio" class="historico-vazio">
+                <div
+                    id="historicoVazio"
+                    class="historico-vazio"
+                >
 
                     <h3>
                         Nenhuma corrida registrada
@@ -99,7 +160,10 @@
                         Comece sua primeira corrida para acompanhar sua evolução.
                     </p>
 
-                    <a href="corrida.html" class="historico-button">
+                    <a
+                        href="corrida.php"
+                        class="historico-button"
+                    >
                         Começar primeira corrida
                     </a>
 
@@ -109,23 +173,27 @@
 
             <nav class="historico-menu">
 
-                <a href="home.html">
+                <a href="home.php">
                     Início
                 </a>
 
-                <a href="dashboard.html">
+                <a href="dashboard.php">
                     Dashboard
                 </a>
 
-                <a href="corrida.html">
+                <a href="corrida.php">
                     Corrida
                 </a>
 
-                <a href="perfil.html">
+                <a href="mapa.php">
+                    Mapa
+                </a>
+
+                <a href="perfil.php">
                     Perfil
                 </a>
 
-                <a href="configuracoes.html">
+                <a href="configuracoes.php">
                     Configurações
                 </a>
 

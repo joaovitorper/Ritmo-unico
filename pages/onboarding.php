@@ -1,11 +1,33 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION["usuario_id"])) {
+    header("Location: login.php");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Onboarding | Ritmo Único</title>
-    <link rel="stylesheet" href="../css/onboarding.css">
+
+    <link
+        rel="stylesheet"
+        href="../css/onboarding.css"
+    >
+
 </head>
 
 <body>
@@ -20,14 +42,19 @@
                 class="onboarding-logo"
             >
 
-            <h1>Bem-vindo ao Ritmo Único!</h1>
+            <h1>
+                Bem-vindo ao Ritmo Único!
+            </h1>
 
             <p class="onboarding-description">
                 Antes de começar, conte um pouco sobre você para
                 personalizarmos sua experiência.
             </p>
 
-            <form id="formOnboarding">
+            <form
+                id="formOnboarding"
+                method="POST"
+            >
 
                 <div class="input-group">
 
@@ -35,7 +62,11 @@
                         Qual é o seu objetivo?
                     </label>
 
-                    <select id="objetivo" name="objetivo">
+                    <select
+                        id="objetivo"
+                        name="objetivo"
+                        required
+                    >
 
                         <option value="">
                             Selecione seu objetivo
@@ -61,8 +92,8 @@
 
                     <small
                         class="erro"
-                        id="erroObjetivo">
-                    </small>
+                        id="erroObjetivo"
+                    ></small>
 
                 </div>
 
@@ -72,7 +103,11 @@
                         Qual é o seu nível?
                     </label>
 
-                    <select id="nivel" name="nivel">
+                    <select
+                        id="nivel"
+                        name="nivel"
+                        required
+                    >
 
                         <option value="">
                             Selecione seu nível
@@ -94,8 +129,8 @@
 
                     <small
                         class="erro"
-                        id="erroNivel">
-                    </small>
+                        id="erroNivel"
+                    ></small>
 
                 </div>
 
@@ -109,7 +144,7 @@
             </form>
 
             <a
-                href="../index.html"
+                href="home.php"
                 class="back-home"
             >
                 ← Voltar para o início

@@ -1,10 +1,56 @@
+<?php
+session_start();
+
+$erro = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    require_once "../config/conexao.php";
+
+    $email = trim($_POST["email"] ?? "");
+    $senha = $_POST["senha"] ?? "";
+
+    if (empty($email) || empty($senha)) {
+        $erro = "Preencha o e-mail e a senha.";
+    } else {
+        $sql = "SELECT id, nome, email, senha FROM usuarios WHERE email = ?";
+        $stmt = $conexao->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+
+        $resultado = $stmt->get_result();
+
+        if ($resultado->num_rows === 1) {
+            $usuario = $resultado->fetch_assoc();
+
+            if (password_verify($senha, $usuario["senha"])) {
+                $_SESSION["usuario_id"] = $usuario["id"];
+                $_SESSION["usuario_nome"] = $usuario["nome"];
+                $_SESSION["usuario_email"] = $usuario["email"];
+
+                header("Location: ../index.php");
+                exit;
+            } else {
+                $erro = "E-mail ou senha incorretos.";
+            }
+        } else {
+            $erro = "E-mail ou senha incorretos.";
+        }
+
+        $stmt->close();
+        $conexao->close();
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="../css/login.css">
+
     <title>Login | Ritmo Único</title>
 </head>
 
@@ -39,7 +85,13 @@
                             Entre na sua conta e continue acompanhando sua evolução na corrida.
                         </p>
 
-                        <form id="formLogin" action="#" method="POST">
+                        <?php if (!empty($erro)): ?>
+                            <small class="erro">
+                                <?= htmlspecialchars($erro) ?>
+                            </small>
+                        <?php endif; ?>
+
+                        <form id="formLogin" action="login.php" method="POST">
 
                             <div class="input-group">
 
@@ -55,6 +107,7 @@
                                     required
                                     maxlength="150"
                                     autocomplete="email"
+                                    value="<?= htmlspecialchars($_POST["email"] ?? "") ?>"
                                 >
 
                                 <small
@@ -174,7 +227,7 @@
 
                         Ainda não possui uma conta?
 
-                        <a href="cadastro.html">
+                        <a href="cadastro.php">
                             Criar conta
                         </a>
 
@@ -183,7 +236,7 @@
                 </div>
 
                 <a
-                    href="../index.html"
+                    href="../index.php"
                     class="back-home"
                 >
                     ← Voltar para o início
@@ -225,8 +278,6 @@
 
         formLogin.addEventListener("submit", function(event) {
 
-            event.preventDefault();
-
             let valido = true;
 
             document.querySelectorAll(".erro").forEach(function(elemento) {
@@ -265,10 +316,8 @@
                 valido = false;
             }
 
-            if (valido) {
-
-                alert("Dados de login validados com sucesso!");
-
+            if (!valido) {
+                event.preventDefault();
             }
 
         });
@@ -278,7 +327,6 @@
             event.preventDefault();
 
             loginArea.style.display = "none";
-
             recuperacao.style.display = "block";
 
             emailRecuperacao.value = "";
@@ -290,7 +338,6 @@
         voltarLogin.addEventListener("click", function() {
 
             recuperacao.style.display = "none";
-
             loginArea.style.display = "block";
 
             document.getElementById("erroRecuperacao").textContent = "";

@@ -1,50 +1,113 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION["usuario_id"])) {
+    header("Location: login.php");
+    exit;
+}
+
+require_once __DIR__ . "/../config/conexao.php";
+
+$id_usuario = $_SESSION["usuario_id"];
+
+$sql = "
+    SELECT
+        id,
+        nome,
+        email,
+        data_nascimento
+    FROM usuarios
+    WHERE id = ?
+";
+
+$stmt = $conexao->prepare($sql);
+
+if (!$stmt) {
+    die("Erro ao preparar consulta: " . $conexao->error);
+}
+
+$stmt->bind_param("i", $id_usuario);
+$stmt->execute();
+
+$resultado = $stmt->get_result();
+
+if ($resultado->num_rows !== 1) {
+    $stmt->close();
+    $conexao->close();
+
+    session_destroy();
+
+    header("Location: login.php");
+    exit;
+}
+
+$usuario = $resultado->fetch_assoc();
+
+$stmt->close();
+$conexao->close();
+
+$nome = $usuario["nome"];
+$email = $usuario["email"];
+$data_nascimento = $usuario["data_nascimento"];
+
+$idade = "";
+
+if (!empty($data_nascimento)) {
+    $dataNascimento = new DateTime($data_nascimento);
+    $hoje = new DateTime();
+
+    $idade = $hoje->diff($dataNascimento)->y;
+}
+
+$inicial = strtoupper(substr($nome, 0, 1));
+
+?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../css/perfil.css">
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/perfil.css"
+    >
 
     <title>Perfil | Ritmo Único</title>
+
 </head>
 
 <body>
 
     <div class="perfil-page">
 
-        <!-- Efeitos de fundo -->
         <div class="perfil-glow perfil-glow-left"></div>
         <div class="perfil-glow perfil-glow-right"></div>
 
-
-        <!-- Conteúdo principal -->
         <main class="perfil-container">
 
             <div class="perfil-content">
 
-
-                <!-- Logo -->
                 <img
                     src="../assets/img/identidade Visual/Final logo.png"
                     alt="Logo do Ritmo Único"
                     class="perfil-logo"
                 >
 
-
-                <!-- Identificação -->
                 <span class="perfil-tag">
                     Tecnologia pra corredores
                 </span>
 
-
-                <!-- Caixa do perfil -->
                 <section class="perfil-box">
 
-
-                    <!-- Avatar -->
                     <div class="perfil-foto">
 
                         <div
@@ -52,30 +115,32 @@
                             id="avatar"
                             aria-label="Avatar do usuário"
                         >
-                            <span id="avatarInicial">?</span>
+
+                            <span id="avatarInicial">
+                                <?= htmlspecialchars($inicial) ?>
+                            </span>
+
                         </div>
 
                     </div>
 
-
-                    <!-- Título -->
                     <h2>Meu perfil</h2>
 
                     <p
                         class="perfil-email"
                         id="perfilMensagem"
                     >
-                        Preencha seus dados
+                        <?= htmlspecialchars($email) ?>
                     </p>
 
-
-                    <!-- Formulário -->
-                    <form id="perfilForm">
+                    <form
+                        id="perfilForm"
+                        method="POST"
+                        action="editar_perfil.php"
+                    >
 
                         <div class="perfil-info">
 
-
-                            <!-- Nome -->
                             <div class="info-item">
 
                                 <label for="nome">
@@ -88,13 +153,12 @@
                                     name="nome"
                                     placeholder="Digite seu nome"
                                     autocomplete="name"
+                                    value="<?= htmlspecialchars($nome) ?>"
                                     required
                                 >
 
                             </div>
 
-
-                            <!-- E-mail -->
                             <div class="info-item">
 
                                 <label for="email">
@@ -107,13 +171,12 @@
                                     name="email"
                                     placeholder="Digite seu e-mail"
                                     autocomplete="email"
+                                    value="<?= htmlspecialchars($email) ?>"
                                     required
                                 >
 
                             </div>
 
-
-                            <!-- Idade -->
                             <div class="info-item">
 
                                 <label for="idade">
@@ -127,13 +190,12 @@
                                     placeholder="Digite sua idade"
                                     min="1"
                                     max="120"
-                                    required
+                                    value="<?= htmlspecialchars($idade) ?>"
+                                    readonly
                                 >
 
                             </div>
 
-
-                            <!-- Objetivo -->
                             <div class="info-item">
 
                                 <label for="objetivo">
@@ -145,23 +207,18 @@
                                     id="objetivo"
                                     name="objetivo"
                                     placeholder="Ex: Melhorar meu desempenho"
-                                    required
                                 >
 
                             </div>
 
                         </div>
 
-
-                        <!-- Mensagem de status -->
                         <p
                             class="perfil-status"
                             id="perfilStatus"
                             aria-live="polite"
                         ></p>
 
-
-                        <!-- Botões -->
                         <div class="perfil-botoes">
 
                             <button
@@ -172,7 +229,7 @@
                             </button>
 
                             <a
-                                href="login.html"
+                                href="logout.php"
                                 class="logout-button"
                                 id="logoutButton"
                             >
@@ -185,10 +242,8 @@
 
                 </section>
 
-
-                <!-- Voltar -->
                 <a
-                    href="../index.html"
+                    href="../index.php"
                     class="back-home"
                 >
                     ← Voltar para o início
@@ -200,8 +255,6 @@
 
     </div>
 
-
-    <!-- JavaScript -->
     <script src="../js/perfil.js"></script>
 
 </body>

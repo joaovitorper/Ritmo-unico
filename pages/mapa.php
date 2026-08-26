@@ -1,7 +1,19 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION["usuario_id"])) {
+    header("Location: login.php");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -9,18 +21,18 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Mapa | Ritmo Único</title>
+    <title> Mapa | Ritmo Único</title>
 
     <link
         rel="stylesheet"
         href="../css/mapa.css"
     >
 
-    <!-- Leaflet -->
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     >
+
 </head>
 
 <body>
@@ -32,7 +44,6 @@
 
     <div class="mapa-container">
 
-        <!-- LOGO -->
         <img
             src="../assets/img/identidade Visual/Final logo.png"
             alt="Logo Ritmo Único"
@@ -43,7 +54,6 @@
             Tecnologia para corredores
         </span>
 
-        <!-- CABEÇALHO -->
         <section class="mapa-header">
 
             <span class="mapa-label">
@@ -60,7 +70,6 @@
 
         </section>
 
-        <!-- MAPA -->
         <section class="mapa-box">
 
             <div
@@ -79,7 +88,6 @@
 
         </section>
 
-        <!-- STATUS DO GPS -->
         <section class="mapa-status">
 
             <span id="statusGPS">
@@ -88,7 +96,6 @@
 
         </section>
 
-        <!-- INFORMAÇÕES -->
         <section class="mapa-info">
 
             <div class="mapa-card">
@@ -129,18 +136,17 @@
 
         </section>
 
-        <!-- AÇÕES -->
         <section class="mapa-acoes">
 
             <a
-                href="corrida.html"
+                href="corrida.php"
                 class="mapa-button"
             >
                 🏃 Iniciar corrida
             </a>
 
             <a
-                href="historico.html"
+                href="historico.php"
                 class="mapa-button secondary"
             >
                 Ver histórico
@@ -148,30 +154,29 @@
 
         </section>
 
-        <!-- MENU -->
         <nav class="mapa-menu">
 
-            <a href="home.html">
+            <a href="home.php">
                 Início
             </a>
 
-            <a href="dashboard.html">
+            <a href="dashboard.php">
                 Dashboard
             </a>
 
-            <a href="corrida.html">
+            <a href="corrida.php">
                 Corrida
             </a>
 
-            <a href="historico.html">
+            <a href="historico.php">
                 Histórico
             </a>
 
-            <a href="perfil.html">
+            <a href="perfil.php">
                 Perfil
             </a>
 
-            <a href="configuracoes.html">
+            <a href="configuracoes.php">
                 Configurações
             </a>
 
@@ -181,12 +186,10 @@
 
 </main>
 
-<!-- Leaflet -->
 <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 </script>
 
-<!-- JavaScript do mapa -->
 <script src="../js/mapa.js"></script>
 
 </body>

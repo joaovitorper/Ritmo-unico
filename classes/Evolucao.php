@@ -1,6 +1,6 @@
 <?php
 
-class Treino
+class Evolucao
 {
     private $id;
     private $usuarioId;

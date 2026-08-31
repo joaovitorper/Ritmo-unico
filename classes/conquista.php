@@ -1,21 +1,19 @@
 <?php
 
-class Objetivo
+class Conquista
 {
     private $id;
     private $usuarioId;
-    private $tipo;
+    private $titulo;
     private $descricao;
-    private $meta;
-    private $prazo;
+    private $data;
 
-    public function __construct($usuarioId = "", $tipo = "", $descricao = "", $meta = "", $prazo = "")
+    public function __construct($usuarioId = "", $titulo = "", $descricao = "", $data = "")
     {
         $this->usuarioId = $usuarioId;
-        $this->tipo = $tipo;
+        $this->titulo = $titulo;
         $this->descricao = $descricao;
-        $this->meta = $meta;
-        $this->prazo = $prazo;
+        $this->data = $data;
     }
 
     public function getId()
@@ -38,14 +36,14 @@ class Objetivo
         $this->usuarioId = $usuarioId;
     }
 
-    public function getTipo()
+    public function getTitulo()
     {
-        return $this->tipo;
+        return $this->titulo;
     }
 
-    public function setTipo($tipo)
+    public function setTitulo($titulo)
     {
-        $this->tipo = $tipo;
+        $this->titulo = $titulo;
     }
 
     public function getDescricao()
@@ -58,23 +56,13 @@ class Objetivo
         $this->descricao = $descricao;
     }
 
-    public function getMeta()
+    public function getData()
     {
-        return $this->meta;
+        return $this->data;
     }
 
-    public function setMeta($meta)
+    public function setData($data)
     {
-        $this->meta = $meta;
-    }
-
-    public function getPrazo()
-    {
-        return $this->prazo;
-    }
-
-    public function setPrazo($prazo)
-    {
-        $this->prazo = $prazo;
+        $this->data = $data;
     }
 }

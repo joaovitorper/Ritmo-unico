@@ -1,4 +1,3 @@
-
 <?php
 
 session_start();
@@ -16,7 +15,7 @@ session_start();
 
     <title>Ritmo Único</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
 
@@ -31,33 +30,34 @@ session_start();
             <ul class="nav-links">
 
                 <li>
-                    <a href="../index.php">Início</a>
+                    <a href="index.php">Início</a>
                 </li>
 
                 <li>
-                    <a href="dashboard.php">Dashboard</a>
+                    <a href="pages/dashboard.php">Dashboard</a>
                 </li>
 
                 <li>
-                    <a href="corrida.php">Corrida</a>
+                    <a href="pages/corrida.php">Corrida</a>
                 </li>
 
                 <li>
-                    <a href="historico.php">Histórico</a>
+                    <a href="pages/historico.php">Histórico</a>
                 </li>
 
                 <li>
-                    <a href="perfil.php">Perfil</a>
+                    <a href="pages/perfil.php">Perfil</a>
                 </li>
 
                 <li>
-                    <a href="configuracoes.php">Configurações</a>
+                    <a href="pages/configuracoes.php">Configurações</a>
                 </li>
 
             </ul>
             -->
 
         </nav>
+
 
         <!-- CONTEÚDO CENTRAL -->
         <main class="hero-container">
@@ -66,10 +66,11 @@ session_start();
 
                 <!-- LOGO CENTRAL -->
                 <img
-                    src="../assets/img/identidade Visual/Final logo.png"
+                    src="assets/img/identidade Visual/Final logo.png"
                     class="logo-central"
                     alt="Logo Ritmo Único"
                 >
+
 
                 <!-- TÍTULO -->
                 <div class="titulo-area">
@@ -84,6 +85,7 @@ session_start();
 
                 </div>
 
+
                 <!-- TEXTO -->
                 <p>
                     Tecnologia para evoluir sem perder quem você é.
@@ -91,14 +93,21 @@ session_start();
                     seus objetivos com inteligência.
                 </p>
 
+
                 <!-- BOTÕES -->
                 <div class="buttons">
 
-                    <a href="login.php" class="btn-primary">
+                    <a
+                        href="pages/login.php"
+                        class="btn-primary"
+                    >
                         Entrar
                     </a>
 
-                    <a href="cadastro.php" class="btn-secondary">
+                    <a
+                        href="pages/cadastro.php"
+                        class="btn-secondary"
+                    >
                         Criar conta
                     </a>
 
@@ -113,4 +122,3 @@ session_start();
 </body>
 
 </html>
-```

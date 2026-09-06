@@ -1,8 +1,3 @@
-O ChatGPT disse:
-Sim. Então vamos começar pelo pages/cadastro.php.
-
-Abra pages/cadastro.php, apague tudo que estiver lá e cole este código:
-
 <?php
 
 session_start();
@@ -20,31 +15,50 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $confirmar_senha = $_POST["confirmar_senha"] ?? "";
     $termos = isset($_POST["termos"]);
 
+    // =========================
     // VALIDAÇÕES
+    // =========================
 
     if ($nome === "") {
+
         $erro = "Digite seu nome completo.";
 
     } elseif (strlen($nome) < 3) {
+
         $erro = "O nome deve ter pelo menos 3 caracteres.";
 
+    } elseif (strpos($nome, " ") === false) {
+
+        $erro = "Digite seu nome e sobrenome.";
+
+    } elseif ($email === "") {
+
+        $erro = "Digite seu e-mail.";
+
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
         $erro = "Digite um e-mail válido.";
 
     } elseif ($data_nascimento === "") {
+
         $erro = "Informe sua data de nascimento.";
 
     } elseif (strlen($senha) < 6) {
+
         $erro = "A senha deve ter pelo menos 6 caracteres.";
 
     } elseif ($senha !== $confirmar_senha) {
+
         $erro = "As senhas não são iguais.";
 
     } elseif (!$termos) {
+
         $erro = "Você precisa aceitar os termos de uso.";
     }
 
+    // =========================
     // VERIFICAR E-MAIL
+    // =========================
 
     if ($erro === "") {
 
@@ -71,7 +85,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
+    // =========================
     // SALVAR NO BANCO
+    // =========================
 
     if ($erro === "") {
 
@@ -110,9 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             } else {
 
-                $erro =
-                    "Erro ao salvar no banco: " .
-                    $stmt->error;
+                $erro = "Erro ao salvar no banco: " . $stmt->error;
 
                 $stmt->close();
             }
@@ -175,9 +189,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <?php endif; ?>
 
                 <form
+                    id="formCadastro"
                     action="cadastro.php"
                     method="POST"
                 >
+
+                    <!-- NOME -->
 
                     <div class="input-group">
 
@@ -194,7 +211,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             required
                         >
 
+                        <span
+                            class="erro"
+                            id="erroNome"
+                        ></span>
+
                     </div>
+
+                    <!-- E-MAIL -->
 
                     <div class="input-group">
 
@@ -211,22 +235,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             required
                         >
 
+                        <span
+                            class="erro"
+                            id="erroEmail"
+                        ></span>
+
                     </div>
+
+                    <!-- DATA DE NASCIMENTO -->
 
                     <div class="input-group">
 
-                        <label for="data_nascimento">
+                        <label for="data-nascimento">
                             Data de nascimento
                         </label>
 
                         <input
                             type="date"
-                            id="data_nascimento"
+                            id="data-nascimento"
                             name="data_nascimento"
                             required
                         >
 
+                        <span
+                            class="erro"
+                            id="erroData"
+                        ></span>
+
                     </div>
+
+                    <!-- SENHA -->
 
                     <div class="input-group">
 
@@ -243,29 +281,44 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             required
                         >
 
+                        <span
+                            class="erro"
+                            id="erroSenha"
+                        ></span>
+
                     </div>
+
+                    <!-- CONFIRMAR SENHA -->
 
                     <div class="input-group">
 
-                        <label for="confirmar_senha">
+                        <label for="confirmar-senha">
                             Confirmar senha
                         </label>
 
                         <input
                             type="password"
-                            id="confirmar_senha"
+                            id="confirmar-senha"
                             name="confirmar_senha"
                             placeholder="Digite a senha novamente"
                             minlength="6"
                             required
                         >
 
+                        <span
+                            class="erro"
+                            id="erroConfirmarSenha"
+                        ></span>
+
                     </div>
+
+                    <!-- TERMOS -->
 
                     <label class="terms">
 
                         <input
                             type="checkbox"
+                            id="termos"
                             name="termos"
                             value="1"
                             required
@@ -276,6 +329,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         </span>
 
                     </label>
+
+                    <span
+                        class="erro"
+                        id="erroTermos"
+                    ></span>
+
+                    <!-- BOTÃO -->
 
                     <button
                         type="submit"
@@ -315,6 +375,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 </div>
 
+<!-- JavaScript do cadastro -->
+
+<script src="../js/cadastro.js"></script>
+
 </body>
 
 </html>
+

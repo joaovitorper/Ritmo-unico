@@ -20,39 +20,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // =========================
 
     if ($nome === "") {
-
         $erro = "Digite seu nome completo.";
 
     } elseif (strlen($nome) < 3) {
-
         $erro = "O nome deve ter pelo menos 3 caracteres.";
 
     } elseif (strpos($nome, " ") === false) {
-
         $erro = "Digite seu nome e sobrenome.";
 
     } elseif ($email === "") {
-
         $erro = "Digite seu e-mail.";
 
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-
         $erro = "Digite um e-mail válido.";
 
     } elseif ($data_nascimento === "") {
-
         $erro = "Informe sua data de nascimento.";
 
-    } elseif (strlen($senha) < 6) {
+    } elseif ($senha === "") {
+        $erro = "Digite sua senha.";
 
+    } elseif (strlen($senha) < 6) {
         $erro = "A senha deve ter pelo menos 6 caracteres.";
 
     } elseif ($senha !== $confirmar_senha) {
-
         $erro = "As senhas não são iguais.";
 
     } elseif (!$termos) {
-
         $erro = "Você precisa aceitar os termos de uso.";
     }
 
@@ -91,6 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($erro === "") {
 
+        // Criptografa a senha
         $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
         $sql = "INSERT INTO usuarios
@@ -207,7 +202,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             id="nome"
                             name="nome"
                             placeholder="Digite seu nome completo"
-                            maxlength="100"
+                            maxlength="150"
+                            value="<?= htmlspecialchars($_POST["nome"] ?? "") ?>"
                             required
                         >
 
@@ -232,6 +228,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             name="email"
                             placeholder="Digite seu e-mail"
                             maxlength="150"
+                            value="<?= htmlspecialchars($_POST["email"] ?? "") ?>"
                             required
                         >
 
@@ -254,6 +251,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             type="date"
                             id="data-nascimento"
                             name="data_nascimento"
+                            value="<?= htmlspecialchars($_POST["data_nascimento"] ?? "") ?>"
                             required
                         >
 
@@ -375,11 +373,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 </div>
 
-<!-- JavaScript do cadastro -->
-
 <script src="../js/cadastro.js"></script>
 
 </body>
 
 </html>
-

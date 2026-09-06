@@ -7,9 +7,19 @@ require_once __DIR__ . "/../config/conexao.php";
 $erro = "";
 $email = "";
 
+function limparEmail(string $email): string
+{
+    $email = trim($email);
+    // remove non-breaking space, zero-width space, BOM
+    $email = preg_replace('/[\x{00A0}\x{200B}\x{FEFF}]/u', '', $email);
+    // remove qualquer espaço remanescente
+    $email = preg_replace('/\s+/', '', $email);
+    return strtolower($email);
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $email = strtolower(trim($_POST["email"] ?? ""));
+    $email = limparEmail($_POST["email"] ?? "");
     $senha = $_POST["senha"] ?? "";
 
     if ($email === "" || $senha === "") {

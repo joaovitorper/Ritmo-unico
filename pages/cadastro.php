@@ -1,17 +1,90 @@
 <?php
+
 session_start();
+
+require_once "../config/conexao.php";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $nome = trim($_POST["nome"] ?? "");
+    $email = trim($_POST["email"] ?? "");
+    $data_nascimento = $_POST["data_nascimento"] ?? "";
+    $senha = $_POST["senha"] ?? "";
+    $confirmar_senha = $_POST["confirmar_senha"] ?? "";
+
+    if ($nome === "" || $email === "" || $data_nascimento === "" || $senha === "") {
+        die("Preencha todos os campos.");
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        die("Digite um e-mail válido.");
+    }
+
+    if ($senha !== $confirmar_senha) {
+        die("As senhas não são iguais.");
+    }
+
+    $sql = "SELECT id FROM usuarios WHERE email = ?";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+
+    if ($resultado->num_rows > 0) {
+        die("Este e-mail já está cadastrado.");
+    }
+
+    $stmt->close();
+
+    $senha = password_hash($senha, PASSWORD_DEFAULT);
+
+    $sql = "INSERT INTO usuarios (nome, email, data_nascimento, senha)
+            VALUES (?, ?, ?, ?)";
+
+    $stmt = $conexao->prepare($sql);
+
+    if (!$stmt) {
+        die("Erro no cadastro: " . $conexao->error);
+    }
+
+    $stmt->bind_param(
+        "ssss",
+        $nome,
+        $email,
+        $data_nascimento,
+        $senha
+    );
+
+    if ($stmt->execute()) {
+
+        header("Location: login.php");
+        exit;
+
+    } else {
+
+        die("Erro ao cadastrar: " . $stmt->error);
+    }
+
+    $stmt->close();
+    $conexao->close();
+}
+
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Criar conta | Ritmo Único</title>
 
     <link rel="stylesheet" href="../css/cadastro.css">
+
 </head>
 
 <body>
@@ -41,7 +114,7 @@ session_start();
 
                     <form
                         id="formCadastro"
-                        action="#"
+                        action="cadastro.php"
                         method="POST"
                     >
 
@@ -62,10 +135,7 @@ session_start();
                                 autocomplete="name"
                             >
 
-                            <small
-                                class="erro"
-                                id="erroNome"
-                            ></small>
+                            <small class="erro" id="erroNome"></small>
 
                         </div>
 
@@ -85,10 +155,7 @@ session_start();
                                 autocomplete="email"
                             >
 
-                            <small
-                                class="erro"
-                                id="erroEmail"
-                            ></small>
+                            <small class="erro" id="erroEmail"></small>
 
                         </div>
 
@@ -105,10 +172,7 @@ session_start();
                                 required
                             >
 
-                            <small
-                                class="erro"
-                                id="erroData"
-                            ></small>
+                            <small class="erro" id="erroData"></small>
 
                         </div>
 
@@ -129,10 +193,7 @@ session_start();
                                 autocomplete="new-password"
                             >
 
-                            <small
-                                class="erro"
-                                id="erroSenha"
-                            ></small>
+                            <small class="erro" id="erroSenha"></small>
 
                         </div>
 
@@ -170,14 +231,19 @@ session_start();
                             >
 
                             <span>
+
                                 Aceito os
+
                                 <a href="#">
                                     termos de uso
                                 </a>
+
                                 e a
+
                                 <a href="#">
                                     política de privacidade
                                 </a>.
+
                             </span>
 
                         </label>
@@ -197,7 +263,9 @@ session_start();
                     </form>
 
                     <div class="divider">
+
                         <span>ou</span>
+
                     </div>
 
                     <p class="already-account">
@@ -244,17 +312,11 @@ session_start();
 
         form.addEventListener("submit", function(event) {
 
-            event.preventDefault();
-
             let valido = true;
 
-            document
-                .querySelectorAll(".erro")
-                .forEach(function(elemento) {
-
-                    elemento.textContent = "";
-
-                });
+            document.querySelectorAll(".erro").forEach(function(elemento) {
+                elemento.textContent = "";
+            });
 
             const nomeValor = nome.value.trim();
 
@@ -271,7 +333,6 @@ session_start();
                     "Digite seu nome e sobrenome.";
 
                 valido = false;
-
             }
 
             const emailValor = email.value.trim();
@@ -285,7 +346,6 @@ session_start();
                     "Digite um e-mail válido.";
 
                 valido = false;
-
             }
 
             if (!dataNascimento.value) {
@@ -294,74 +354,22 @@ session_start();
                     "Informe sua data de nascimento.";
 
                 valido = false;
-
-            } else {
-
-                const nascimento =
-                    new Date(dataNascimento.value);
-
-                const dataAtual =
-                    new Date();
-
-                let idade =
-                    dataAtual.getFullYear() -
-                    nascimento.getFullYear();
-
-                const mes =
-                    dataAtual.getMonth() -
-                    nascimento.getMonth();
-
-                if (
-                    mes < 0 ||
-                    (
-                        mes === 0 &&
-                        dataAtual.getDate() <
-                        nascimento.getDate()
-                    )
-                ) {
-
-                    idade--;
-
-                }
-
-                if (idade < 13) {
-
-                    document.getElementById("erroData").textContent =
-                        "É necessário ter pelo menos 13 anos.";
-
-                    valido = false;
-
-                }
-
-                if (nascimento > dataAtual) {
-
-                    document.getElementById("erroData").textContent =
-                        "A data de nascimento não pode ser futura.";
-
-                    valido = false;
-
-                }
-
             }
 
-            const senhaValor = senha.value;
-
-            if (senhaValor.length < 6) {
+            if (senha.value.length < 6) {
 
                 document.getElementById("erroSenha").textContent =
                     "A senha deve ter pelo menos 6 caracteres.";
 
                 valido = false;
-
             }
 
-            if (confirmarSenha.value !== senhaValor) {
+            if (confirmarSenha.value !== senha.value) {
 
                 document.getElementById("erroConfirmarSenha").textContent =
                     "As senhas não são iguais.";
 
                 valido = false;
-
             }
 
             if (!termos.checked) {
@@ -370,13 +378,10 @@ session_start();
                     "Você precisa aceitar os termos de uso.";
 
                 valido = false;
-
             }
 
-            if (valido) {
-
-                alert("Cadastro validado com sucesso!");
-
+            if (!valido) {
+                event.preventDefault();
             }
 
         });

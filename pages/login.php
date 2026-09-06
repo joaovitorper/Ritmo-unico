@@ -7,21 +7,33 @@ require_once __DIR__ . "/../config/conexao.php";
 $erro = "";
 $email = "";
 
+// =========================
+// LIMPAR E-MAIL
+// =========================
 function limparEmail(string $email): string
 {
     $email = trim($email);
-    // remove non-breaking space, zero-width space, BOM
+
+    // Remove espaços especiais
     $email = preg_replace('/[\x{00A0}\x{200B}\x{FEFF}]/u', '', $email);
-    // remove qualquer espaço remanescente
+
+    // Remove espaços restantes
     $email = preg_replace('/\s+/', '', $email);
+
     return strtolower($email);
 }
 
+// =========================
+// PROCESSAR LOGIN
+// =========================
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $email = limparEmail($_POST["email"] ?? "");
     $senha = $_POST["senha"] ?? "";
 
+    // =========================
+    // VALIDAR CAMPOS
+    // =========================
     if ($email === "" || $senha === "") {
 
         $erro = "Preencha o e-mail e a senha.";
@@ -32,6 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     } else {
 
+        // =========================
+        // BUSCAR USUÁRIO NO BANCO
+        // =========================
         $sql = "SELECT id, nome, email, data_nascimento, senha
                 FROM usuarios
                 WHERE LOWER(TRIM(email)) = ?
@@ -46,14 +61,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } else {
 
             $stmt->bind_param("s", $email);
+
             $stmt->execute();
 
             $resultado = $stmt->get_result();
 
+            // =========================
+            // VERIFICAR USUÁRIO
+            // =========================
             if ($resultado->num_rows === 1) {
 
                 $usuario = $resultado->fetch_assoc();
 
+                // =========================
+                // VERIFICAR SENHA
+                // =========================
                 if (password_verify($senha, $usuario["senha"])) {
 
                     session_regenerate_id(true);
@@ -65,6 +87,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $stmt->close();
                     $conexao->close();
 
+                    // =========================
+                    // LOGIN REALIZADO
+                    // =========================
                     header("Location: home.php");
                     exit;
 
@@ -190,11 +215,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 </div>
 
                 <p class="create-account">
+
                     Ainda não possui uma conta?
 
                     <a href="cadastro.php">
                         Criar conta
                     </a>
+
                 </p>
 
             </div>

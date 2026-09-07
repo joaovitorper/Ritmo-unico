@@ -21,31 +21,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($nome === "") {
         $erro = "Digite seu nome completo.";
-
     } elseif (strlen($nome) < 3) {
         $erro = "O nome deve ter pelo menos 3 caracteres.";
-
     } elseif (strpos($nome, " ") === false) {
         $erro = "Digite seu nome e sobrenome.";
-
     } elseif ($email === "") {
         $erro = "Digite seu e-mail.";
-
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $erro = "Digite um e-mail válido.";
-
     } elseif ($data_nascimento === "") {
         $erro = "Informe sua data de nascimento.";
-
     } elseif ($senha === "") {
         $erro = "Digite sua senha.";
-
     } elseif (strlen($senha) < 6) {
         $erro = "A senha deve ter pelo menos 6 caracteres.";
-
     } elseif ($senha !== $confirmar_senha) {
         $erro = "As senhas não são iguais.";
-
     } elseif (!$termos) {
         $erro = "Você precisa aceitar os termos de uso.";
     }
@@ -63,7 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!$stmt) {
 
             $erro = "Erro no banco: " . $conexao->error;
-
         } else {
 
             $stmt->bind_param("s", $email);
@@ -97,7 +87,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!$stmt) {
 
             $erro = "Erro ao preparar cadastro: " . $conexao->error;
-
         } else {
 
             $stmt->bind_param(
@@ -118,7 +107,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 header("Location: login.php");
                 exit;
-
             } else {
 
                 $erro = "Erro ao salvar no banco: " . $stmt->error;
@@ -140,87 +128,74 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+        content="width=device-width, initial-scale=1.0">
 
     <title>Criar conta | Ritmo Único</title>
 
     <link
         rel="stylesheet"
-        href="../css/cadastro.css"
-    >
+        href="../css/cadastro.css">
 
 </head>
 
 <body>
 
-<div class="cadastro-page">
+    <div class="cadastro-page">
 
-    <main class="cadastro-container">
+        <main class="cadastro-container">
 
-        <div class="cadastro-content">
+            <div class="cadastro-content">
 
-            <h1>Ritmo Único</h1>
+                <h1>Ritmo Único</h1>
 
-            <span class="cadastro-tag">
-                Tecnologia para corredores
-            </span>
+                <span class="cadastro-tag">
+                    Tecnologia para corredores
+                </span>
 
-            <div class="cadastro-box">
+                <div class="cadastro-box">
 
-                <h2>Crie sua conta</h2>
+                    <h2>Crie sua conta</h2>
 
-                <p class="cadastro-description">
-                    Crie sua conta e comece a acompanhar
-                    sua evolução na corrida.
-                </p>
+                    <p class="cadastro-description">
+                        Crie sua conta e comece a acompanhar
+                        sua evolução na corrida.
+                    </p>
 
-                <?php if ($erro !== ""): ?>
+                    <?php if ($erro !== ""): ?>
 
-                    <div class="erro">
-                        <?= htmlspecialchars($erro) ?>
-                    </div>
+                        <div class="erro">
+                            <?= htmlspecialchars($erro) ?>
+                        </div>
 
-                <?php endif; ?>
+                    <?php endif; ?>
 
-                <form
-                    id="formCadastro"
-                    action="cadastro.php"
-                    method="POST"
-                >
+                    <form
+                        id="formCadastro"
+                        action="cadastrar.php"
+                        method="POST">
 
-                    <!-- NOME -->
+                        <!-- NOME -->
 
-                    <div class="input-group">
+                        <div class="input-group">
 
-                        <label for="nome">
-                            Nome completo
-                        </label>
+                            <label for="nome">
+                                Nome completo
+                            </label>
 
-                        <input
-                            type="text"
-                            id="nome"
-                            name="nome"
-                            placeholder="Digite seu nome completo"
-                            maxlength="150"
-                            value="<?= htmlspecialchars($_POST["nome"] ?? "") ?>"
-                            required
-                        >
+                            <input
+                                type="text"
+                                id="nome"
+                                name="nome"
+                                placeholder="Digite seu nome completo"
+                                maxlength="100"
+                                value="<?= htmlspecialchars($_POST["nome"] ?? "") ?>"
+                                required>
 
-                        <span
-                            class="erro"
-                            id="erroNome"
-                        ></span>
+                            <span
+                                class="erro"
+                                id="erroNome"></span>
 
-                    </div>
-
-                    <!-- E-MAIL -->
-
-                    <div class="input-group">
-
-                        <label for="email">
-                            E-mail
-                        </label>
+                        </div>
 
                         <input
                             type="email"
@@ -229,151 +204,137 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             placeholder="Digite seu e-mail"
                             maxlength="150"
                             value="<?= htmlspecialchars($_POST["email"] ?? "") ?>"
-                            required
-                        >
+                            required>
 
-                        <span
-                            class="erro"
-                            id="erroEmail"
-                        ></span>
 
-                    </div>
+                        <!-- DATA DE NASCIMENTO -->
 
-                    <!-- DATA DE NASCIMENTO -->
+                        <div class="input-group">
 
-                    <div class="input-group">
+                            <label for="data-nascimento">
+                                Data de nascimento
+                            </label>
 
-                        <label for="data-nascimento">
-                            Data de nascimento
+                            <input
+                                type="date"
+                                id="data-nascimento"
+                                name="data_nascimento"
+                                value="<?= htmlspecialchars($_POST["data_nascimento"] ?? "") ?>"
+                                required>
+
+                            <span
+                                class="erro"
+                                id="erroData"></span>
+
+                        </div>
+
+
+                        <!-- SENHA -->
+
+                        <div class="input-group">
+
+                            <label for="senha">
+                                Senha
+                            </label>
+
+                            <input
+                                type="password"
+                                id="senha"
+                                name="senha"
+                                placeholder="Digite sua senha"
+                                minlength="6"
+                                required>
+
+                            <span
+                                class="erro"
+                                id="erroSenha"></span>
+
+                        </div>
+
+
+                        <!-- CONFIRMAR SENHA -->
+
+                        <div class="input-group">
+
+                            <label for="confirmar-senha">
+                                Confirmar senha
+                            </label>
+
+                            <input
+                                type="password"
+                                id="confirmar-senha"
+                                name="confirmar_senha"
+                                placeholder="Digite a senha novamente"
+                                minlength="6"
+                                required>
+
+                            <span
+                                class="erro"
+                                id="erroConfirmarSenha"></span>
+
+                        </div>
+
+
+                        <!-- TERMOS -->
+
+                        <label class="terms">
+
+                            <input
+                                type="checkbox"
+                                id="termos"
+                                name="termos"
+                                value="1"
+                                required>
+
+                            <span>
+                                Aceito os termos de uso e a política de privacidade.
+                            </span>
+
                         </label>
 
-                        <input
-                            type="date"
-                            id="data-nascimento"
-                            name="data_nascimento"
-                            value="<?= htmlspecialchars($_POST["data_nascimento"] ?? "") ?>"
-                            required
-                        >
-
                         <span
                             class="erro"
-                            id="erroData"
-                        ></span>
+                            id="erroTermos"></span>
 
+                        <!-- BOTÃO -->
+
+                        <button
+                            type="submit"
+                            class="cadastro-button">
+                            Criar minha conta
+                        </button>
+
+                    </form>
+
+                    <div class="divider">
+                        <span>ou</span>
                     </div>
 
-                    <!-- SENHA -->
+                    <p class="already-account">
 
-                    <div class="input-group">
+                        Já possui uma conta?
 
-                        <label for="senha">
-                            Senha
-                        </label>
+                        <a href="login.php">
+                            Entrar
+                        </a>
 
-                        <input
-                            type="password"
-                            id="senha"
-                            name="senha"
-                            placeholder="Digite sua senha"
-                            minlength="6"
-                            required
-                        >
+                    </p>
 
-                        <span
-                            class="erro"
-                            id="erroSenha"
-                        ></span>
-
-                    </div>
-
-                    <!-- CONFIRMAR SENHA -->
-
-                    <div class="input-group">
-
-                        <label for="confirmar-senha">
-                            Confirmar senha
-                        </label>
-
-                        <input
-                            type="password"
-                            id="confirmar-senha"
-                            name="confirmar_senha"
-                            placeholder="Digite a senha novamente"
-                            minlength="6"
-                            required
-                        >
-
-                        <span
-                            class="erro"
-                            id="erroConfirmarSenha"
-                        ></span>
-
-                    </div>
-
-                    <!-- TERMOS -->
-
-                    <label class="terms">
-
-                        <input
-                            type="checkbox"
-                            id="termos"
-                            name="termos"
-                            value="1"
-                            required
-                        >
-
-                        <span>
-                            Aceito os termos de uso e a política de privacidade.
-                        </span>
-
-                    </label>
-
-                    <span
-                        class="erro"
-                        id="erroTermos"
-                    ></span>
-
-                    <!-- BOTÃO -->
-
-                    <button
-                        type="submit"
-                        class="cadastro-button"
-                    >
-                        Criar minha conta
-                    </button>
-
-                </form>
-
-                <div class="divider">
-                    <span>ou</span>
                 </div>
 
-                <p class="already-account">
-
-                    Já possui uma conta?
-
-                    <a href="login.php">
-                        Entrar
-                    </a>
-
-                </p>
+                <a
+                    href="../index.php"
+                    class="back-home">
+                    ← Voltar para o início
+                </a>
 
             </div>
 
-            <a
-                href="../index.php"
-                class="back-home"
-            >
-                ← Voltar para o início
-            </a>
+        </main>
 
-        </div>
+    </div>
 
-    </main>
-
-</div>
-
-<script src="../js/cadastro.js"></script>
+    <script src="../js/cadastro.js"></script>
 
 </body>
 

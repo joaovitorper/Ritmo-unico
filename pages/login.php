@@ -1,83 +1,49 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
-require_once __DIR__ . "/../config/conexao.php";
+require_once __DIR__ . '/../config/conexao.php';
 
 $erro = "";
 $email = "";
+$sucesso = $_GET["cadastro"] ?? "";
 
-// =========================
-// LIMPAR E-MAIL
-// =========================
 function limparEmail(string $email): string
 {
     $email = trim($email);
-
-    // Remove espaços especiais
     $email = preg_replace('/[\x{00A0}\x{200B}\x{FEFF}]/u', '', $email);
-
-    // Remove espaços restantes
     $email = preg_replace('/\s+/', '', $email);
 
     return strtolower($email);
 }
 
-// =========================
-// PROCESSAR LOGIN
-// =========================
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
     $email = limparEmail($_POST["email"] ?? "");
     $senha = $_POST["senha"] ?? "";
 
-    // =========================
-    // VALIDAR CAMPOS
-    // =========================
     if ($email === "" || $senha === "") {
-
         $erro = "Preencha o e-mail e a senha.";
-
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-
         $erro = "Digite um e-mail válido.";
-
     } else {
-
-        // =========================
-        // BUSCAR USUÁRIO NO BANCO
-        // =========================
-        $sql = "SELECT id, nome, email, data_nascimento, senha
-                FROM usuarios
-                WHERE LOWER(TRIM(email)) = ?
-                LIMIT 1";
-
+        $sql = "SELECT id, nome, email, senha FROM usuarios WHERE email = ? LIMIT 1";
         $stmt = $conexao->prepare($sql);
 
         if (!$stmt) {
-
             $erro = "Erro no banco de dados: " . $conexao->error;
-
         } else {
-
             $stmt->bind_param("s", $email);
-
             $stmt->execute();
-
             $resultado = $stmt->get_result();
 
-            // =========================
-            // VERIFICAR USUÁRIO
-            // =========================
             if ($resultado->num_rows === 1) {
-
                 $usuario = $resultado->fetch_assoc();
 
-                // =========================
-                // VERIFICAR SENHA
-                // =========================
                 if (password_verify($senha, $usuario["senha"])) {
-
                     session_regenerate_id(true);
 
                     $_SESSION["usuario_id"] = $usuario["id"];
@@ -87,158 +53,101 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $stmt->close();
                     $conexao->close();
 
-                    // =========================
-                    // LOGIN REALIZADO
-                    // =========================
                     header("Location: home.php");
                     exit;
-
-                } else {
-
-                    $erro = "E-mail ou senha incorretos.";
                 }
-
-            } else {
-
-                $erro = "E-mail ou senha incorretos.";
             }
 
+            $erro = "E-mail ou senha incorretos.";
             $stmt->close();
         }
     }
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrar | Ritmo Único</title>
-
-    <link
-        rel="stylesheet"
-        href="../css/login.css"
-    >
-
+    <link rel="stylesheet" href="../css/login.css">
 </head>
 
 <body>
+    <div class="login-page">
+        <main class="login-container">
+            <div class="login-content">
+                <h1>Ritmo Único</h1>
 
-<div class="login-page">
+                <span class="login-tag">
+                    Tecnologia para corredores
+                </span>
 
-    <main class="login-container">
+                <div class="login-box">
+                    <h2>Entrar</h2>
 
-        <div class="login-content">
+                    <p class="login-description">
+                        Entre na sua conta para acompanhar sua evolução na corrida.
+                    </p>
 
-            <h1>Ritmo Único</h1>
+                    <?php if ($sucesso === "sucesso"): ?>
+                        <div class="erro" style="color: #41D8FF;">
+                            Conta criada com sucesso. Faça login para continuar.
+                        </div>
+                    <?php endif; ?>
 
-            <span class="login-tag">
-                Tecnologia para corredores
-            </span>
+                    <?php if ($erro !== ""): ?>
+                        <div class="erro">
+                            <?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
+                        </div>
+                    <?php endif; ?>
 
-            <div class="login-box">
+                    <form method="POST" action="login.php">
+                        <div class="input-group">
+                            <label for="email">E-mail</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Digite seu e-mail"
+                                maxlength="150"
+                                value="<?= htmlspecialchars($email, ENT_QUOTES, 'UTF-8') ?>"
+                                required
+                            >
+                        </div>
 
-                <h2>Bem-vindo de volta!</h2>
+                        <div class="input-group">
+                            <label for="senha">Senha</label>
+                            <input
+                                type="password"
+                                id="senha"
+                                name="senha"
+                                placeholder="Digite sua senha"
+                                required
+                            >
+                        </div>
 
-                <p class="login-description">
-                    Entre na sua conta para acompanhar
-                    sua evolução na corrida.
-                </p>
+                        <button type="submit" class="login-button">
+                            Entrar
+                        </button>
+                    </form>
 
-                <?php if ($erro !== ""): ?>
-
-                    <div class="erro">
-                        <?= htmlspecialchars($erro) ?>
+                    <div class="divider">
+                        <span>ou</span>
                     </div>
 
-                <?php endif; ?>
-
-                <form
-                    action="login.php"
-                    method="POST"
-                >
-
-                    <div class="input-group">
-
-                        <label for="email">
-                            E-mail
-                        </label>
-
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="Digite seu e-mail"
-                            maxlength="150"
-                            value="<?= htmlspecialchars($email) ?>"
-                            required
-                        >
-
-                    </div>
-
-                    <div class="input-group">
-
-                        <label for="senha">
-                            Senha
-                        </label>
-
-                        <input
-                            type="password"
-                            id="senha"
-                            name="senha"
-                            placeholder="Digite sua senha"
-                            required
-                        >
-
-                    </div>
-
-                    <button
-                        type="submit"
-                        class="login-button"
-                    >
-                        Entrar
-                    </button>
-
-                </form>
-
-                <div class="divider">
-                    <span>ou</span>
+                    <p class="create-account">
+                        Ainda não possui uma conta?
+                        <a href="cadastro.php">Criar conta</a>
+                    </p>
                 </div>
 
-                <p class="create-account">
-
-                    Ainda não possui uma conta?
-
-                    <a href="cadastro.php">
-                        Criar conta
-                    </a>
-
-                </p>
-
+                <a href="../index.php" class="back-home">
+                    ← Voltar para o início
+                </a>
             </div>
-
-            <a
-                href="../index.php"
-                class="back-home"
-            >
-                ← Voltar para o início
-            </a>
-
-        </div>
-
-    </main>
-
-</div>
-
+        </main>
+    </div>
 </body>
-
-</html>

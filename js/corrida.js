@@ -1,196 +1,530 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const iniciarButton =
-        document.getElementById("iniciarCorrida");
+    // ==========================================
+    // ELEMENTOS DO HTML
+    // ==========================================
 
-    const finalizarButton =
-        document.getElementById("finalizarCorrida");
+    const iniciarButton = document.getElementById("iniciarCorrida");
+    const finalizarButton = document.getElementById("finalizarCorrida");
 
-    const tempoElement =
-        document.getElementById("tempo");
+    const tempoElement = document.getElementById("tempo");
+    const distanciaElement = document.getElementById("distancia");
+    const paceElement = document.getElementById("pace");
+    const caloriasElement = document.getElementById("calorias");
 
-    const distanciaElement =
-        document.getElementById("distancia");
+    const goalValueElement = document.getElementById("goalValue");
+    const progressBarElement = document.getElementById("progressBar");
+
+
+    // ==========================================
+    // CONFIGURAÇÕES
+    // ==========================================
+
+    // Meta da corrida
+    const metaKm = 5;
+
+    // Peso do usuário em kg
+    // Depois podemos pegar isso do cadastro
+    const pesoKg = 70;
+
+
+    // Configuração do GPS
+    const gpsOptions = {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 15000
+    };
+
+
+    // ==========================================
+    // VARIÁVEIS DA CORRIDA
+    // ==========================================
 
     let segundos = 0;
+
     let distancia = 0;
+
     let intervalo = null;
+
     let corridaIniciada = false;
+
     let watchID = null;
+
     let ultimaPosicao = null;
 
 
-    // =========================
-    // FORMATAR TEMPO
-    // =========================
+    // ==========================================
+    // VERIFICAR ELEMENTOS
+    // ==========================================
 
-    function formatarTempo(segundos) {
+    if (!iniciarButton) {
+        console.error("Elemento #iniciarCorrida não encontrado.");
+        return;
+    }
 
-        const horas = Math.floor(segundos / 3600);
-
-        const minutos =
-            Math.floor((segundos % 3600) / 60);
-
-        const segundosRestantes =
-            segundos % 60;
-
-        return `${String(horas).padStart(2, "0")}:` +
-               `${String(minutos).padStart(2, "0")}:` +
-               `${String(segundosRestantes).padStart(2, "0")}`;
+    if (!finalizarButton) {
+        console.error("Elemento #finalizarCorrida não encontrado.");
+        return;
     }
 
 
-    // =========================
-    // CALCULAR DISTÂNCIA GPS
-    // =========================
+    // ==========================================
+    // FORMATAR TEMPO
+    // ==========================================
+
+    function formatarTempo() {
+
+        const horas = Math.floor(segundos / 3600);
+
+        const minutos = Math.floor(
+            (segundos % 3600) / 60
+        );
+
+        const segundosRestantes = segundos % 60;
+
+
+        return (
+            String(horas).padStart(2, "0") +
+            ":" +
+            String(minutos).padStart(2, "0") +
+            ":" +
+            String(segundosRestantes).padStart(2, "0")
+        );
+    }
+
+
+    // ==========================================
+    // CALCULAR DISTÂNCIA ENTRE DOIS PONTOS
+    // ==========================================
 
     function calcularDistancia(
-        lat1,
-        lon1,
-        lat2,
-        lon2
+        latitude1,
+        longitude1,
+        latitude2,
+        longitude2
     ) {
 
+        // Raio da Terra em quilômetros
         const R = 6371;
 
-        const dLat =
-            (lat2 - lat1) * Math.PI / 180;
 
-        const dLon =
-            (lon2 - lon1) * Math.PI / 180;
+        const dLatitude =
+            (latitude2 - latitude1) *
+            Math.PI / 180;
+
+
+        const dLongitude =
+            (longitude2 - longitude1) *
+            Math.PI / 180;
+
 
         const a =
-            Math.sin(dLat / 2) ** 2 +
-            Math.cos(lat1 * Math.PI / 180) *
-            Math.cos(lat2 * Math.PI / 180) *
-            Math.sin(dLon / 2) ** 2;
+            Math.sin(dLatitude / 2) *
+            Math.sin(dLatitude / 2) +
+
+            Math.cos(latitude1 * Math.PI / 180) *
+            Math.cos(latitude2 * Math.PI / 180) *
+
+            Math.sin(dLongitude / 2) *
+            Math.sin(dLongitude / 2);
+
 
         const c =
-            2 * Math.atan2(
+            2 *
+            Math.atan2(
                 Math.sqrt(a),
                 Math.sqrt(1 - a)
             );
+
 
         return R * c;
     }
 
 
-    // =========================
+    // ==========================================
+    // ATUALIZAR TEMPO
+    // ==========================================
+
+    function atualizarTempo() {
+
+        if (!tempoElement) {
+            return;
+        }
+
+
+        tempoElement.textContent =
+            formatarTempo();
+    }
+
+
+    // ==========================================
     // ATUALIZAR DISTÂNCIA
-    // =========================
+    // ==========================================
 
-    function atualizarDistancia(position) {
+    function atualizarDistancia() {
 
-        if (!corridaIniciada) {
-            return;
-        }
-
-        const latitude =
-            position.coords.latitude;
-
-        const longitude =
-            position.coords.longitude;
-
-        const precisao =
-            position.coords.accuracy;
-
-
-        // Ignora GPS com precisão muito baixa
-        if (precisao > 50) {
+        if (!distanciaElement) {
             return;
         }
 
 
-        // Primeiro ponto
-        if (!ultimaPosicao) {
+        distanciaElement.textContent =
+            distancia.toFixed(2) + " km";
+    }
 
-            ultimaPosicao = {
-                latitude,
-                longitude
-            };
+
+    // ==========================================
+    // ATUALIZAR PACE
+    // ==========================================
+
+    function atualizarPace() {
+
+        if (!paceElement) {
+            return;
+        }
+
+
+        if (distancia <= 0 || segundos <= 0) {
+
+            paceElement.textContent =
+                "--:-- /km";
 
             return;
         }
 
 
-        const novaDistancia =
-            calcularDistancia(
-                ultimaPosicao.latitude,
-                ultimaPosicao.longitude,
-                latitude,
-                longitude
+        // Quantos segundos foram gastos por km
+        const segundosPorKm =
+            segundos / distancia;
+
+
+        const minutos =
+            Math.floor(
+                segundosPorKm / 60
             );
 
 
-        // Ignora movimentos muito pequenos
-        if (novaDistancia >= 0.005) {
-
-            distancia += novaDistancia;
-
-            ultimaPosicao = {
-                latitude,
-                longitude
-            };
+        const segundosPace =
+            Math.floor(
+                segundosPorKm % 60
+            );
 
 
-            if (distanciaElement) {
-
-                distanciaElement.textContent =
-                    distancia
-                        .toFixed(2)
-                        .replace(".", ",") +
-                    " km";
-
-            }
-
-        }
-
+        paceElement.textContent =
+            minutos +
+            ":" +
+            String(segundosPace).padStart(2, "0") +
+            " /km";
     }
 
 
-    // =========================
-    // ERRO DO GPS
-    // =========================
+    // ==========================================
+    // ATUALIZAR CALORIAS
+    // ==========================================
 
-    function erroGPS(error) {
+    function atualizarCalorias() {
 
-        switch (error.code) {
-
-            case 1:
-                alert(
-                    "Permissão de localização negada."
-                );
-                break;
-
-            case 2:
-                alert(
-                    "Não foi possível obter sua localização."
-                );
-                break;
-
-            case 3:
-                alert(
-                    "Tempo limite para obter o GPS."
-                );
-                break;
-
-            default:
-                alert(
-                    "Erro ao acessar o GPS."
-                );
+        if (!caloriasElement) {
+            return;
         }
 
+
+        /*
+         * Estimativa aproximada:
+         * 1 kcal × peso × distância
+         */
+
+        const calorias =
+            distancia * pesoKg;
+
+
+        caloriasElement.textContent =
+            Math.round(calorias) +
+            " kcal";
     }
 
 
-    // =========================
-    // INICIAR CORRIDA
-    // =========================
+    // ==========================================
+    // ATUALIZAR META
+    // ==========================================
 
-    if (iniciarButton) {
+    function atualizarMeta() {
 
-        iniciarButton.addEventListener("click", () => {
+        const porcentagem =
+            (distancia / metaKm) * 100;
 
+
+        const porcentagemLimitada =
+            Math.min(
+                Math.max(porcentagem, 0),
+                100
+            );
+
+
+        // Texto da meta
+
+        if (goalValueElement) {
+
+            goalValueElement.textContent =
+                distancia.toFixed(2) +
+                " / " +
+                metaKm.toFixed(2) +
+                " km";
+        }
+
+
+        // Barra
+
+        if (progressBarElement) {
+
+            progressBarElement.style.width =
+                porcentagemLimitada + "%";
+        }
+    }
+
+
+    // ==========================================
+    // ATUALIZAR TELA COMPLETA
+    // ==========================================
+
+    function atualizarTela() {
+
+        atualizarTempo();
+
+        atualizarDistancia();
+
+        atualizarPace();
+
+        atualizarCalorias();
+
+        atualizarMeta();
+    }
+
+
+    // ==========================================
+    // INICIAR CRONÔMETRO
+    // ==========================================
+
+    function iniciarCronometro() {
+
+        // Evita criar dois cronômetros
+        if (intervalo !== null) {
+            clearInterval(intervalo);
+        }
+
+
+        intervalo = setInterval(() => {
+
+            segundos++;
+
+            atualizarTempo();
+
+            atualizarPace();
+
+        }, 1000);
+    }
+
+
+    // ==========================================
+    // PARAR CRONÔMETRO
+    // ==========================================
+
+    function pararCronometro() {
+
+        if (intervalo !== null) {
+
+            clearInterval(intervalo);
+
+            intervalo = null;
+        }
+    }
+
+
+    // ==========================================
+    // INICIAR GPS
+    // ==========================================
+
+    function iniciarGPS() {
+
+        watchID =
+            navigator.geolocation.watchPosition(
+
+                (position) => {
+
+                    if (!corridaIniciada) {
+                        return;
+                    }
+
+
+                    const novaPosicao = {
+
+                        latitude:
+                            position.coords.latitude,
+
+                        longitude:
+                            position.coords.longitude
+                    };
+
+
+                    // ==================================
+                    // CALCULAR TRECHO PERCORRIDO
+                    // ==================================
+
+                    if (ultimaPosicao !== null) {
+
+                        const trecho =
+                            calcularDistancia(
+
+                                ultimaPosicao.latitude,
+
+                                ultimaPosicao.longitude,
+
+                                novaPosicao.latitude,
+
+                                novaPosicao.longitude
+                            );
+
+
+                        /*
+                         * Ignora movimentos menores que 3 metros,
+                         * que normalmente são pequenas oscilações
+                         * do GPS.
+                         *
+                         * Também ignora saltos maiores que 1 km,
+                         * que provavelmente são erro do GPS.
+                         */
+
+                        if (
+                            trecho >= 0.003 &&
+                            trecho < 1
+                        ) {
+
+                            distancia += trecho;
+
+                            atualizarDistancia();
+
+                            atualizarPace();
+
+                            atualizarCalorias();
+
+                            atualizarMeta();
+                        }
+                    }
+
+
+                    // Guarda posição atual
+                    ultimaPosicao =
+                        novaPosicao;
+
+
+                    // ==================================
+                    // DEBUG
+                    // ==================================
+
+                    console.log(
+                        "Latitude:",
+                        novaPosicao.latitude
+                    );
+
+                    console.log(
+                        "Longitude:",
+                        novaPosicao.longitude
+                    );
+
+                    console.log(
+                        "Precisão:",
+                        position.coords.accuracy,
+                        "metros"
+                    );
+
+                    console.log(
+                        "Distância:",
+                        distancia.toFixed(3),
+                        "km"
+                    );
+                },
+
+
+                (error) => {
+
+                    console.error(
+                        "Erro no GPS:",
+                        error
+                    );
+
+
+                    switch (error.code) {
+
+                        case error.PERMISSION_DENIED:
+
+                            alert(
+                                "A permissão de localização foi negada."
+                            );
+
+                            break;
+
+
+                        case error.POSITION_UNAVAILABLE:
+
+                            console.warn(
+                                "Localização indisponível."
+                            );
+
+                            break;
+
+
+                        case error.TIMEOUT:
+
+                            console.warn(
+                                "O GPS demorou muito para responder."
+                            );
+
+                            break;
+
+
+                        default:
+
+                            console.warn(
+                                "Erro desconhecido no GPS."
+                            );
+                    }
+                },
+
+
+                gpsOptions
+            );
+    }
+
+
+    // ==========================================
+    // PARAR GPS
+    // ==========================================
+
+    function pararGPS() {
+
+        if (watchID !== null) {
+
+            navigator.geolocation.clearWatch(
+                watchID
+            );
+
+            watchID = null;
+        }
+
+
+        ultimaPosicao = null;
+    }
+
+
+    // ==========================================
+    // BOTÃO INICIAR CORRIDA
+    // ==========================================
+
+    iniciarButton.addEventListener(
+        "click",
+        () => {
+
+            // Não inicia duas vezes
             if (corridaIniciada) {
                 return;
             }
@@ -200,203 +534,302 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!navigator.geolocation) {
 
                 alert(
-                    "Seu navegador não suporta GPS."
+                    "Seu dispositivo ou navegador não oferece suporte à localização."
                 );
 
                 return;
             }
 
 
-            corridaIniciada = true;
+            // Bloqueia botão enquanto procura GPS
+            iniciarButton.disabled = true;
 
-            segundos = 0;
-            distancia = 0;
-            ultimaPosicao = null;
-
-
-            iniciarButton.style.display = "none";
+            iniciarButton.textContent =
+                "📍 Localizando...";
 
 
-            if (finalizarButton) {
-                finalizarButton.style.display = "block";
-            }
+            // ==================================
+            // PEGAR PRIMEIRA LOCALIZAÇÃO
+            // ==================================
+
+            navigator.geolocation.getCurrentPosition(
+
+                (position) => {
+
+                    // ==============================
+                    // RESET DA CORRIDA
+                    // ==============================
+
+                    segundos = 0;
+
+                    distancia = 0;
+
+                    corridaIniciada = true;
 
 
-            // =========================
-            // CRONÔMETRO
-            // =========================
+                    // ==============================
+                    // GUARDAR POSIÇÃO INICIAL
+                    // ==============================
 
-            intervalo = setInterval(() => {
+                    ultimaPosicao = {
 
-                segundos++;
+                        latitude:
+                            position.coords.latitude,
 
-                if (tempoElement) {
-
-                    tempoElement.textContent =
-                        formatarTempo(segundos);
-
-                }
-
-            }, 1000);
+                        longitude:
+                            position.coords.longitude
+                    };
 
 
-            // =========================
-            // GPS REAL
-            // =========================
+                    // ==============================
+                    // TROCAR BOTÕES
+                    // ==============================
 
-            watchID =
-                navigator.geolocation.watchPosition(
-                    atualizarDistancia,
-                    erroGPS,
-                    {
-                        enableHighAccuracy: true,
-                        maximumAge: 0,
-                        timeout: 10000
+                    iniciarButton.style.display =
+                        "none";
+
+
+                    finalizarButton.style.display =
+                        "inline-block";
+
+
+                    // ==============================
+                    // INICIAR CRONÔMETRO
+                    // ==============================
+
+                    iniciarCronometro();
+
+
+                    // ==============================
+                    // INICIAR GPS CONTÍNUO
+                    // ==============================
+
+                    iniciarGPS();
+
+
+                    // ==============================
+                    // ATUALIZAR TELA
+                    // ==============================
+
+                    atualizarTela();
+
+
+                    // ==============================
+                    // CONSOLE
+                    // ==============================
+
+                    console.log(
+                        "======================"
+                    );
+
+                    console.log(
+                        "CORRIDA INICIADA"
+                    );
+
+                    console.log(
+                        "Latitude:",
+                        position.coords.latitude
+                    );
+
+                    console.log(
+                        "Longitude:",
+                        position.coords.longitude
+                    );
+
+                    console.log(
+                        "Precisão:",
+                        position.coords.accuracy,
+                        "metros"
+                    );
+
+                    console.log(
+                        "======================"
+                    );
+                },
+
+
+                // ==================================
+                // ERRO AO PEGAR GPS
+                // ==================================
+
+                (error) => {
+
+                    iniciarButton.disabled =
+                        false;
+
+
+                    iniciarButton.textContent =
+                        "🏃 Iniciar corrida";
+
+
+                    switch (error.code) {
+
+                        case error.PERMISSION_DENIED:
+
+                            alert(
+                                "Permissão de localização negada. Ative a localização e tente novamente."
+                            );
+
+                            break;
+
+
+                        case error.POSITION_UNAVAILABLE:
+
+                            alert(
+                                "Não foi possível encontrar sua localização."
+                            );
+
+                            break;
+
+
+                        case error.TIMEOUT:
+
+                            alert(
+                                "O GPS demorou muito para responder. Tente novamente."
+                            );
+
+                            break;
+
+
+                        default:
+
+                            alert(
+                                "Não foi possível acessar sua localização."
+                            );
                     }
-                );
-
-        });
-
-    }
+                },
 
 
-    // =========================
-    // FINALIZAR CORRIDA
-    // =========================
+                gpsOptions
+            );
+        }
+    );
 
-    if (finalizarButton) {
 
-        finalizarButton.addEventListener("click", () => {
+    // ==========================================
+    // BOTÃO FINALIZAR CORRIDA
+    // ==========================================
+
+    finalizarButton.addEventListener(
+        "click",
+        () => {
 
             if (!corridaIniciada) {
-
-                alert(
-                    "Você precisa iniciar a corrida primeiro."
-                );
-
                 return;
             }
 
 
-            // Para cronômetro
-            clearInterval(intervalo);
-
-            intervalo = null;
-
-
-            // Para GPS
-            if (watchID !== null) {
-
-                navigator.geolocation.clearWatch(
-                    watchID
-                );
-
-                watchID = null;
-            }
-
+            // ==============================
+            // ENCERRA CORRIDA
+            // ==============================
 
             corridaIniciada = false;
 
 
-            // =========================
-            // VALIDAR TEMPO
-            // =========================
-
-            if (segundos <= 0) {
-
-                alert(
-                    "A corrida precisa ter pelo menos 1 segundo."
-                );
-
-                return;
-            }
+            // Para cronômetro
+            pararCronometro();
 
 
-            // =========================
-            // VALIDAR DISTÂNCIA
-            // =========================
-
-            if (distancia <= 0) {
-
-                alert(
-                    "Não foi possível registrar uma distância pelo GPS."
-                );
-
-                return;
-            }
+            // Para GPS
+            pararGPS();
 
 
-            // =========================
-            // CRIAR CORRIDA
-            // =========================
-
-            const corrida = {
-
-                tempo:
-                    formatarTempo(segundos),
-
-                distancia:
-                    distancia.toFixed(2),
-
-                data:
-                    new Date()
-                        .toLocaleDateString("pt-BR")
-
-            };
+            // Atualiza resultado final
+            atualizarTela();
 
 
-            // =========================
-            // CARREGAR HISTÓRICO
-            // =========================
+            // ==============================
+            // TROCA BOTÕES
+            // ==============================
 
-            let historico = [];
-
-            try {
-
-                historico = JSON.parse(
-                    localStorage.getItem(
-                        "historicoCorridas"
-                    ) || "[]"
-                );
-
-                if (!Array.isArray(historico)) {
-                    historico = [];
-                }
-
-            } catch (erro) {
-
-                console.error(
-                    "Erro ao carregar histórico:",
-                    erro
-                );
-
-                historico = [];
-
-            }
+            finalizarButton.style.display =
+                "none";
 
 
-            // =========================
-            // SALVAR
-            // =========================
+            iniciarButton.style.display =
+                "inline-block";
 
-            historico.push(corrida);
 
-            localStorage.setItem(
-                "historicoCorridas",
-                JSON.stringify(historico)
+            iniciarButton.disabled =
+                false;
+
+
+            iniciarButton.textContent =
+                "🏃 Nova corrida";
+
+
+            // ==============================
+            // RESULTADO NO CONSOLE
+            // ==============================
+
+            console.log(
+                "======================"
+            );
+
+            console.log(
+                "CORRIDA FINALIZADA"
+            );
+
+            console.log(
+                "Tempo:",
+                formatarTempo()
+            );
+
+            console.log(
+                "Distância:",
+                distancia.toFixed(2),
+                "km"
+            );
+
+            console.log(
+                "Pace:",
+                paceElement
+                    ? paceElement.textContent
+                    : "--:-- /km"
+            );
+
+            console.log(
+                "Calorias:",
+                caloriasElement
+                    ? caloriasElement.textContent
+                    : "0 kcal"
+            );
+
+            console.log(
+                "======================"
             );
 
 
             alert(
-                "Corrida finalizada e salva com sucesso!"
+                "🏁 Corrida finalizada!\n\n" +
+                "Tempo: " +
+                formatarTempo() +
+                "\n" +
+                "Distância: " +
+                distancia.toFixed(2) +
+                " km\n" +
+                "Pace: " +
+                (
+                    paceElement
+                        ? paceElement.textContent
+                        : "--:-- /km"
+                ) +
+                "\n" +
+                "Calorias: " +
+                (
+                    caloriasElement
+                        ? caloriasElement.textContent
+                        : "0 kcal"
+                )
             );
+        }
+    );
 
 
-            window.location.href =
-                "historico.php";
+    // ==========================================
+    // VALORES INICIAIS
+    // ==========================================
 
-        });
-
-    }
+    atualizarTela();
 
 });

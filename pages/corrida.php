@@ -2,15 +2,26 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Corrida | Ritmo Único</title>
 
-    <link rel="stylesheet" href="corrida.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/corrida.css">
+
 </head>
 
 <body>
-
     <main class="corrida-page">
 
         <div class="corrida-glow corrida-glow-left"></div>
@@ -39,21 +50,22 @@
                 <p class="corrida-description">
                     Registre seu treino e acompanhe seu desempenho em tempo real.
                 </p>
-
                 <section class="corrida-box">
 
                     <div class="corrida-box-header">
-                        <div class="corrida-label">
+
+                        <span class="corrida-label">
                             TREINO
-                        </div>
+                        </span>
 
                         <h2>
                             Corrida em andamento
                         </h2>
 
                         <p class="corrida-box-description">
-                            Mantenha seu ritmo e acompanhe suas métricas.
+                            Mantenha seu ritmo e acompanhe suas métricas via GPS.
                         </p>
+
                     </div>
 
                     <div class="corrida-timer-box">
@@ -62,53 +74,57 @@
                             TEMPO DE CORRIDA
                         </div>
 
-                        <div class="corrida-timer" id="timer">
+                        <div class="corrida-timer" id="tempo">
                             00:00:00
                         </div>
 
                     </div>
-
                     <div class="corrida-metrics">
 
                         <div class="corrida-metric">
+
                             <span class="corrida-metric-label">
                                 Distância
                             </span>
 
                             <div>
-                                <strong class="corrida-metric-value" id="distance">
-                                    0.00
+                                <strong class="corrida-metric-value" id="distancia">
+                                    0,00
                                 </strong>
 
                                 <span class="corrida-metric-unit">
                                     km
                                 </span>
                             </div>
+
                         </div>
 
                         <div class="corrida-metric">
+
                             <span class="corrida-metric-label">
-                                Ritmo
+                                Ritmo (Pace)
                             </span>
 
                             <div>
                                 <strong class="corrida-metric-value" id="pace">
-                                    0:00
+                                    --:--
                                 </strong>
 
                                 <span class="corrida-metric-unit">
                                     /km
                                 </span>
                             </div>
+
                         </div>
 
                         <div class="corrida-metric">
+
                             <span class="corrida-metric-label">
                                 Calorias
                             </span>
 
                             <div>
-                                <strong class="corrida-metric-value" id="calories">
+                                <strong class="corrida-metric-value" id="calorias">
                                     0
                                 </strong>
 
@@ -116,29 +132,30 @@
                                     kcal
                                 </span>
                             </div>
+
                         </div>
 
                     </div>
-
                     <div class="corrida-actions">
 
                         <button
-                            class="corrida-button corrida-button-primary"
-                            id="startButton"
-                            onclick="toggleRun()">
-                            Iniciar corrida
+                            class="corrida-button"
+                            id="iniciarCorrida"
+                            type="button">
+                            🏃 Iniciar corrida
                         </button>
 
                         <button
                             class="corrida-button corrida-button-secondary"
-                            onclick="resetRun()">
-                            Encerrar
+                            id="finalizarCorrida"
+                            type="button"
+                            style="display: none;">
+                            ⏹ Finalizar corrida
                         </button>
 
                     </div>
 
                 </section>
-
                 <section class="corrida-goal">
 
                     <div class="corrida-goal-header">
@@ -148,140 +165,60 @@
                         </span>
 
                         <span class="corrida-goal-value" id="goalValue">
-                            0.00 / 5 km
+                            0.00 / 5.00 km
                         </span>
 
                     </div>
 
                     <div class="corrida-progress">
+
                         <div
                             class="corrida-progress-bar"
                             id="progressBar">
                         </div>
+
                     </div>
 
                 </section>
-
                 <nav class="corrida-navigation">
 
-                    <div class="corrida-nav-item">Início</div>
-                    <div class="corrida-nav-item">Dashboard</div>
-                    <div class="corrida-nav-item active">Corrida</div>
-                    <div class="corrida-nav-item">Histórico</div>
-                    <div class="corrida-nav-item">Mapa</div>
-                    <div class="corrida-nav-item">Perfil</div>
-                    <div class="corrida-nav-item">Configurações</div>
+                    <a href="home.php" class="corrida-nav-item">
+                        Início
+                    </a>
+
+                    <a href="dashboard.php" class="corrida-nav-item">
+                        Dashboard
+                    </a>
+
+                    <a href="corrida.php" class="corrida-nav-item active">
+                        Corrida
+                    </a>
+
+                    <a href="historico.php" class="corrida-nav-item">
+                        Histórico
+                    </a>
+
+                    <a href="mapa.php" class="corrida-nav-item">
+                        Mapa
+                    </a>
+
+                    <a href="perfil.php" class="corrida-nav-item">
+                        Perfil
+                    </a>
+
+                    <a href="configuracoes.php" class="corrida-nav-item">
+                        Configurações
+                    </a>
 
                 </nav>
-
             </div>
 
         </div>
 
     </main>
 
-    <script>
-        let seconds = 0;
-        let running = false;
-        let interval = null;
-
-        const timer = document.getElementById("timer");
-        const startButton = document.getElementById("startButton");
-
-        function formatTime(totalSeconds) {
-            const hours = Math.floor(totalSeconds / 3600);
-
-            const minutes = Math.floor(
-                (totalSeconds % 3600) / 60
-            );
-
-            const secs = totalSeconds % 60;
-
-            return (
-                String(hours).padStart(2, "0") +
-                ":" +
-                String(minutes).padStart(2, "0") +
-                ":" +
-                String(secs).padStart(2, "0")
-            );
-        }
-
-        function updateRun() {
-            seconds++;
-
-            timer.textContent = formatTime(seconds);
-
-            const distance = seconds / 600;
-
-            document.getElementById("distance").textContent =
-                distance.toFixed(2);
-
-            document.getElementById("calories").textContent =
-                Math.floor(seconds * 0.15);
-
-            const paceSeconds = seconds / distance;
-
-            const paceMinutes =
-                Math.floor(paceSeconds / 60);
-
-            const paceSecondsRest =
-                Math.floor(paceSeconds % 60);
-
-            document.getElementById("pace").textContent =
-                paceMinutes +
-                ":" +
-                String(paceSecondsRest).padStart(2, "0");
-
-            const progress =
-                Math.min((distance / 5) * 100, 100);
-
-            document.getElementById("progressBar").style.width =
-                progress + "%";
-
-            document.getElementById("goalValue").textContent =
-                distance.toFixed(2) + " / 5 km";
-        }
-
-        function toggleRun() {
-            if (!running) {
-
-                running = true;
-
-                startButton.textContent =
-                    "Pausar corrida";
-
-                interval = setInterval(updateRun, 1000);
-
-            } else {
-
-                running = false;
-
-                clearInterval(interval);
-
-                startButton.textContent =
-                    "Continuar corrida";
-            }
-        }
-
-        function resetRun() {
-            running = false;
-
-            clearInterval(interval);
-
-            seconds = 0;
-
-            timer.textContent = "00:00:00";
-
-            document.getElementById("distance").textContent = "0.00";
-            document.getElementById("pace").textContent = "0:00";
-            document.getElementById("calories").textContent = "0";
-
-            document.getElementById("progressBar").style.width = "0%";
-            document.getElementById("goalValue").textContent = "0.00 / 5 km";
-
-            startButton.textContent = "Iniciar corrida";
-        }
-    </script>
+    <script src="../js/corrida.js"></script>
 
 </body>
+
 </html>

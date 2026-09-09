@@ -1,131 +1,67 @@
 <?php
-
+// Inicia a sessão se necessário
 session_start();
 
-header("Content-Type: application/json; charset=UTF-8");
+// Configurações de conexão com o banco de dados (ajuste se necessário)
+$host = 'localhost';
+$dbname = 'ritmo_unico'; // Altere para o nome do seu banco de dados
+$user = 'root';
+$password = '';
 
-function responderErro($mensagem, $codigo = 400)
-{
-    http_response_code($codigo);
-
-    echo json_encode([
-        "sucesso" => false,
-        "mensagem" => $mensagem,
-    ], JSON_UNESCAPED_UNICODE);
-
-    exit;
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Erro na conexão com o banco de dados: " . $e->getMessage());
 }
 
-function normalizarTempo($tempo)
-{
-    $tempo = trim((string) $tempo);
+// Verifica se os dados foram enviados via POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    // Obtém os valores enviados (funciona tanto para formulário padrão quanto para JSON/AJAX)
+    $input = json_decode(file_get_contents('php://input'), true);
+    
+    $tempo = $_POST['tempo'] ?? $input['tempo'] ?? null;
+    $distancia = $_POST['distancia'] ?? $input['distancia'] ?? null;
+    $pace = $_POST['pace'] ?? $input['pace'] ?? null;
+    $calorias = $_POST['calorias'] ?? $input['calorias'] ?? null;
+    $data_corrida = date('Y-m-d H:i:s');
 
-    if ($tempo === '') {
-        return null;
+    // Validação básica
+    if (!$tempo || !$distancia) {
+        echo json_encode(['success' => false, 'message' => 'Dados incompletos da corrida.']);
+        exit;
     }
 
-    $tempo = explode(".", $tempo)[0];
-    $partes = explode(":", $tempo);
+    try {
+        // Query de inserção na tabela de corridas
+        $sql = "INSERT INTO corridas (tempo, distancia, pace, calorias, data_corrida) 
+                VALUES (:tempo, :distancia, :pace, :calorias, :data_corrida)";
+                
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':tempo', $tempo);
+        $stmt->bindParam(':distancia', $distancia);
+        $stmt->bindParam(':pace', $pace);
+        $stmt->bindParam(':calorias', $calorias);
+        $stmt->bindParam(':data_corrida', $data_corrida);
 
-    if (count($partes) !== 3) {
-        return null;
+        if ($stmt->execute()) {
+            // Se for requisição AJAX/JSON
+            if ($input) {
+                echo json_encode(['success' => true, 'message' => 'Corrida salva com sucesso!']);
+            } else {
+                // Se for formulário padrão, redireciona para o histórico
+                header("Location: historico.php");
+                exit;
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Erro ao salvar a corrida.']);
+        }
+
+    } catch (PDOException $e) {
+        echo json_encode(['success' => false, 'message' => 'Erro no banco: ' . $e->getMessage()]);
     }
-
-    $horas = (int) $partes[0];
-    $minutos = (int) $partes[1];
-    $segundos = (int) $partes[2];
-
-    if ($minutos < 0 || $minutos > 59 || $segundos < 0 || $segundos > 59) {
-        return null;
-    }
-
-    return [
-        "horas" => $horas,
-        "minutos" => $minutos,
-        "segundos" => $segundos,
-        "tempo_limpo" => sprintf("%02d:%02d:%02d", $horas, $minutos, $segundos),
-    ];
+} else {
+    echo json_encode(['success' => false, 'message' => 'Método de requisição inválido.']);
 }
-
-if (!isset($_SESSION["usuario_id"])) {
-    responderErro("Usuário não está logado.", 401);
-}
-
-require_once "../config/conexao.php";
-
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    responderErro("Método inválido.", 405);
-}
-
-$dados = $_POST;
-
-if (empty($dados)) {
-    $json = file_get_contents("php://input");
-    $dados = json_decode($json, true);
-
-    if (!is_array($dados)) {
-        $dados = [];
-    }
-}
-
-$usuario_id = (int) $_SESSION["usuario_id"];
-$distancia = (float) ($dados["distancia"] ?? 0);
-$tempo = trim((string) ($dados["tempo"] ?? ""));
-
-if ($usuario_id <= 0) {
-    responderErro("Usuário inválido.", 401);
-}
-
-if ($distancia <= 0) {
-    responderErro("A distância precisa ser maior que zero.", 400);
-}
-
-if ($tempo === '') {
-    responderErro("Informe o tempo da corrida.", 400);
-}
-
-$tempoFormatado = normalizarTempo($tempo);
-
-if ($tempoFormatado === null) {
-    responderErro("Formato de tempo inválido. Use HH:MM:SS.", 400);
-}
-
-$tempoTotalMinutos = ($tempoFormatado["horas"] * 60) + $tempoFormatado["minutos"] + ($tempoFormatado["segundos"] / 60);
-$ritmo = 0;
-
-if ($tempoTotalMinutos > 0) {
-    $ritmo = $tempoTotalMinutos / $distancia;
-}
-
-$sql = "INSERT INTO corridas (usuario_id, data_corrida, distancia, tempo, ritmo)
-        VALUES (?, NOW(), ?, ?, ?)";
-
-$stmt = $conexao->prepare($sql);
-
-if (!$stmt) {
-    responderErro("Erro na preparação do banco de dados: " . $conexao->error, 500);
-}
-
-$stmt->bind_param("idsd", $usuario_id, $distancia, $tempoFormatado["tempo_limpo"], $ritmo);
-
-if (!$stmt->execute()) {
-    $mensagem = "Erro ao salvar corrida: " . $stmt->error;
-    $stmt->close();
-    $conexao->close();
-    responderErro($mensagem, 500);
-}
-
-$id_corrida = $stmt->insert_id;
-
-$stmt->close();
-$conexao->close();
-
-http_response_code(200);
-
-echo json_encode([
-    "sucesso" => true,
-    "mensagem" => "Corrida salva com sucesso!",
-    "id_corrida" => $id_corrida,
-], JSON_UNESCAPED_UNICODE);
-
 ?>

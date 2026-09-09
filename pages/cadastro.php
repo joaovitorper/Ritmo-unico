@@ -1,123 +1,355 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 session_start();
 
-require_once __DIR__ . '/../config/conexao.php';
+require_once __DIR__ . "/../config/conexao.php";
 
 $erro = "";
-$sucesso = "";
-
-function limparEmail(string $email): string
-{
-    $email = trim($email);
-    $email = preg_replace('/[\x{00A0}\x{200B}\x{FEFF}]/u', '', $email);
-    $email = preg_replace('/\s+/', '', $email);
-
-    return strtolower($email);
-}
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
     $nome = trim($_POST["nome"] ?? "");
-    $email = limparEmail($_POST["email"] ?? "");
+    $email = strtolower(trim($_POST["email"] ?? ""));
     $data_nascimento = $_POST["data_nascimento"] ?? "";
     $senha = $_POST["senha"] ?? "";
     $confirmar_senha = $_POST["confirmar_senha"] ?? "";
+    $termos = isset($_POST["termos"]);
 
-    if ($nome === "" || $email === "" || $data_nascimento === "" || $senha === "" || $confirmar_senha === "") {
-        $erro = "Preencha todos os campos.";
+    // =========================
+    // VALIDAÇÕES
+    // =========================
+
+    if ($nome === "") {
+        $erro = "Digite seu nome completo.";
+    } elseif (strlen($nome) < 3) {
+        $erro = "O nome deve ter pelo menos 3 caracteres.";
+    } elseif (strpos($nome, " ") === false) {
+        $erro = "Digite seu nome e sobrenome.";
+    } elseif ($email === "") {
+        $erro = "Digite seu e-mail.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $erro = "Digite um e-mail válido.";
-    } elseif ($senha !== $confirmar_senha) {
-        $erro = "As senhas não coincidem.";
+    } elseif ($data_nascimento === "") {
+        $erro = "Informe sua data de nascimento.";
+    } elseif ($senha === "") {
+        $erro = "Digite sua senha.";
     } elseif (strlen($senha) < 6) {
         $erro = "A senha deve ter pelo menos 6 caracteres.";
-    } else {
-        $sql_busca = "SELECT id FROM usuarios WHERE email = ? LIMIT 1";
-        $stmt_busca = $conexao->prepare($sql_busca);
+    } elseif ($senha !== $confirmar_senha) {
+        $erro = "As senhas não são iguais.";
+    } elseif (!$termos) {
+        $erro = "Você precisa aceitar os termos de uso.";
+    }
 
-        if (!$stmt_busca) {
-            $erro = "Erro no banco ao consultar: " . $conexao->error;
+    // =========================
+    // VERIFICAR E-MAIL
+    // =========================
+
+    if ($erro === "") {
+
+        $sql = "SELECT id FROM usuarios WHERE email = ? LIMIT 1";
+
+        $stmt = $conexao->prepare($sql);
+
+        if (!$stmt) {
+
+            $erro = "Erro no banco: " . $conexao->error;
         } else {
-            $stmt_busca->bind_param("s", $email);
-            $stmt_busca->execute();
-            $resultado = $stmt_busca->get_result();
+
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+
+            $resultado = $stmt->get_result();
 
             if ($resultado->num_rows > 0) {
                 $erro = "Este e-mail já está cadastrado.";
-            } else {
-                $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-
-                $sql_insert = "INSERT INTO usuarios (nome, email, data_nascimento, senha) VALUES (?, ?, ?, ?)";
-                $stmt_insert = $conexao->prepare($sql_insert);
-
-                if (!$stmt_insert) {
-                    $erro = "Erro ao preparar cadastro: " . $conexao->error;
-                } else {
-                    $stmt_insert->bind_param("ssss", $nome, $email, $data_nascimento, $senha_hash);
-
-                    if ($stmt_insert->execute()) {
-                        $sucesso = "Cadastro realizado com sucesso! Agora você já pode entrar.";
-                    } else {
-                        $erro = "Erro ao cadastrar: " . $stmt_insert->error;
-                    }
-
-                    $stmt_insert->close();
-                }
             }
 
-            $stmt_busca->close();
+            $stmt->close();
+        }
+    }
+
+    // =========================
+    // SALVAR NO BANCO
+    // =========================
+
+    if ($erro === "") {
+
+        // Criptografa a senha
+        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO usuarios
+                (nome, email, data_nascimento, senha)
+                VALUES (?, ?, ?, ?)";
+
+        $stmt = $conexao->prepare($sql);
+
+        if (!$stmt) {
+
+            $erro = "Erro ao preparar cadastro: " . $conexao->error;
+        } else {
+
+            $stmt->bind_param(
+                "ssss",
+                $nome,
+                $email,
+                $data_nascimento,
+                $senha_hash
+            );
+
+            if ($stmt->execute()) {
+
+                $_SESSION["cadastro_sucesso"] =
+                    "Conta criada com sucesso!";
+
+                $stmt->close();
+                $conexao->close();
+
+                header("Location: login.php");
+                exit;
+            } else {
+
+                $erro = "Erro ao salvar no banco: " . $stmt->error;
+
+                $stmt->close();
+            }
         }
     }
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - Ritmo Único</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Criar conta | Ritmo Único</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/cadastro.css">
+
 </head>
 
 <body>
-    <h1>Cadastro</h1>
 
-    <?php if ($erro !== ""): ?>
-        <p style="color: red;">
-            <?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
-        </p>
-    <?php endif; ?>
+    <div class="cadastro-page">
 
-    <?php if ($sucesso !== ""): ?>
-        <p style="color: green;">
-            <?= htmlspecialchars($sucesso, ENT_QUOTES, 'UTF-8') ?>
-        </p>
-    <?php endif; ?>
+        <main class="cadastro-container">
 
-    <form method="POST" action="cadastro.php">
-        <label for="nome">Nome</label><br>
-        <input type="text" id="nome" name="nome" required><br><br>
+            <div class="cadastro-content">
 
-        <label for="email">E-mail</label><br>
-        <input type="email" id="email" name="email" required><br><br>
+                <h1>Ritmo Único</h1>
 
-        <label for="data_nascimento">Data de nascimento</label><br>
-        <input type="date" id="data_nascimento" name="data_nascimento" required><br><br>
+                <span class="cadastro-tag">
+                    Tecnologia para corredores
+                </span>
 
-        <label for="senha">Senha</label><br>
-        <input type="password" id="senha" name="senha" required><br><br>
+                <div class="cadastro-box">
 
-        <label for="confirmar_senha">Confirmar senha</label><br>
-        <input type="password" id="confirmar_senha" name="confirmar_senha" required><br><br>
+                    <h2>Crie sua conta</h2>
 
-        <button type="submit">Cadastrar</button>
-        <a href="login.php">Entrar</a>
-    </form>
+                    <p class="cadastro-description">
+                        Crie sua conta e comece a acompanhar
+                        sua evolução na corrida.
+                    </p>
+
+                    <?php if ($erro !== ""): ?>
+
+                        <div class="erro">
+                            <?= htmlspecialchars($erro) ?>
+                        </div>
+
+                    <?php endif; ?>
+
+                    <form
+                        id="formCadastro"
+                        action="cadastrar.php"
+                        method="POST">
+
+                        <!-- NOME -->
+
+                        <div class="input-group">
+
+                            <label for="nome">
+                                Nome completo
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nome"
+                                name="nome"
+                                placeholder="Digite seu nome completo"
+                                maxlength="100"
+                                value="<?= htmlspecialchars($_POST["nome"] ?? "") ?>"
+                                required>
+
+                            <span
+                                class="erro"
+                                id="erroNome"></span>
+
+                        </div>
+
+                        <!-- E-MAIL -->
+
+                        <div class="input-group">
+
+                            <label for="email">
+                                E-mail
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Digite seu e-mail"
+                                maxlength="150"
+                                value="<?= htmlspecialchars($_POST["email"] ?? "") ?>"
+                                required>
+
+                            <span
+                                class="erro"
+                                id="erroEmail"></span>
+
+                        </div>
+
+
+                        <!-- DATA DE NASCIMENTO -->
+
+                        <div class="input-group">
+
+                            <label for="data-nascimento">
+                                Data de nascimento
+                            </label>
+
+                            <input
+                                type="date"
+                                id="data-nascimento"
+                                name="data_nascimento"
+                                value="<?= htmlspecialchars($_POST["data_nascimento"] ?? "") ?>"
+                                required>
+
+                            <span
+                                class="erro"
+                                id="erroData"></span>
+
+                        </div>
+
+
+                        <!-- SENHA -->
+
+                        <div class="input-group">
+
+                            <label for="senha">
+                                Senha
+                            </label>
+
+                            <input
+                                type="password"
+                                id="senha"
+                                name="senha"
+                                placeholder="Digite sua senha"
+                                minlength="6"
+                                required>
+
+                            <span
+                                class="erro"
+                                id="erroSenha"></span>
+
+                        </div>
+
+
+                        <!-- CONFIRMAR SENHA -->
+
+                        <div class="input-group">
+
+                            <label for="confirmar-senha">
+                                Confirmar senha
+                            </label>
+
+                            <input
+                                type="password"
+                                id="confirmar-senha"
+                                name="confirmar_senha"
+                                placeholder="Digite a senha novamente"
+                                minlength="6"
+                                required>
+
+                            <span
+                                class="erro"
+                                id="erroConfirmarSenha"></span>
+
+                        </div>
+
+
+                        <!-- TERMOS -->
+
+                        <label class="terms">
+
+                            <input
+                                type="checkbox"
+                                id="termos"
+                                name="termos"
+                                value="1"
+                                required>
+
+                            <span>
+                                Aceito os termos de uso e a política de privacidade.
+                            </span>
+
+                        </label>
+
+                        <span
+                            class="erro"
+                            id="erroTermos"></span>
+
+                        <!-- BOTÃO -->
+
+                        <button
+                            type="submit"
+                            class="cadastro-button">
+                            Criar minha conta
+                        </button>
+
+                    </form>
+
+                    <div class="divider">
+                        <span>ou</span>
+                    </div>
+
+                    <p class="already-account">
+
+                        Já possui uma conta?
+
+                        <a href="login.php">
+                            Entrar
+                        </a>
+
+                    </p>
+
+                </div>
+
+                <a
+                    href="../index.php"
+                    class="back-home">
+                    ← Voltar para o início
+                </a>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="../js/cadastro.js"></script>
+
 </body>
 
 </html>

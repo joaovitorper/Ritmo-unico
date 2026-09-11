@@ -6,9 +6,8 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 
-require_once __DIR__ . '/../../config/conexao.php';
+require_once __DIR__ . '/../../../config/conexao.php';
 
-// Permite somente DELETE
 if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
 
     http_response_code(405);
@@ -21,11 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
     exit;
 }
 
-// Pega o ID pela URL
-$id = $_GET['id'] ?? null;
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
-// Verifica o ID
-if ($id === null || !is_numeric($id)) {
+if ($id === false || $id === null || $id <= 0) {
 
     http_response_code(400);
 
@@ -37,9 +34,6 @@ if ($id === null || !is_numeric($id)) {
     exit;
 }
 
-$id = (int) $id;
-
-// Verifica se o usuário existe
 $sql = "SELECT id FROM usuarios WHERE id = ?";
 
 $stmt = $conexao->prepare($sql);
@@ -78,7 +72,6 @@ if ($resultado->num_rows === 0) {
 
 $stmt->close();
 
-// Exclui o usuário
 $sql = "DELETE FROM usuarios WHERE id = ?";
 
 $stmt = $conexao->prepare($sql);

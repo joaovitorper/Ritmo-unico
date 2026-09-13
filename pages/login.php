@@ -22,28 +22,44 @@ function limparEmail(string $email): string
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
     $email = limparEmail($_POST["email"] ?? "");
     $senha = $_POST["senha"] ?? "";
 
     if ($email === "" || $senha === "") {
+
         $erro = "Preencha o e-mail e a senha.";
+
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
         $erro = "Digite um e-mail válido.";
+
     } else {
-        $sql = "SELECT id, nome, email, senha FROM usuarios WHERE email = ? LIMIT 1";
+
+        $sql = "SELECT id, nome, email, senha
+                FROM usuarios
+                WHERE email = ?
+                LIMIT 1";
+
         $stmt = $conexao->prepare($sql);
 
         if (!$stmt) {
+
             $erro = "Erro no banco de dados: " . $conexao->error;
+
         } else {
+
             $stmt->bind_param("s", $email);
             $stmt->execute();
+
             $resultado = $stmt->get_result();
 
             if ($resultado->num_rows === 1) {
+
                 $usuario = $resultado->fetch_assoc();
 
                 if (password_verify($senha, $usuario["senha"])) {
+
                     session_regenerate_id(true);
 
                     $_SESSION["usuario_id"] = $usuario["id"];
@@ -59,26 +75,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
 
             $erro = "E-mail ou senha incorretos.";
+
             $stmt->close();
         }
     }
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Entrar | Ritmo Único</title>
+
     <link rel="stylesheet" href="../css/login.css">
+
 </head>
 
 <body>
+
     <div class="login-page">
+
         <main class="login-container">
+
             <div class="login-content">
+
                 <h1>Ritmo Único</h1>
 
                 <span class="login-tag">
@@ -86,6 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 </span>
 
                 <div class="login-box">
+
                     <h2>Entrar</h2>
 
                     <p class="login-description">
@@ -93,20 +120,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </p>
 
                     <?php if ($sucesso === "sucesso"): ?>
+
                         <div class="erro" style="color: #41D8FF;">
                             Conta criada com sucesso. Faça login para continuar.
                         </div>
+
                     <?php endif; ?>
 
                     <?php if ($erro !== ""): ?>
+
                         <div class="erro">
                             <?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
                         </div>
+
                     <?php endif; ?>
 
                     <form method="POST" action="login.php">
+
                         <div class="input-group">
-                            <label for="email">E-mail</label>
+
+                            <label for="email">
+                                E-mail
+                            </label>
+
                             <input
                                 type="email"
                                 id="email"
@@ -114,40 +150,71 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 placeholder="Digite seu e-mail"
                                 maxlength="150"
                                 value="<?= htmlspecialchars($email, ENT_QUOTES, 'UTF-8') ?>"
-                                required
-                            >
+                                required>
+
                         </div>
 
                         <div class="input-group">
-                            <label for="senha">Senha</label>
+
+                            <label for="senha">
+                                Senha
+                            </label>
+
                             <input
                                 type="password"
                                 id="senha"
                                 name="senha"
                                 placeholder="Digite sua senha"
-                                required
-                            >
+                                required>
+
                         </div>
 
-                        <button type="submit" class="login-button">
+                        <div class="forgot-password">
+
+                            <a href="recuperar-senha.php">
+                                Esqueci minha senha
+                            </a>
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="login-button">
+
                             Entrar
+
                         </button>
+
+                        <div class="divider">
+
+                            <span>ou</span>
+
+                        </div>
+
+                        <p class="create-account">
+
+                            Ainda não possui uma conta?
+
+                            <a href="cadastro.php">
+                                Criar conta
+                            </a>
+
+                        </p>
+
                     </form>
 
-                    <div class="divider">
-                        <span>ou</span>
-                    </div>
+                    <a href="../index.php" class="back-home">
+                        ← Voltar para o início
+                    </a>
 
-                    <p class="create-account">
-                        Ainda não possui uma conta?
-                        <a href="cadastro.php">Criar conta</a>
-                    </p>
                 </div>
 
-                <a href="../index.php" class="back-home">
-                    ← Voltar para o início
-                </a>
             </div>
+
         </main>
+
     </div>
+
 </body>
+
+</html>

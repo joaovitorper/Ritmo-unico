@@ -6,7 +6,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 
-require_once __DIR__ . '/../../config/conexao.php';
+require_once __DIR__ . '/../../../config/conexao.php';
 
 // Permite somente POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $dados = json_decode(file_get_contents("php://input"), true);
 
 // Se não for JSON, tenta receber por POST
-if (!$dados) {
+if (!is_array($dados)) {
     $dados = $_POST;
 }
 
@@ -81,6 +81,10 @@ if ($data_treino === '') {
     exit;
 }
 
+// Converte valores numéricos
+$distancia = is_numeric($distancia) ? (float) $distancia : 0;
+$duracao = is_numeric($duracao) ? (int) $duracao : 0;
+
 // Converte concluído para 0 ou 1
 $concluido = filter_var(
     $concluido,
@@ -127,68 +131,4 @@ if ($resultado->num_rows === 0) {
 
 $stmt->close();
 
-// Cadastra o treino
-$sql = "INSERT INTO treinos (
-            usuario_id,
-            titulo,
-            descricao,
-            tipo,
-            distancia,
-            duracao,
-            intensidade,
-            data_treino,
-            concluido
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-$stmt = $conexao->prepare($sql);
-
-if (!$stmt) {
-
-    http_response_code(500);
-
-    echo json_encode([
-        "sucesso" => false,
-        "mensagem" => "Erro ao preparar o cadastro."
-    ], JSON_UNESCAPED_UNICODE);
-
-    $conexao->close();
-    exit;
-}
-
-$stmt->bind_param(
-    "isssdis si",
-    $usuario_id,
-    $titulo,
-    $descricao,
-    $tipo,
-    $distancia,
-    $duracao,
-    $intensidade,
-    $data_treino,
-    $concluido
-);
-
-if ($stmt->execute()) {
-
-    $novo_id = $conexao->insert_id;
-
-    echo json_encode([
-        "sucesso" => true,
-        "mensagem" => "Treino cadastrado com sucesso.",
-        "treino_id" => $novo_id
-    ], JSON_UNESCAPED_UNICODE);
-
-} else {
-
-    http_response_code(500);
-
-    echo json_encode([
-        "sucesso" => false,
-        "mensagem" => "Erro ao cadastrar treino."
-    ], JSON_UNESCAPED_UNICODE);
-}
-
-$stmt->close();
-$conexao->close();
-
-?>
+// Cadast

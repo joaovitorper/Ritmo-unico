@@ -6,7 +6,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 
-require_once __DIR__ . '/../../config/conexao.php';
+require_once __DIR__ . '/../../../config/conexao.php';
 
 // Permite somente DELETE
 if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {

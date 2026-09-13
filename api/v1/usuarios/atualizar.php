@@ -6,7 +6,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: PUT, POST');
 header('Access-Control-Allow-Headers: Content-Type');
 
-require_once __DIR__ . '/../../config/conexao.php';
+require_once __DIR__ . '/../../../config/conexao.php';
 
 // Recebe os dados enviados
 $dados = json_decode(file_get_contents("php://input"), true);

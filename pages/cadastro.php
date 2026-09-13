@@ -197,14 +197,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                         </div>
 
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="Digite seu e-mail"
-                            maxlength="150"
-                            value="<?= htmlspecialchars($_POST["email"] ?? "") ?>"
-                            required>
+                        <!-- E-MAIL -->
+
+                        <div class="input-group">
+
+                            <label for="email">
+                                E-mail
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Digite seu e-mail"
+                                maxlength="150"
+                                value="<?= htmlspecialchars($_POST["email"] ?? "") ?>"
+                                required>
+
+                            <span
+                                class="erro"
+                                id="erroEmail"></span>
+
+                        </div>
 
 
                         <!-- DATA DE NASCIMENTO -->

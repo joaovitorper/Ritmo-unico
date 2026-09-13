@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -12,7 +12,7 @@ $token = $_GET["token"] ?? $_POST["token"] ?? "";
 $token = trim($token);
 
 if ($token === "") {
-    $erro = "Link de recuperação inválido.";
+    $erro = "Link de recuperacao invalido.";
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
     if (strlen($senha) < 8) {
         $erro = "A senha deve ter pelo menos 8 caracteres.";
     } elseif ($senha !== $confirmarSenha) {
-        $erro = "As senhas não coincidem.";
+        $erro = "As senhas nao coincidem.";
     } else {
 
         $tokenHash = hash("sha256", $token);
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
 
             if ($resultado->num_rows !== 1) {
 
-                $erro = "Este link é inválido ou já expirou.";
+                $erro = "Este link e invalido ou ja expirou.";
 
             } else {
 
@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
 
                 if (!$stmtUpdate) {
 
-                    $erro = "Erro ao preparar a alteração da senha.";
+                    $erro = "Erro ao preparar a alteraÃ§Ã£o da senha.";
 
                 } else {
 
@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
                     if ($stmtUpdate->execute()) {
                         $sucesso = true;
                     } else {
-                        $erro = "Não foi possível alterar a senha.";
+                        $erro = "Nao foi possivel alterar a senha.";
                     }
 
                     $stmtUpdate->close();
@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>Redefinir senha | Ritmo Único</title>
+<title>Redefinir senha | Ritmo Unico</title>
 
 <link rel="stylesheet" href="../css/login.css">
 ```
@@ -125,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
 
         <div class="login-content">
 
-            <h1>Ritmo Único</h1>
+            <h1>Ritmo Unico</h1>
 
             <span class="login-tag">
                 Tecnologia para corredores
@@ -142,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
                         style="color: #41D8FF;"
                     >
                         Sua senha foi redefinida com sucesso.
-                        Agora você pode fazer login normalmente.
+                        Agora vocÃª pode fazer login normalmente.
                     </p>
 
                     <a
@@ -231,7 +231,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
                     href="login.php"
                     class="back-home"
                 >
-                    ← Voltar para o login
+                    Voltar para o login
                 </a>
 
             </div>
@@ -246,3 +246,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
 </body>
 
 </html>
+
+
+
+

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-        $erro = "Digite um e-mail válido.";
+        $erro = "Digite um e-mail vÃ¡lido.";
 
     } else {
 
@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Entrar | Ritmo Único</title>
+    <title>Entrar | Ritmo Unico</title>
 
     <link rel="stylesheet" href="../css/login.css">
 
@@ -105,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <div class="login-content">
 
-                <h1>Ritmo Único</h1>
+                <h1>Ritmo Unico</h1>
 
                 <span class="login-tag">
                     Tecnologia para corredores
@@ -116,13 +116,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <h2>Entrar</h2>
 
                     <p class="login-description">
-                        Entre na sua conta para acompanhar sua evolução na corrida.
+                        Entre na sua conta para acompanhar sua evoluÃ§Ã£o na corrida.
                     </p>
 
                     <?php if ($sucesso === "sucesso"): ?>
 
                         <div class="erro" style="color: #41D8FF;">
-                            Conta criada com sucesso. Faça login para continuar.
+                            Conta criada com sucesso. FaÃ§a login para continuar.
                         </div>
 
                     <?php endif; ?>
@@ -193,7 +193,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                         <p class="create-account">
 
-                            Ainda não possui uma conta?
+                            Ainda nÃ£o possui uma conta?
 
                             <a href="cadastro.php">
                                 Criar conta
@@ -204,7 +204,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </form>
 
                     <a href="../index.php" class="back-home">
-                        ← Voltar para o início
+                        â† Voltar para o inÃ­cio
                     </a>
 
                 </div>
@@ -218,3 +218,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </body>
 
 </html>
+

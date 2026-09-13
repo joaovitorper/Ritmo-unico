@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /**
  * PHPMailer RFC821 SMTP email transport class.
@@ -1616,3 +1616,5 @@ class SMTP
         return $this->last_smtp_transaction_id;
     }
 }
+
+

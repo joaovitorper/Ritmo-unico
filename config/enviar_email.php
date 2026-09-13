@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 require_once __DIR__ . '/../PHPMailer/src/Exception.php';
 require_once __DIR__ . '/../PHPMailer/src/PHPMailer.php';
@@ -38,3 +38,4 @@ function enviarEmail(string $destinatarioEmail, string $destinatarioNome, string
         return false;
     }
 }
+

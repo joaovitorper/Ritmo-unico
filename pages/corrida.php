@@ -1,14 +1,22 @@
 <?php
-// Mostrar erros enquanto estamos corrigindo
+
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
+
+session_start();
+
+$nomeUsuario = $_SESSION['usuario_nome'] ?? 'Corredor';
+
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Corrida | Ritmo Único</title>
@@ -18,10 +26,11 @@ ini_set('display_startup_errors', '1');
 
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+        rel="stylesheet"
+    >
 
-    <!-- Se corrida.php está dentro de uma pasta e css está na pasta acima -->
     <link rel="stylesheet" href="../css/corrida.css">
+
 </head>
 
 <body>
@@ -35,24 +44,32 @@ ini_set('display_startup_errors', '1');
 
         <div class="corrida-content">
 
-            <div class="corrida-logo">↗</div>
+            <!-- LOGO -->
+            <div class="corrida-logo">
+                <img
+                    src="../assets/img/identidade Visual/Final logo.png"
+                    alt="Ritmo Único"
+                >
+            </div>
 
             <span class="corrida-subtitle">
                 Tecnologia para corredores
             </span>
 
             <span class="corrida-tag">
-                Ritmo Único
+                SEU TREINO
             </span>
 
             <h1>
-                Sua corrida. Sua evolução.
+                Corrida
             </h1>
 
             <p class="corrida-description">
-                Registre seu treino e acompanhe seu desempenho em tempo real.
+                Comece sua corrida e acompanhe seu desempenho em tempo real.
             </p>
 
+
+            <!-- CARD PRINCIPAL -->
             <section class="corrida-box">
 
                 <div class="corrida-box-header">
@@ -71,20 +88,29 @@ ini_set('display_startup_errors', '1');
 
                 </div>
 
+
+                <!-- TEMPO -->
                 <div class="corrida-timer-box">
 
                     <div class="corrida-timer-label">
                         TEMPO DE CORRIDA
                     </div>
 
-                    <div class="corrida-timer" id="tempo">
+                    <div
+                        class="corrida-timer"
+                        id="tempo"
+                    >
                         00:00:00
                     </div>
 
                 </div>
 
+
+                <!-- MÉTRICAS -->
                 <div class="corrida-metrics">
 
+
+                    <!-- DISTÂNCIA -->
                     <div class="corrida-metric">
 
                         <span class="corrida-metric-label">
@@ -92,19 +118,24 @@ ini_set('display_startup_errors', '1');
                         </span>
 
                         <div>
+
                             <strong
                                 class="corrida-metric-value"
-                                id="distancia">
+                                id="distancia"
+                            >
                                 0,00
                             </strong>
 
                             <span class="corrida-metric-unit">
                                 km
                             </span>
+
                         </div>
 
                     </div>
 
+
+                    <!-- PACE -->
                     <div class="corrida-metric">
 
                         <span class="corrida-metric-label">
@@ -112,19 +143,24 @@ ini_set('display_startup_errors', '1');
                         </span>
 
                         <div>
+
                             <strong
                                 class="corrida-metric-value"
-                                id="pace">
+                                id="pace"
+                            >
                                 --:--
                             </strong>
 
                             <span class="corrida-metric-unit">
                                 /km
                             </span>
+
                         </div>
 
                     </div>
 
+
+                    <!-- CALORIAS -->
                     <div class="corrida-metric">
 
                         <span class="corrida-metric-label">
@@ -132,42 +168,71 @@ ini_set('display_startup_errors', '1');
                         </span>
 
                         <div>
+
                             <strong
                                 class="corrida-metric-value"
-                                id="calorias">
+                                id="calorias"
+                            >
                                 0
                             </strong>
 
                             <span class="corrida-metric-unit">
                                 kcal
                             </span>
+
                         </div>
 
                     </div>
 
                 </div>
 
+
+                <!-- STATUS GPS -->
+                <div
+                    id="gpsStatus"
+                    class="corrida-gps-status"
+                >
+                    📍 GPS aguardando
+                </div>
+
+
+                <!-- BOTÕES -->
                 <div class="corrida-actions">
 
                     <button
-                        class="corrida-button"
                         id="iniciarCorrida"
-                        type="button">
+                        class="corrida-button"
+                        type="button"
+                    >
                         🏃 Iniciar corrida
                     </button>
 
+
                     <button
+                        id="pausarCorrida"
                         class="corrida-button corrida-button-secondary"
-                        id="finalizarCorrida"
                         type="button"
-                        style="display: none;">
-                        ⏹ Finalizar corrida
+                        style="display: none;"
+                    >
+                        ⏸ Pausar
+                    </button>
+
+
+                    <button
+                        id="finalizarCorrida"
+                        class="corrida-button corrida-button-secondary"
+                        type="button"
+                        style="display: none;"
+                    >
+                        ⏹ Finalizar
                     </button>
 
                 </div>
 
             </section>
 
+
+            <!-- META -->
             <section class="corrida-goal">
 
                 <div class="corrida-goal-header">
@@ -177,55 +242,88 @@ ini_set('display_startup_errors', '1');
                     </span>
 
                     <span
+                        id="goalValue"
                         class="corrida-goal-value"
-                        id="goalValue">
-                        0.00 / 5.00 km
+                    >
+                        0,00 / 5,00 km
                     </span>
 
                 </div>
 
+
                 <div class="corrida-progress">
 
                     <div
+                        id="progressBar"
                         class="corrida-progress-bar"
-                        id="progressBar">
-                    </div>
+                    ></div>
 
                 </div>
 
             </section>
 
+
+            <!-- NAVEGAÇÃO -->
             <nav class="corrida-navigation">
 
-                <a href="home.php" class="corrida-nav-item">
+                <a
+                    href="home.php"
+                    class="corrida-nav-item"
+                >
                     Início
                 </a>
 
-                <a href="dashboard.php" class="corrida-nav-item">
+                <a
+                    href="dashboard.php"
+                    class="corrida-nav-item"
+                >
                     Dashboard
                 </a>
 
-                <a href="corrida.php" class="corrida-nav-item active">
+                <a
+                    href="corrida.php"
+                    class="corrida-nav-item active"
+                >
                     Corrida
                 </a>
 
-                <a href="historico.php" class="corrida-nav-item">
+                <a
+                    href="historico.php"
+                    class="corrida-nav-item"
+                >
                     Histórico
                 </a>
 
-                <a href="mapa.php" class="corrida-nav-item">
+                <a
+                    href="mapa.php"
+                    class="corrida-nav-item"
+                >
                     Mapa
                 </a>
 
-                <a href="perfil.php" class="corrida-nav-item">
+                <a
+                    href="perfil.php"
+                    class="corrida-nav-item"
+                >
                     Perfil
                 </a>
 
-                <a href="configuracoes.php" class="corrida-nav-item">
+                <a
+                    href="configuracoes.php"
+                    class="corrida-nav-item"
+                >
                     Configurações
                 </a>
 
             </nav>
+
+
+            <a
+                href="home.php"
+                class="corrida-back"
+            >
+                ← Voltar para início
+            </a>
 
         </div>
 
@@ -233,7 +331,10 @@ ini_set('display_startup_errors', '1');
 
 </main>
 
+
+<!-- JAVASCRIPT DA CORRIDA -->
 <script src="../js/corrida.js"></script>
 
 </body>
+
 </html>

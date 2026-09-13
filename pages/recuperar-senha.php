@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -32,7 +32,7 @@ function limparEmail(string $email): string
 }
 
 /**
- * Processa o formulÃ¡rio
+ * Processa o formulario
  */
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $email === "" ||
         !filter_var($email, FILTER_VALIDATE_EMAIL)
     ) {
-        $erro = "Digite um e-mail vÃ¡lido.";
+        $erro = "Digite um e-mail valido.";
     } else {
 
         $sql = "
@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmtUpdate = $conexao->prepare($sqlUpdate);
 
             if (!$stmtUpdate) {
-                die("Erro ao preparar atualizaÃ§Ã£o: " .
+                die("Erro ao preparar atualizacao: " .
                     $conexao->error);
             }
 
@@ -129,10 +129,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             );
 
             $corpo = "
-                <p>OlÃ¡, {$nomeSeguro}!</p>
+                <p>Ola, {$nomeSeguro}!</p>
 
                 <p>
-                    Recebemos uma solicitaÃ§Ã£o para
+                    Recebemos uma solicitacao para
                     redefinir sua senha no Ritmo Unico.
                 </p>
 
@@ -143,8 +143,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 </p>
 
                 <p>
-                    Este link Ã© vÃ¡lido por 1 hora.
-                    Se vocÃª nÃ£o pediu isso,
+                    Este link e valido por 1 hora.
+                    Se voce nao pediu isso,
                     pode ignorar este e-mail.
                 </p>
             ";
@@ -152,12 +152,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $envio = enviarEmail(
                 $usuario["email"],
                 $usuario["nome"],
-                "RecuperaÃ§Ã£o de senha - Ritmo Unico",
+                "Recuperacao de senha - Ritmo Unico",
                 $corpo
             );
 
             if (!$envio) {
-                $erro = "NÃ£o foi possÃ­vel enviar o e-mail de recuperaÃ§Ã£o. Verifique as configuraÃ§Ãµes do Gmail.";
+                $erro = "Nao foi possivel enviar o e-mail de recuperacao. Verifique as configuracoes do Gmail.";
             } else {
                 $sucesso = true;
             }
@@ -217,8 +217,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 class="login-description"
                                 style="color: #41D8FF;">
                                 Se este e-mail estiver cadastrado,
-                                enviamos um link de recuperaÃ§Ã£o para ele.
-                                Verifique tambÃ©m a caixa de spam.
+                                enviamos um link de recuperacao para ele.
+                                Verifique tambem a caixa de spam.
                             </p>
 
                         <?php else: ?>
@@ -269,7 +269,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 <button
                                     type="submit"
                                     class="login-button">
-                                    Enviar link de recuperaÃ§Ã£o
+                                    Enviar link de recuperacao
                                 </button>
 
                             </form>
@@ -279,7 +279,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <a
                             href="login.php"
                             class="back-home">
-                            â† Voltar para o login
+                             Voltar para o login
                         </a>
 
                     </div>

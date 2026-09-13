@@ -1,4 +1,5 @@
-﻿<?php
+<?php
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -21,14 +22,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
     $confirmarSenha = $_POST["confirmar_senha"] ?? "";
 
     if (strlen($senha) < 8) {
+
         $erro = "A senha deve ter pelo menos 8 caracteres.";
+
     } elseif ($senha !== $confirmarSenha) {
+
         $erro = "As senhas nao coincidem.";
+
     } else {
 
         $tokenHash = hash("sha256", $token);
 
-        $sql = "SELECT id FROM usuarios
+        $sql = "SELECT id
+                FROM usuarios
                 WHERE reset_token_hash = ?
                 AND reset_token_expira > NOW()
                 LIMIT 1";
@@ -36,7 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
         $stmt = $conexao->prepare($sql);
 
         if (!$stmt) {
+
             $erro = "Erro ao consultar o token.";
+
         } else {
 
             $stmt->bind_param("s", $tokenHash);
@@ -67,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
 
                 if (!$stmtUpdate) {
 
-                    $erro = "Erro ao preparar a alteraÃ§Ã£o da senha.";
+                    $erro = "Erro ao preparar a alteracao da senha.";
 
                 } else {
 
@@ -78,8 +86,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
                     );
 
                     if ($stmtUpdate->execute()) {
+
                         $sucesso = true;
+
                     } else {
+
                         $erro = "Nao foi possivel alterar a senha.";
                     }
 
@@ -91,6 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
         }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -98,24 +110,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
 
-```
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>Redefinir senha | Ritmo Unico</title>
+    <title>Redefinir senha | Ritmo Unico</title>
 
-<link rel="stylesheet" href="../css/login.css">
-```
+    <link rel="stylesheet" href="../css/login.css">
 
 </head>
 
 <body>
 
-```
 <div class="login-page">
 
     <div class="login-glow login-glow-left"></div>
@@ -142,13 +152,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
                         style="color: #41D8FF;"
                     >
                         Sua senha foi redefinida com sucesso.
-                        Agora vocÃª pode fazer login normalmente.
+                        Agora voce pode fazer login normalmente.
                     </p>
 
                     <a
                         href="login.php"
                         class="login-button"
-                        style="display: inline-block; text-align: center; text-decoration: none;"
+                        style="
+                            display: inline-block;
+                            text-align: center;
+                            text-decoration: none;
+                        "
                     >
                         Ir para o login
                     </a>
@@ -162,7 +176,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
                     <?php if ($erro !== ""): ?>
 
                         <div class="erro">
-                            <?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
+                            <?= htmlspecialchars(
+                                $erro,
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>
                         </div>
 
                     <?php endif; ?>
@@ -177,7 +195,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
                             <input
                                 type="hidden"
                                 name="token"
-                                value="<?= htmlspecialchars($token, ENT_QUOTES, 'UTF-8') ?>"
+                                value="<?= htmlspecialchars(
+                                    $token,
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                ) ?>"
                             >
 
                             <div class="input-group">
@@ -241,12 +263,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
     </main>
 
 </div>
-```
 
 </body>
 
 </html>
-
-
-
-

@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-        $erro = "Digite um e-mail valido.";
+        $erro = "Digite um e-mail válido.";
 
     } else {
 
@@ -84,136 +84,140 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ?>
 
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Entrar | Ritmo Unico</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../css/login.css">
+<title>Entrar | Ritmo Único</title>
+
+<link rel="stylesheet" href="../css/login.css">
+
 
 </head>
 
 <body>
 
-    <div class="login-page">
+<div class="login-page">
 
-        <main class="login-container">
+    <main class="login-container">
 
-            <div class="login-content">
+        <div class="login-content">
 
-                <h1>Ritmo Unico</h1>
+            <h1>Ritmo Único</h1>
 
-                <span class="login-tag">
-                    Tecnologia para corredores
-                </span>
+            <span class="login-tag">
+                Tecnologia para corredores
+            </span>
 
-                <div class="login-box">
+            <div class="login-box">
 
-                    <h2>Entrar</h2>
+                <h2>Entrar</h2>
 
-                    <p class="login-description">
-                        Entre na sua conta para acompanhar sua evolucao na corrida.
+                <p class="login-description">
+                    Entre na sua conta para acompanhar sua evolução na corrida.
+                </p>
+
+                <?php if ($sucesso === "sucesso"): ?>
+
+                    <div class="erro" style="color: #41D8FF;">
+                        Conta criada com sucesso. Faça login para continuar.
+                    </div>
+
+                <?php endif; ?>
+
+                <?php if ($erro !== ""): ?>
+
+                    <div class="erro">
+                        <?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
+                    </div>
+
+                <?php endif; ?>
+
+                <form method="POST" action="login.php">
+
+                    <div class="input-group">
+
+                        <label for="email">
+                            E-mail
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Digite seu e-mail"
+                            maxlength="150"
+                            value="<?= htmlspecialchars($email, ENT_QUOTES, 'UTF-8') ?>"
+                            required>
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label for="senha">
+                            Senha
+                        </label>
+
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            placeholder="Digite sua senha"
+                            required>
+
+                    </div>
+
+                    <div class="forgot-password">
+
+                        <a href="recuperar-senha.php">
+                            Esqueci minha senha
+                        </a>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="login-button">
+
+                        Entrar
+
+                    </button>
+
+                    <div class="divider">
+
+                        <span>ou</span>
+
+                    </div>
+
+                    <p class="create-account">
+
+                        Ainda não possui uma conta?
+
+                        <a href="cadastro.php">
+                            Criar conta
+                        </a>
+
                     </p>
 
-                    <?php if ($sucesso === "sucesso"): ?>
+                </form>
 
-                        <div class="erro" style="color: #41D8FF;">
-                            Conta criada com sucesso. Faca login para continuar.
-                        </div>
-
-                    <?php endif; ?>
-
-                    <?php if ($erro !== ""): ?>
-
-                        <div class="erro">
-                            <?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
-                        </div>
-
-                    <?php endif; ?>
-
-                    <form method="POST" action="login.php">
-
-                        <div class="input-group">
-
-                            <label for="email">
-                                E-mail
-                            </label>
-
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder="Digite seu e-mail"
-                                maxlength="150"
-                                value="<?= htmlspecialchars($email, ENT_QUOTES, 'UTF-8') ?>"
-                                required>
-
-                        </div>
-
-                        <div class="input-group">
-
-                            <label for="senha">
-                                Senha
-                            </label>
-
-                            <input
-                                type="password"
-                                id="senha"
-                                name="senha"
-                                placeholder="Digite sua senha"
-                                required>
-
-                        </div>
-
-                        <div class="forgot-password">
-
-                            <a href="recuperar-senha.php">
-                                Esqueci minha senha
-                            </a>
-
-                        </div>
-
-                        <button
-                            type="submit"
-                            class="login-button">
-
-                            Entrar
-
-                        </button>
-
-                        <div class="divider">
-
-                            <span>ou</span>
-
-                        </div>
-
-                        <p class="create-account">
-
-                            Ainda nao possui uma conta?
-
-                            <a href="cadastro.php">
-                                Criar conta
-                            </a>
-
-                        </p>
-
-                    </form>
-
-                    <a href="../index.php" class="back-home">
-                         Voltar para o inicio
-                    </a>
-
-                </div>
+                <a href="../index.php" class="back-home">
+                    Voltar para o início
+                </a>
 
             </div>
 
-        </main>
+        </div>
 
-    </div>
+    </main>
+
+</div>
+
 
 </body>
 

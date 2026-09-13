@@ -1,19 +1,65 @@
-<?php
+﻿<?php
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
+
 require_once __DIR__ . '/../config/conexao.php';
 
 $erro = "";
 $sucesso = false;
+$tokenValido = false;
 
-$token = $_GET["token"] ?? $_POST["token"] ?? "";
-$token = trim($token);
+$tokenBruto = $_GET["token"] ?? $_POST["token"] ?? "";
+$tokenBruto = trim($tokenBruto);
 
-if ($token === "") {
-    $erro = "Link de recuperacao invalido.";
+if ($tokenBruto === "") {
+
+    $erro = "Link de redefinição inválido.";
+
+} else {
+
+    $tokenHash = hash("sha256", $tokenBruto);
+
+    $sql = "
+        SELECT id, reset_token_expira
+        FROM usuarios
+        WHERE reset_token_hash = ?
+        LIMIT 1
+    ";
+
+    $stmt = $conexao->prepare($sql);
+
+    if (!$stmt) {
+        die("Erro ao preparar consulta: " . $conexao->error);
+    }
+
+    $stmt->bind_param("s", $tokenHash);
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+
+    if ($resultado->num_rows === 1) {
+
+        $usuario = $resultado->fetch_assoc();
+
+        if (strtotime($usuario["reset_token_expira"]) < time()) {
+
+            $erro = "Este link expirou. Solicite a recuperação de senha novamente.";
+
+        } else {
+
+            $tokenValido = true;
+        }
+
+    } else {
+
+        $erro = "Este link é inválido ou já foi utilizado.";
+    }
+
+    $stmt->close();
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
@@ -27,79 +73,40 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
 
     } elseif ($senha !== $confirmarSenha) {
 
-        $erro = "As senhas nao coincidem.";
+        $erro = "As senhas não coincidem.";
 
     } else {
 
-        $tokenHash = hash("sha256", $token);
+        $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
-        $sql = "SELECT id
-                FROM usuarios
-                WHERE reset_token_hash = ?
-                AND reset_token_expira > NOW()
-                LIMIT 1";
+        $sqlUpdate = "
+            UPDATE usuarios
+            SET
+                senha = ?,
+                reset_token_hash = NULL,
+                reset_token_expira = NULL
+            WHERE id = ?
+        ";
 
-        $stmt = $conexao->prepare($sql);
+        $stmtUpdate = $conexao->prepare($sqlUpdate);
 
-        if (!$stmt) {
+        if (!$stmtUpdate) {
+            die("Erro ao preparar atualização: " . $conexao->error);
+        }
 
-            $erro = "Erro ao consultar o token.";
+        $stmtUpdate->bind_param("si", $senhaHash, $usuario["id"]);
+
+        if ($stmtUpdate->execute()) {
+
+            $sucesso = true;
+            $tokenValido = false;
 
         } else {
 
-            $stmt->bind_param("s", $tokenHash);
-            $stmt->execute();
-
-            $resultado = $stmt->get_result();
-
-            if ($resultado->num_rows !== 1) {
-
-                $erro = "Este link e invalido ou ja expirou.";
-
-            } else {
-
-                $usuario = $resultado->fetch_assoc();
-
-                $senhaHash = password_hash(
-                    $senha,
-                    PASSWORD_DEFAULT
-                );
-
-                $sqlUpdate = "UPDATE usuarios
-                              SET senha = ?,
-                                  reset_token_hash = NULL,
-                                  reset_token_expira = NULL
-                              WHERE id = ?";
-
-                $stmtUpdate = $conexao->prepare($sqlUpdate);
-
-                if (!$stmtUpdate) {
-
-                    $erro = "Erro ao preparar a alteracao da senha.";
-
-                } else {
-
-                    $stmtUpdate->bind_param(
-                        "si",
-                        $senhaHash,
-                        $usuario["id"]
-                    );
-
-                    if ($stmtUpdate->execute()) {
-
-                        $sucesso = true;
-
-                    } else {
-
-                        $erro = "Nao foi possivel alterar a senha.";
-                    }
-
-                    $stmtUpdate->close();
-                }
-            }
-
-            $stmt->close();
+            $erro = "Não foi possível alterar a senha.";
         }
+
+        $stmtUpdate->close();
     }
 }
 
@@ -152,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
                         style="color: #41D8FF;"
                     >
                         Sua senha foi redefinida com sucesso.
-                        Agora voce pode fazer login normalmente.
+                        Agora você pode fazer login normalmente.
                     </p>
 
                     <a
@@ -185,7 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
 
                     <?php endif; ?>
 
-                    <?php if ($token !== ""): ?>
+                    <?php if ($tokenValido): ?>
 
                         <form
                             method="POST"
@@ -196,7 +203,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
                                 type="hidden"
                                 name="token"
                                 value="<?= htmlspecialchars(
-                                    $token,
+                                    $tokenBruto,
                                     ENT_QUOTES,
                                     'UTF-8'
                                 ) ?>"

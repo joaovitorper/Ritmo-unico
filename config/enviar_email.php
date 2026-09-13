@@ -1,8 +1,8 @@
 ﻿<?php
 
-require_once __DIR__ . '/../PHPMailer/src/Exception.php';
-require_once __DIR__ . '/../PHPMailer/src/PHPMailer.php';
-require_once __DIR__ . '/../PHPMailer/src/SMTP.php';
+require_once __DIR__ . '/../PHPMailer/PHPMailer/src/Exception.php';
+require_once __DIR__ . '/../PHPMailer/PHPMailer/src/PHPMailer.php';
+require_once __DIR__ . '/../PHPMailer/PHPMailer/src/SMTP.php';
 require_once __DIR__ . '/email.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -38,4 +38,3 @@ function enviarEmail(string $destinatarioEmail, string $destinatarioNome, string
         return false;
     }
 }
-

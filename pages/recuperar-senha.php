@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $email === "" ||
         !filter_var($email, FILTER_VALIDATE_EMAIL)
     ) {
-        $erro = "Digite um e-mail valido.";
+        $erro = "Digite um e-mail válido.";
     } else {
 
         $sql = "
@@ -129,11 +129,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             );
 
             $corpo = "
-                <p>Ola, {$nomeSeguro}!</p>
+                <p>Olá, {$nomeSeguro}!</p>
 
                 <p>
-                    Recebemos uma solicitacao para
-                    redefinir sua senha no Ritmo Unico.
+                    Recebemos uma solicitação para
+                    redefinir sua senha no Ritmo Único.
                 </p>
 
                 <p>
@@ -143,8 +143,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 </p>
 
                 <p>
-                    Este link e valido por 1 hora.
-                    Se voce nao pediu isso,
+                    Este link é válido por 1 hora.
+                    Se você não pediu isso,
                     pode ignorar este e-mail.
                 </p>
             ";
@@ -152,12 +152,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $envio = enviarEmail(
                 $usuario["email"],
                 $usuario["nome"],
-                "Recuperacao de senha - Ritmo Unico",
+                "Recuperação de senha - Ritmo Único",
                 $corpo
             );
 
             if (!$envio) {
-                $erro = "Nao foi possivel enviar o e-mail de recuperacao. Verifique as configuracoes do Gmail.";
+                $erro = "Não foi possível enviar o e-mail de recuperação. Verifique as configurações do Gmail.";
             } else {
                 $sucesso = true;
             }
@@ -180,7 +180,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         name="viewport"
         content="width=device-width, initial-scale=1.0">
 
-    <title>Recuperar senha | Ritmo Unico</title>
+    <title>Recuperar senha | Ritmo Único</title>
 
     <link
         rel="stylesheet"
@@ -199,7 +199,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <div class="login-content">
 
-                <h1>Ritmo Unico</h1>
+                <h1>Ritmo Único</h1>
 
                 <span class="login-tag">
                     Tecnologia para corredores
@@ -217,8 +217,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 class="login-description"
                                 style="color: #41D8FF;">
                                 Se este e-mail estiver cadastrado,
-                                enviamos um link de recuperacao para ele.
-                                Verifique tambem a caixa de spam.
+                                enviamos um link de recuperação para ele.
+                                Verifique também a caixa de spam.
                             </p>
 
                         <?php else: ?>
@@ -269,7 +269,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 <button
                                     type="submit"
                                     class="login-button">
-                                    Enviar link de recuperacao
+                                    Enviar link de recuperação
                                 </button>
 
                             </form>
@@ -279,7 +279,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <a
                             href="login.php"
                             class="back-home">
-                             Voltar para o login
+                            Voltar para o login
                         </a>
 
                     </div>
@@ -295,4 +295,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </body>
 
 </html>
-

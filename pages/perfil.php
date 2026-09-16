@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 session_start();
 
@@ -136,7 +136,7 @@ $inicial = strtoupper(substr($nome, 0, 1));
                     <form
                         id="perfilForm"
                         method="POST"
-                        action="editar_perfil.php"
+                        action="editar-perfil.php"
                     >
 
                         <div class="perfil-info">

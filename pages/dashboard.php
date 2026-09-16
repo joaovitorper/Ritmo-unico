@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 session_start();
 
@@ -242,13 +242,6 @@ $nomeUsuario = $_SESSION["usuario_nome"] ?? "Corredor";
                 </a>
 
             </nav>
-
-            <a
-                href="home.php"
-                class="back-home"
-            >
-                ← Voltar para o início
-            </a>
 
         </div>
 

@@ -32,178 +32,249 @@ if (!isset($_SESSION["usuario_id"])) {
 
 <body>
 
-    <main class="historico-page">
+<main class="historico-page">
 
-        <div class="historico-glow historico-glow-left"></div>
-        <div class="historico-glow historico-glow-right"></div>
+    <div class="historico-glow historico-glow-left"></div>
+    <div class="historico-glow historico-glow-right"></div>
 
-        <div class="historico-container">
 
-            <img
-                src="../assets/img/identidade Visual/Final logo.png"
-                alt="Logo Ritmo Único"
-                class="historico-logo"
-            >
+    <div class="historico-container">
 
-            <span class="historico-tag">
-                Tecnologia para corredores
+
+        <!-- LOGO -->
+
+        <img
+            src="../assets/img/identidade Visual/Final logo.png"
+            alt="Logo Ritmo Único"
+            class="historico-logo"
+        >
+
+
+        <span class="historico-tag">
+            Tecnologia para corredores
+        </span>
+
+
+        <!-- CABEÇALHO -->
+
+        <section class="historico-header">
+
+            <span class="historico-label">
+                SEU HISTÓRICO
             </span>
 
-            <section class="historico-header">
+            <h1>
+                Histórico de corridas
+            </h1>
 
-                <span class="historico-label">
-                    Seu histórico
+            <p>
+                Acompanhe suas corridas e sua evolução.
+            </p>
+
+        </section>
+
+
+        <!-- RESUMO -->
+
+        <section class="historico-resumo">
+
+
+            <div class="resumo-card">
+
+                <span>
+                    Distância
                 </span>
 
-                <h1>
-                    Histórico de corridas
-                </h1>
+                <strong id="distanciaTotal">
+                    0,00 km
+                </strong>
 
                 <p>
-                    Acompanhe suas corridas e sua evolução.
+                    Distância percorrida
                 </p>
 
-            </section>
+            </div>
 
-            <section class="historico-resumo">
 
-                <div class="resumo-card">
+            <div class="resumo-card">
 
-                    <span>
-                        Distância
+                <span>
+                    Corridas
+                </span>
+
+                <strong id="totalCorridas">
+                    0
+                </strong>
+
+                <p>
+                    Atividades realizadas
+                </p>
+
+            </div>
+
+
+            <div class="resumo-card">
+
+                <span>
+                    Tempo
+                </span>
+
+                <strong id="tempoTotal">
+                    0h 00min
+                </strong>
+
+                <p>
+                    Tempo em atividade
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- HISTÓRICO -->
+
+        <section class="historico-box">
+
+
+            <div class="historico-box-header">
+
+                <div>
+
+                    <span class="historico-label">
+                        ATIVIDADES
                     </span>
 
-                    <strong id="distanciaTotal">
-                        0 km
-                    </strong>
-
-                    <p>
-                        Distância percorrida
-                    </p>
+                    <h2>
+                        Suas corridas
+                    </h2>
 
                 </div>
 
-                <div class="resumo-card">
 
-                    <span>
-                        Corridas
-                    </span>
-
-                    <strong id="totalCorridas">
-                        0
-                    </strong>
-
-                    <p>
-                        Atividades realizadas
-                    </p>
-
-                </div>
-
-                <div class="resumo-card">
-
-                    <span>
-                        Tempo
-                    </span>
-
-                    <strong id="tempoTotal">
-                        0h 00min
-                    </strong>
-
-                    <p>
-                        Tempo em atividade
-                    </p>
-
-                </div>
-
-            </section>
-
-            <section class="historico-box">
-
-                <div class="historico-box-header">
-
-                    <div>
-
-                        <span class="historico-label">
-                            Atividades
-                        </span>
-
-                        <h2>
-                            Suas corridas
-                        </h2>
-
-                    </div>
-
-                    <a
-                        href="corrida.php"
-                        class="nova-corrida"
-                    >
-                        Iniciar corrida
-                    </a>
-
-                </div>
-
-                <div
-                    id="listaCorridas"
-                    class="historico-lista"
-                ></div>
-
-                <div
-                    id="historicoVazio"
-                    class="historico-vazio"
+                <a
+                    href="corrida.php"
+                    class="nova-corrida"
                 >
+                    🏃 Nova corrida
+                </a>
 
-                    <h3>
-                        Nenhuma corrida registrada
-                    </h3>
+            </div>
 
-                    <p>
-                        Comece sua primeira corrida para acompanhar sua evolução.
-                    </p>
 
-                    <a
-                        href="corrida.php"
-                        class="historico-button"
-                    >
-                        Começar primeira corrida
-                    </a>
+            <!-- LISTA DAS CORRIDAS -->
 
+            <div
+                id="listaHistorico"
+                class="historico-lista"
+            ></div>
+
+
+            <!-- HISTÓRICO VAZIO -->
+
+            <div
+                id="historicoVazio"
+                class="historico-vazio"
+            >
+
+                <div class="historico-vazio-icon">
+                    🏃
                 </div>
 
-            </section>
+                <h3>
+                    Nenhuma corrida registrada
+                </h3>
 
-            <nav class="historico-menu">
+                <p>
+                    Comece sua primeira corrida para acompanhar sua evolução.
+                </p>
 
-                <a href="home.php">
-                    Início
+                <a
+                    href="corrida.php"
+                    class="historico-button"
+                >
+                    Começar primeira corrida
                 </a>
 
-                <a href="dashboard.php">
-                    Dashboard
-                </a>
+            </div>
 
-                <a href="corrida.php">
-                    Corrida
-                </a>
 
-                <a href="mapa.php">
-                    Mapa
-                </a>
+            <!-- BOTÃO LIMPAR -->
 
-                <a href="perfil.php">
-                    Perfil
-                </a>
+            <div class="historico-acoes">
 
-                <a href="configuracoes.php">
-                    Configurações
-                </a>
+                <button
+                    type="button"
+                    id="limparHistorico"
+                    class="limpar-historico"
+                >
+                    🗑 Limpar histórico
+                </button>
 
-            </nav>
+            </div>
 
-        </div>
 
-    </main>
+        </section>
 
-    <script src="../js/historico.js"></script>
+
+        <!-- MENU -->
+
+        <nav class="historico-menu">
+
+            <a href="home.php">
+                Início
+            </a>
+
+            <a href="dashboard.php">
+                Dashboard
+            </a>
+
+            <a href="corrida.php">
+                Corrida
+            </a>
+
+            <a
+                href="historico.php"
+                class="active"
+            >
+                Histórico
+            </a>
+
+            <a href="mapa.php">
+                Mapa
+            </a>
+
+            <a href="perfil.php">
+                Perfil
+            </a>
+
+            <a href="configuracoes.php">
+                Configurações
+            </a>
+
+        </nav>
+
+
+        <!-- VOLTAR -->
+
+        <a
+            href="home.php"
+            id="voltar"
+            class="back-home"
+        >
+            ← Voltar para início
+        </a>
+
+
+    </div>
+
+</main>
+
+
+<!-- JAVASCRIPT -->
+
+<script src="../js/historico.js"></script>
 
 </body>
 

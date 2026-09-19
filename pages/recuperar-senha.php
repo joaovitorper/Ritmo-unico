@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 session_start();
 
 require_once __DIR__ . '/../config/conexao.php';
-require_once __DIR__ . '/../config/enviar_email.php';
+require_once __DIR__ . '/../classes/Email.php';
 
 $erro = "";
 $sucesso = false;
@@ -149,11 +149,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 </p>
             ";
 
-            $envio = enviarEmail(
+            $envio = Email::enviar(
                 $usuario["email"],
-                $usuario["nome"],
                 "Recuperação de senha - Ritmo Único",
-                $corpo
+                $corpo,
+                $usuario["nome"]
             );
 
             if (!$envio) {

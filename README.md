@@ -225,7 +225,64 @@ O Ritmo Único encontra-se em processo de desenvolvimento, testes e aprimorament
 
 ---
 
-## 14. Licença
+## 14. Como executar o projeto
+
+### Requisitos
+
+* PHP 8.x
+* MySQL 8.x ou MariaDB
+* Servidor local como XAMPP, WAMP ou outro com Apache + PHP
+* Navegador moderno com suporte a GPS
+
+### Configuração do banco
+
+1. Crie o banco `ritmo_unico` no MySQL.
+2. Garanta que a tabela `usuarios` exista com pelo menos os campos:
+   - `id`
+   - `nome`
+   - `email`
+   - `senha`
+   - `data_nascimento`
+3. Garanta que a tabela `corridas` exista com campos compatíveis, por exemplo:
+   - `id`
+   - `usuario_id`
+   - `data_corrida`
+   - `distancia`
+   - `tempo`
+   - `ritmo` ou `pace`
+   - `calorias` (opcional)
+4. Ajuste as credenciais em [config/conexao.php](config/conexao.php) se necessário.
+
+### Execução
+
+1. Abra o projeto em uma pasta acessível pelo servidor local.
+2. Inicie o Apache e o MySQL.
+3. Acesse a aplicação em `http://localhost/Ritmo-unico` ou a pasta equivalente no seu ambiente.
+4. Faça cadastro e login para começar a corrida.
+
+### Fluxo principal
+
+1. O usuário entra no app e inicia uma corrida.
+2. O GPS coleta coordenadas em tempo real.
+3. A distância é calculada no navegador com base nos pontos de geolocalização.
+4. Ao finalizar, o front-end envia os dados para a API de corridas.
+5. A API salva a corrida vinculada ao usuário autenticado.
+6. O histórico e o dashboard consultam apenas corridas daquele usuário.
+
+---
+
+## 15. Segurança e validação
+
+O projeto foi ajustado para:
+
+* verificar autenticação antes de salvar ou listar corridas;
+* validar dados de entrada e evitar requisições vazias;
+* usar a sessão do usuário em vez de aceitar qualquer `usuario_id` do cliente;
+* manter o histórico restrito ao usuário logado.
+
+---
+
+## 16. Licença
 
 Copyright © 2026 **João Vitor Pereira Paulo**.
 

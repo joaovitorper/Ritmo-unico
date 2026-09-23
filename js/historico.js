@@ -14,7 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("limparHistorico");
 
     const listaCorridas =
-        document.getElementById("listaCorridas");
+        document.getElementById("listaCorridas") ||
+        document.getElementById("listaHistorico");
 
     const historicoVazio =
         document.getElementById("historicoVazio");
@@ -33,7 +34,33 @@ document.addEventListener("DOMContentLoaded", () => {
     // LER HISTÓRICO
     // ==========================================
 
-    function obterHistorico() {
+    async function obterHistorico() {
+
+        try {
+
+            const resposta = await fetch("../api/v1/corridas/listar.php", {
+                method: "GET",
+                credentials: "same-origin"
+            });
+
+            if (resposta.ok) {
+                const dados = await resposta.json();
+                const corridas = Array.isArray(dados.corridas) ? dados.corridas : [];
+
+                if (corridas.length > 0) {
+                    return corridas.map((corrida) => ({
+                        ...corrida,
+                        distancia: Number(corrida.distancia ?? 0),
+                        tempo: Number(corrida.tempo ?? corrida.ritmo ?? 0),
+                        calorias: Number(corrida.calorias ?? 0),
+                        data: corrida.data_corrida || corrida.data || new Date().toISOString()
+                    }));
+                }
+            }
+
+        } catch (erro) {
+            console.warn("API de histórico indisponível, usando fallback local:", erro);
+        }
 
         try {
 
@@ -329,10 +356,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // ATUALIZAR TUDO
     // ==========================================
 
-    function atualizarHistorico() {
+    async function atualizarHistorico() {
 
-        const historico =
-            obterHistorico();
+        const historico = await obterHistorico();
 
         atualizarResumo(
             historico

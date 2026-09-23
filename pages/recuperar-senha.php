@@ -7,11 +7,38 @@ error_reporting(E_ALL);
 session_start();
 
 require_once __DIR__ . '/../config/conexao.php';
-require_once __DIR__ . '/../config/enviar_email.php';
+require_once __DIR__ . '/../classes/Email.php';
 
 $erro = "";
 $sucesso = false;
 $email = "";
+
+function gerarTokenRecuperacao(int $bytes = 32): string
+{
+    if (function_exists('random_bytes')) {
+        try {
+            return bin2hex(random_bytes($bytes));
+        } catch (Throwable $e) {
+            // continua para o fallback
+        }
+    }
+
+    if (function_exists('openssl_random_pseudo_bytes')) {
+        $valor = openssl_random_pseudo_bytes($bytes);
+        if ($valor !== false) {
+            return bin2hex($valor);
+        }
+    }
+
+    $alfa = '0123456789abcdef';
+    $token = '';
+
+    for ($i = 0; $i < ($bytes * 2); $i++) {
+        $token .= $alfa[random_int(0, strlen($alfa) - 1)];
+    }
+
+    return $token;
+}
 
 /**
  * Limpa e normaliza o e-mail
@@ -67,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $usuario = $resultado->fetch_assoc();
 
-            $tokenBruto = bin2hex(random_bytes(32));
+            $tokenBruto = gerarTokenRecuperacao(32);
 
             $tokenHash = hash(
                 'sha256',
@@ -110,10 +137,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $urlBase = defined('URL_BASE')
                 ? URL_BASE
-                : "http://localhost/Ritmo-unico";
+                : ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http')
+                    . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost:8000');
 
-            $link = $urlBase .
-                "/pages/redefinir-senha.php?token=" .
+            $link = rtrim($urlBase, '/') .
+                '/pages/redefinir-senha.php?token=' .
                 urlencode($tokenBruto);
 
             $nomeSeguro = htmlspecialchars(
@@ -131,33 +159,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $corpo = "
                 <p>Olá, {$nomeSeguro}!</p>
 
-                <p>
-                    Recebemos uma solicitação para
-                    redefinir sua senha no Ritmo Único.
-                </p>
+                <p>Use o link abaixo para redefinir sua senha:</p>
 
                 <p>
                     <a href=\"{$linkSeguro}\">
-                        Clique aqui para criar uma nova senha
+                        Redefinir senha
                     </a>
-                </p>
-
-                <p>
-                    Este link é válido por 1 hora.
-                    Se você não pediu isso,
-                    pode ignorar este e-mail.
                 </p>
             ";
 
-            $envio = enviarEmail(
+            $envio = Email::enviar(
                 $usuario["email"],
-                $usuario["nome"],
                 "Recuperação de senha - Ritmo Único",
-                $corpo
+                $corpo,
+                $usuario["nome"]
             );
 
             if (!$envio) {
-                $erro = "Não foi possível enviar o e-mail de recuperação. Verifique as configurações do Gmail.";
+                $detalhe = $GLOBALS['erro_email_detalhe'] ?? '';
+                $erro = "Não foi possível enviar o e-mail de recuperação." . ($detalhe !== '' ? ' Detalhe: ' . $detalhe : ' Verifique as configurações do Gmail.');
             } else {
                 $sucesso = true;
             }
@@ -213,13 +233,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                         <?php if ($sucesso): ?>
 
-                            <p
-                                class="login-description"
-                                style="color: #41D8FF;">
+                            <div class="status-box success">
                                 Se este e-mail estiver cadastrado,
                                 enviamos um link de recuperação para ele.
                                 Verifique também a caixa de spam.
-                            </p>
+                            </div>
 
                         <?php else: ?>
 

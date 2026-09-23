@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /**
  * PHPMailer - PHP email creation and transport class.
@@ -914,8 +914,8 @@ class PHPMailer
         if ($this->SMTPDebug <= 0) {
             return;
         }
-        //Is this a PSR-3 logger?
-        if ($this->Debugoutput instanceof \Psr\Log\LoggerInterface) {
+        // Is this a PSR-3 logger?
+        if (interface_exists('Psr\\Log\\LoggerInterface') && $this->Debugoutput instanceof \Psr\Log\LoggerInterface) {
             $this->Debugoutput->debug(rtrim($str, "\r\n"));
 
             return;

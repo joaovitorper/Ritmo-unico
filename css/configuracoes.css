@@ -1,0 +1,648 @@
+:root {
+    --bg: #0B0F17;
+    --cyan: #41D8FF;
+    --blue: #4F7CFF;
+    --gray: #A8B2C7;
+    --card: #111826;
+    --danger: #ff7b7b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: white;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- Página ---------- */
+
+.config-page {
+    min-height: 100vh;
+    min-height: 100dvh;
+    width: 100%;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.config-page::before {
+    content: "";
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    background: #173F8A;
+    border-radius: 50%;
+    left: -260px;
+    top: 95px;
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.config-page::after {
+    content: "";
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    background: #17CFFF;
+    border-radius: 50%;
+    right: -190px;
+    bottom: -120px;
+    opacity: 0.18;
+    pointer-events: none;
+}
+
+.config-glow {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.config-glow-left {
+    width: 250px;
+    height: 250px;
+    left: -100px;
+    top: 20%;
+    background: #173F8A;
+    filter: blur(100px);
+    opacity: 0.20;
+}
+
+.config-glow-right {
+    width: 250px;
+    height: 250px;
+    right: -100px;
+    bottom: 10%;
+    background: #17CFFF;
+    filter: blur(100px);
+    opacity: 0.15;
+}
+
+.config-container {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    z-index: 2;
+}
+
+.config-content {
+    width: 100%;
+}
+
+.config-content h1 {
+    font-size: 42px;
+    line-height: 1.1;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.config-tag {
+    display: block;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.config-box {
+    width: 100%;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 22px;
+}
+
+/* ---------- Perfil ---------- */
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.profile-icon {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #4F7CFF, #41D8FF);
+    border-radius: 50%;
+    font-size: 25px;
+    flex-shrink: 0;
+}
+
+.profile-header > div:last-child {
+    min-width: 0;
+}
+
+.profile-header h2 {
+    font-size: 19px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.profile-header p {
+    color: var(--gray);
+    font-size: 12px;
+    margin-top: 3px;
+    overflow-wrap: anywhere;
+}
+
+/* ---------- Seções e opções ---------- */
+
+.config-section {
+    margin-top: 25px;
+}
+
+.config-section h3 {
+    color: var(--cyan);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Serve para <a>, <button> e <label> */
+.config-option {
+    width: 100%;
+    min-height: 70px;
+    padding: 13px 8px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: white;
+    text-decoration: none;
+    text-align: left;
+    font: inherit;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.config-option:hover {
+    background: rgba(65, 216, 255, 0.05);
+    transform: translateX(3px);
+}
+
+/* Linhas com toggle não se movem, só destacam */
+.config-toggle:hover {
+    transform: none;
+}
+
+.config-option:focus-visible,
+.back-home:focus-visible,
+.logout-button:focus-visible,
+.btn:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
+    border-radius: 10px;
+}
+
+.option-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(65, 216, 255, 0.08);
+    border: 1px solid rgba(65, 216, 255, 0.12);
+    border-radius: 11px;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.option-text {
+    display: block;
+    flex: 1;
+    min-width: 0;
+}
+
+.option-text strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.option-text span {
+    display: block;
+    color: var(--gray);
+    font-size: 11px;
+    margin-top: 2px;
+}
+
+.arrow {
+    color: var(--cyan);
+    font-size: 25px;
+    line-height: 1;
+}
+
+/* ---------- Toggle ---------- */
+
+.switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+/* Escondido visualmente, mas continua acessível pelo teclado */
+.switch input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.slider {
+    position: absolute;
+    inset: 0;
+    background: #303846;
+    border-radius: 30px;
+    transition: 0.3s;
+    pointer-events: none;
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    top: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.switch input:checked + .slider {
+    background: linear-gradient(90deg, #4F7CFF, #41D8FF);
+}
+
+.switch input:checked + .slider::before {
+    transform: translateX(20px);
+}
+
+.switch input:focus-visible + .slider {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+}
+
+/* ---------- Sair ---------- */
+
+.logout-area {
+    margin-top: 30px;
+}
+
+.logout-button {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border-radius: 50px;
+    background: rgba(255, 70, 70, 0.08);
+    border: 1px solid rgba(255, 70, 70, 0.25);
+    color: var(--danger);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logout-button:hover {
+    background: rgba(255, 70, 70, 0.16);
+    transform: translateY(-2px);
+}
+
+.back-home {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--gray);
+    font-size: 13px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.back-home:hover {
+    color: var(--cyan);
+}
+
+.version {
+    color: #697386;
+    font-size: 10px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* ---------- Janelas (perfil / confirmar saída) ---------- */
+
+.modal {
+    width: calc(100% - 32px);
+    max-width: 400px;
+    margin: auto;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: white;
+}
+
+.modal::backdrop {
+    background: rgba(5, 8, 14, 0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.modal[open] {
+    animation: modal-in 0.22s ease-out;
+}
+
+@keyframes modal-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to   { opacity: 1; transform: none; }
+}
+
+.modal-card {
+    padding: 26px;
+    background: var(--card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 22px;
+}
+
+.modal-card h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.modal-card > p {
+    color: var(--gray);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.modal-data {
+    margin: 18px 0 22px;
+}
+
+.modal-data div {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.modal-data dt {
+    color: var(--gray);
+    font-size: 11px;
+}
+
+.modal-data dd {
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 2px;
+    overflow-wrap: anywhere;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.btn {
+    flex: 1;
+    height: 46px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary {
+    border: none;
+    background: linear-gradient(90deg, #4F7CFF, #41D8FF);
+    color: #06101f;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(90deg, #6790ff, #66e0ff);
+}
+
+.btn-danger {
+    background: rgba(255, 70, 70, 0.16);
+    border-color: rgba(255, 70, 70, 0.4);
+    color: var(--danger);
+}
+
+.btn-danger:hover {
+    background: rgba(255, 70, 70, 0.26);
+}
+
+/* ---------- Aviso rápido (toast) ---------- */
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    z-index: 50;
+    max-width: calc(100% - 32px);
+    padding: 12px 20px;
+    background: #1b2434;
+    border: 1px solid rgba(65, 216, 255, 0.3);
+    border-radius: 18px;
+    color: white;
+    font-size: 13px;
+    text-align: center;
+    opacity: 0;
+    transform: translate(-50%, 12px);
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 600px) {
+
+    .config-page {
+        padding: 25px 12px;
+    }
+
+    .config-content h1 {
+        font-size: 34px;
+    }
+
+    .config-box {
+        padding: 22px 18px;
+    }
+
+    .profile-header h2 {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .config-content h1 {
+        font-size: 30px;
+    }
+
+    .config-box {
+        padding: 20px 15px;
+    }
+
+    .option-text span {
+        font-size: 10px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+/* ---------- Localização ---------- */
+
+.option-text span.is-warn {
+    color: #ffb86b;
+}
+
+.map-frame {
+    display: block;
+    width: 100%;
+    height: 200px;
+    margin-top: 16px;
+    border: none;
+    border-radius: 14px;
+    background: #1b2434;
+}
+
+.map-frame[hidden],
+.modal-data[hidden] {
+    display: none;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* ---------- Ajuda de bloqueio ---------- */
+
+.modal-card > p.ajuda {
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: rgba(255, 184, 107, 0.08);
+    border: 1px solid rgba(255, 184, 107, 0.25);
+    border-radius: 12px;
+    color: #ffcf9b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.modal-card > p.ajuda[hidden] {
+    display: none;
+}
+
+/* ---------- Testar GPS de corrida ---------- */
+
+.modal-card > p.run-status {
+    text-align: center;
+    margin-top: 4px;
+}
+
+.modal-card > p.run-status.is-warn {
+    color: #ffb86b;
+}
+
+.run-time {
+    margin: 18px 0 6px;
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.run-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.run-stat {
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+}
+
+.run-stat span {
+    display: block;
+    color: var(--gray);
+    font-size: 11px;
+}
+
+.run-stat strong {
+    display: block;
+    margin-top: 2px;
+    font-size: 18px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.modal-card > p.run-nota {
+    margin-top: 14px;
+    color: #697386;
+    font-size: 11px;
+    text-align: center;
+}
+
+.btn.btn-aprox {
+    width: 100%;
+    flex: none;
+    height: 40px;
+    margin-top: 14px;
+    font-size: 12px;
+}

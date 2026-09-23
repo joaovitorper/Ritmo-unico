@@ -154,22 +154,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $erro === "") {
 
                 <?php if ($sucesso): ?>
 
-                    <p
-                        class="login-description"
-                        style="color: #41D8FF;"
-                    >
+                    <div class="status-box success">
                         Sua senha foi redefinida com sucesso.
                         Agora você pode fazer login normalmente.
-                    </p>
+                    </div>
 
                     <a
                         href="login.php"
-                        class="login-button"
-                        style="
-                            display: inline-block;
-                            text-align: center;
-                            text-decoration: none;
-                        "
+                        class="login-button is-link"
                     >
                         Ir para o login
                     </a>

@@ -246,6 +246,48 @@ body {
     box-shadow: 0 8px 20px rgba(65, 216, 255, 0.18);
 }
 
+.login-button.is-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.status-box {
+    margin-top: 12px;
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(65, 216, 255, 0.08);
+    border: 1px solid rgba(65, 216, 255, 0.25);
+    color: #d8f9ff;
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.status-box.success {
+    border-color: rgba(95, 217, 166, 0.55);
+    background: rgba(95, 217, 166, 0.08);
+    color: #dffdf0;
+}
+
+.back-home {
+    display: inline-block;
+    width: 100%;
+    margin-top: 16px;
+    text-align: center;
+    color: var(--gray);
+    font-size: 11px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.back-home:hover {
+    color: var(--cyan);
+}
+
 .recuperacao {
     width: 100%;
 }

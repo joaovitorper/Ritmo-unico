@@ -134,7 +134,7 @@ $inicial = strtoupper(substr($nome, 0, 1));
                     </p>
 
                     <form
-                        id="perfilForm"
+                        id="formPerfil"
                         method="POST"
                         action="editar-perfil.php"
                     >
@@ -156,6 +156,7 @@ $inicial = strtoupper(substr($nome, 0, 1));
                                     value="<?= htmlspecialchars($nome) ?>"
                                     required
                                 >
+                                <span class="erro" id="erroNome"></span>
 
                             </div>
 
@@ -174,6 +175,7 @@ $inicial = strtoupper(substr($nome, 0, 1));
                                     value="<?= htmlspecialchars($email) ?>"
                                     required
                                 >
+                                <span class="erro" id="erroEmail"></span>
 
                             </div>
 
@@ -193,6 +195,7 @@ $inicial = strtoupper(substr($nome, 0, 1));
                                     value="<?= htmlspecialchars($idade) ?>"
                                     readonly
                                 >
+                                <span class="erro" id="erroIdade"></span>
 
                             </div>
 
@@ -208,6 +211,7 @@ $inicial = strtoupper(substr($nome, 0, 1));
                                     name="objetivo"
                                     placeholder="Ex: Melhorar meu desempenho"
                                 >
+                                <span class="erro" id="erroObjetivo"></span>
 
                             </div>
 

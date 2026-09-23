@@ -46,6 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const PESO_KG = 70;
 
+    const API_CORRIDAS = "../api/v1/corridas/cadastrar.php";
+
 
     const opcoesGPS = {
 
@@ -617,6 +619,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
+    // SALVAR CORRIDA NO SERVIDOR
+    // ==========================================
+
+    async function salvarCorridaNoServidor(corrida) {
+
+        try {
+
+            const resposta = await fetch(API_CORRIDAS, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+                credentials: "same-origin",
+                body: JSON.stringify(corrida)
+            });
+
+            const dados = await resposta.json();
+
+            if (!resposta.ok || !dados.sucesso) {
+                throw new Error(dados.mensagem || "Erro ao salvar corrida no servidor.");
+            }
+
+            console.log("Corrida salva no banco:", dados);
+
+            return dados;
+
+        } catch (erro) {
+
+            console.error("Falha ao salvar corrida no servidor:", erro);
+
+            try {
+                const historico = JSON.parse(localStorage.getItem("historicoCorridas") || "[]");
+                const lista = Array.isArray(historico) ? historico : [];
+                lista.push(corrida);
+                localStorage.setItem("historicoCorridas", JSON.stringify(lista));
+            } catch (fallbackErro) {
+                console.error("Erro ao salvar fallback local:", fallbackErro);
+            }
+
+            throw erro;
+        }
+    }
+
+
+    // ==========================================
     // INICIAR CORRIDA
     // ==========================================
 
@@ -765,7 +812,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const corrida = {
 
-                data:
+                data_corrida:
                     new Date().toISOString(),
 
                 tempo:
@@ -781,77 +828,62 @@ document.addEventListener("DOMContentLoaded", function () {
                         distanciaKm * PESO_KG
                     ),
 
+                ritmo:
+                    distanciaKm > 0
+                        ? (segundos / distanciaKm).toFixed(2)
+                        : "0",
+
+                pace:
+                    distanciaKm > 0
+                        ? (segundos / distanciaKm).toFixed(2)
+                        : "0",
+
                 rota:
                     rota
 
             };
 
 
-            // ======================================
-            // SALVAR HISTÓRICO
-            // ======================================
-
-            let historico = [];
-
-
-            try {
-
-                historico =
-                    JSON.parse(
-                        localStorage.getItem(
-                            "historicoCorridas"
-                        )
-                    ) || [];
-
-            } catch (erro) {
-
-                console.error(
-                    "Erro ao carregar histórico:",
-                    erro
-                );
-
-                historico = [];
-
-            }
-
-
-            historico.push(corrida);
-
-
-            localStorage.setItem(
-                "historicoCorridas",
-                JSON.stringify(historico)
-            );
-
-
-            console.log(
-                "Corrida salva:",
-                corrida
-            );
-
-
-            alert(
-                "🏁 Corrida finalizada!\n\n" +
-
-                "Distância: " +
-                distanciaKm
-                    .toFixed(2)
-                    .replace(".", ",") +
-                " km\n" +
-
-                "Tempo: " +
-                formatarTempo(segundos) +
-                "\n" +
-
-                "Calorias: " +
-                Math.round(
-                    distanciaKm * PESO_KG
-                ) +
-                " kcal"
-            );
-
-
-            resetarCorrida();
+            salvarCorridaNoServidor(corrida)
+                .then(() => {
+                    alert(
+                        "🏁 Corrida finalizada!\n\n" +
+                        "Distância: " +
+                        distanciaKm
+                            .toFixed(2)
+                            .replace(".", ",") +
+                        " km\n" +
+                        "Tempo: " +
+                        formatarTempo(segundos) +
+                        "\n" +
+                        "Calorias: " +
+                        Math.round(
+                            distanciaKm * PESO_KG
+                        ) +
+                        " kcal"
+                    );
+                })
+                .catch(() => {
+                    alert(
+                        "🏁 Corrida finalizada localmente.\n\n" +
+                        "Distância: " +
+                        distanciaKm
+                            .toFixed(2)
+                            .replace(".", ",") +
+                        " km\n" +
+                        "Tempo: " +
+                        formatarTempo(segundos) +
+                        "\n" +
+                        "Calorias: " +
+                        Math.round(
+                            distanciaKm * PESO_KG
+                        ) +
+                        " kcal"
+                    );
+                })
+                .finally(() => {
+                    resetarCorrida();
+                });
 
         }
     );

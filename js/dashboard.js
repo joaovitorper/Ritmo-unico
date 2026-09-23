@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
     // =========================
     // CARREGAR HISTÓRICO
@@ -7,17 +7,33 @@ document.addEventListener("DOMContentLoaded", () => {
     let historico = [];
 
     try {
-        historico = JSON.parse(
-            localStorage.getItem("historicoCorridas") || "[]"
-        );
+        const resposta = await fetch("../api/v1/corridas/listar.php", {
+            method: "GET",
+            credentials: "same-origin"
+        });
 
-        if (!Array.isArray(historico)) {
+        if (resposta.ok) {
+            const dados = await resposta.json();
+            historico = Array.isArray(dados.corridas) ? dados.corridas : [];
+        }
+    } catch (erro) {
+        console.warn("API de histórico indisponível no dashboard, usando fallback local:", erro);
+    }
+
+    if (!historico.length) {
+        try {
+            historico = JSON.parse(
+                localStorage.getItem("historicoCorridas") || "[]"
+            );
+
+            if (!Array.isArray(historico)) {
+                historico = [];
+            }
+
+        } catch (erro) {
+            console.error("Erro ao carregar histórico:", erro);
             historico = [];
         }
-
-    } catch (erro) {
-        console.error("Erro ao carregar histórico:", erro);
-        historico = [];
     }
 
 

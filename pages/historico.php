@@ -179,7 +179,7 @@ if (!isset($_SESSION["usuario_id"])) {
             >
 
                 <div class="historico-vazio-icon">
-                    🏃
+                    
                 </div>
 
                 <h3>

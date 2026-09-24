@@ -97,6 +97,72 @@ body {
     z-index: 2;
 }
 
+.top-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 3;
+}
+
+button.back-home,
+button.save-button,
+a.back-home,
+a.save-button {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+}
+
+button.back-home,
+a.back-home {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 118px;
+    min-height: 42px;
+    padding: 0 18px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--gray);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+button.back-home:hover,
+a.back-home:hover {
+    color: var(--white);
+    border-color: rgba(65, 216, 255, 0.35);
+    background: rgba(65, 216, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+button.save-button,
+a.save-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 118px;
+    min-height: 42px;
+    padding: 0 18px;
+    background: linear-gradient(90deg, var(--blue), var(--cyan));
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(65, 216, 255, 0.22);
+}
+
+.save-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(65, 216, 255, 0.30);
+}
+
 .config-content {
     width: 100%;
 }
@@ -339,7 +405,9 @@ body {
 }
 
 .back-home {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 20px;
     color: var(--gray);
     font-size: 13px;

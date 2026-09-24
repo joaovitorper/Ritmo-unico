@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("Ritmo Único - historico.js carregado");
 
-
     // ==========================================
     // ELEMENTOS
     // ==========================================
@@ -14,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("limparHistorico");
 
     const listaCorridas =
-        document.getElementById("listaCorridas") ||
         document.getElementById("listaHistorico");
 
     const historicoVazio =
@@ -31,36 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ==========================================
-    // LER HISTÓRICO
+    // LER HISTÓRICO DO BANCO
     // ==========================================
 
-    async function obterHistorico() {
-
-        try {
-
-            const resposta = await fetch("../api/v1/corridas/listar.php", {
-                method: "GET",
-                credentials: "same-origin"
-            });
-
-            if (resposta.ok) {
-                const dados = await resposta.json();
-                const corridas = Array.isArray(dados.corridas) ? dados.corridas : [];
-
-                if (corridas.length > 0) {
-                    return corridas.map((corrida) => ({
-                        ...corrida,
-                        distancia: Number(corrida.distancia ?? 0),
-                        tempo: Number(corrida.tempo ?? corrida.ritmo ?? 0),
-                        calorias: Number(corrida.calorias ?? 0),
-                        data: corrida.data_corrida || corrida.data || new Date().toISOString()
-                    }));
-                }
-            }
-
-        } catch (erro) {
-            console.warn("API de histórico indisponível, usando fallback local:", erro);
-        }
+    function obterHistoricoLocal() {
 
         try {
 
@@ -80,16 +52,147 @@ document.addEventListener("DOMContentLoaded", () => {
                 return [];
             }
 
-            return historico;
+            return historico.map(
+                (corrida) => ({
+                    id: corrida.id ?? null,
+                    usuario_id: corrida.usuario_id ?? null,
+                    distancia: Number(corrida.distancia ?? 0),
+                    tempo: Number(corrida.tempo ?? 0),
+                    ritmo: Number(corrida.ritmo ?? 0),
+                    data: corrida.data_corrida || corrida.data || null,
+                    calorias: corrida.calorias !== undefined && corrida.calorias !== null
+                        ? Number(corrida.calorias)
+                        : Math.round(Number(corrida.distancia ?? 0) * 70)
+                })
+            );
 
         } catch (erro) {
 
             console.error(
-                "Erro ao carregar histórico:",
+                "Erro ao carregar histórico local:",
                 erro
             );
 
             return [];
+        }
+    }
+
+    async function obterHistorico() {
+
+        try {
+
+            const resposta = await fetch(
+                "../api/v1/corridas/listar.php",
+                {
+                    method: "GET",
+                    credentials: "same-origin",
+                    cache: "no-store"
+                }
+            );
+
+
+            console.log(
+                "Status da API:",
+                resposta.status
+            );
+
+
+            if (
+                resposta.status === 401 ||
+                resposta.status === 403
+            ) {
+
+                console.warn(
+                    "Usuário não autenticado. Usando fallback local."
+                );
+
+                return obterHistoricoLocal();
+            }
+
+
+            if (!resposta.ok) {
+
+                throw new Error(
+                    "Erro ao consultar o histórico."
+                );
+            }
+
+
+            const dados =
+                await resposta.json();
+
+
+            console.log(
+                "Dados recebidos da API:",
+                dados
+            );
+
+
+            if (
+                !dados ||
+                !Array.isArray(dados.corridas)
+            ) {
+
+                console.warn(
+                    "A API não retornou uma lista de corridas."
+                );
+
+                return obterHistoricoLocal();
+            }
+
+
+            return dados.corridas.map(
+                (corrida) => {
+
+                    return {
+
+                        id:
+                            corrida.id ?? null,
+
+                        usuario_id:
+                            corrida.usuario_id ?? null,
+
+                        distancia:
+                            Number(
+                                corrida.distancia ?? 0
+                            ),
+
+                        tempo:
+                            Number(
+                                corrida.tempo ?? 0
+                            ),
+
+                        ritmo:
+                            Number(
+                                corrida.ritmo ?? 0
+                            ),
+
+                        data:
+                            corrida.data_corrida ||
+                            corrida.data ||
+                            null,
+
+                        calorias:
+                            corrida.calorias !== undefined &&
+                            corrida.calorias !== null
+                                ? Number(corrida.calorias)
+                                : Math.round(
+                                    Number(
+                                        corrida.distancia ?? 0
+                                    ) * 70
+                                )
+                    };
+                }
+            );
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao carregar histórico do banco:",
+                erro
+            );
+
+            return obterHistoricoLocal();
         }
     }
 
@@ -104,7 +207,9 @@ document.addEventListener("DOMContentLoaded", () => {
             Number(segundos) || 0;
 
         const horas =
-            Math.floor(segundos / 3600);
+            Math.floor(
+                segundos / 3600
+            );
 
         const minutos =
             Math.floor(
@@ -112,13 +217,21 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
         const segundosRestantes =
-            segundos % 60;
+            Math.floor(
+                segundos % 60
+            );
+
 
         return (
+
             String(horas).padStart(2, "0") +
+
             ":" +
+
             String(minutos).padStart(2, "0") +
+
             ":" +
+
             String(segundosRestantes).padStart(2, "0")
         );
     }
@@ -134,17 +247,24 @@ document.addEventListener("DOMContentLoaded", () => {
             Number(segundos) || 0;
 
         const horas =
-            Math.floor(segundos / 3600);
+            Math.floor(
+                segundos / 3600
+            );
 
         const minutos =
             Math.floor(
                 (segundos % 3600) / 60
             );
 
+
         return (
+
             horas +
+
             "h " +
+
             String(minutos).padStart(2, "0") +
+
             "min"
         );
     }
@@ -157,15 +277,43 @@ document.addEventListener("DOMContentLoaded", () => {
     function formatarData(data) {
 
         if (!data) {
+
             return "Data não informada";
         }
 
-        const dataObj =
-            new Date(data);
 
-        if (isNaN(dataObj.getTime())) {
+        let dataObj;
+
+
+        // MySQL:
+        // 2026-09-23 13:30:00
+
+        if (
+            typeof data === "string" &&
+            /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(data)
+        ) {
+
+            dataObj =
+                new Date(
+                    data.replace(" ", "T")
+                );
+
+        } else {
+
+            dataObj =
+                new Date(data);
+        }
+
+
+        if (
+            isNaN(
+                dataObj.getTime()
+            )
+        ) {
+
             return "Data não informada";
         }
+
 
         return dataObj.toLocaleString(
             "pt-BR",
@@ -193,27 +341,30 @@ document.addEventListener("DOMContentLoaded", () => {
             0;
 
 
-        historico.forEach(corrida => {
+        historico.forEach(
+            (corrida) => {
 
-            distancia +=
-                Number(
-                    corrida.distancia
-                ) || 0;
+                distancia +=
+                    Number(
+                        corrida.distancia
+                    ) || 0;
 
-            tempo +=
-                Number(
-                    corrida.tempo
-                ) || 0;
-
-        });
+                tempo +=
+                    Number(
+                        corrida.tempo
+                    ) || 0;
+            }
+        );
 
 
         if (distanciaTotal) {
 
             distanciaTotal.textContent =
+
                 distancia
                     .toFixed(2)
                     .replace(".", ",") +
+
                 " km";
         }
 
@@ -228,7 +379,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (tempoTotal) {
 
             tempoTotal.textContent =
-                formatarTempoResumo(tempo);
+                formatarTempoResumo(
+                    tempo
+                );
         }
     }
 
@@ -240,6 +393,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function atualizarLista(historico) {
 
         if (!listaCorridas) {
+
+            console.error(
+                "Elemento listaHistorico não encontrado."
+            );
+
             return;
         }
 
@@ -247,11 +405,14 @@ document.addEventListener("DOMContentLoaded", () => {
         listaCorridas.innerHTML = "";
 
 
-        // Sem corridas
+        // ==========================================
+        // SEM CORRIDAS
+        // ==========================================
 
         if (historico.length === 0) {
 
             if (historicoVazio) {
+
                 historicoVazio.style.display =
                     "block";
             }
@@ -261,12 +422,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         if (historicoVazio) {
+
             historicoVazio.style.display =
                 "none";
         }
 
 
-        // Mais recente primeiro
+        // ==========================================
+        // MAIS RECENTE PRIMEIRO
+        // ==========================================
 
         const corridas =
             [...historico].reverse();
@@ -277,6 +441,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const item =
                     document.createElement("div");
+
 
                 item.className =
                     "historico-corrida";
@@ -300,6 +465,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     ) || 0;
 
 
+                const numeroCorrida =
+                    historico.length - indice;
+
+
                 item.innerHTML = `
 
                     <div class="historico-corrida-info">
@@ -309,7 +478,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         </span>
 
                         <strong>
-                            Corrida ${historico.length - indice}
+                            Corrida ${numeroCorrida}
                         </strong>
 
                     </div>
@@ -318,55 +487,78 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="historico-corrida-metricas">
 
                         <div>
-                            <span>Distância</span>
+
+                            <span>
+                                Distância
+                            </span>
+
                             <strong>
-                                ${distancia
-                                    .toFixed(2)
-                                    .replace(".", ",")} km
+                                ${
+                                    distancia
+                                        .toFixed(2)
+                                        .replace(".", ",")
+                                } km
                             </strong>
+
                         </div>
 
 
                         <div>
-                            <span>Tempo</span>
+
+                            <span>
+                                Tempo
+                            </span>
+
                             <strong>
                                 ${formatarTempo(tempo)}
                             </strong>
+
                         </div>
 
 
                         <div>
-                            <span>Calorias</span>
+
+                            <span>
+                                Calorias
+                            </span>
+
                             <strong>
                                 ${calorias} kcal
                             </strong>
+
                         </div>
 
                     </div>
                 `;
 
 
-                listaCorridas.appendChild(item);
+                listaCorridas.appendChild(
+                    item
+                );
             }
         );
     }
 
 
     // ==========================================
-    // ATUALIZAR TUDO
+    // ATUALIZAR HISTÓRICO
     // ==========================================
 
     async function atualizarHistorico() {
 
-        const historico = await obterHistorico();
+        const historico =
+            await obterHistorico();
+
 
         atualizarResumo(
             historico
         );
 
+
         atualizarLista(
             historico
         );
+
 
         console.log(
             "Histórico carregado:",
@@ -383,7 +575,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         voltarButton.addEventListener(
             "click",
-            event => {
+            (event) => {
 
                 event.preventDefault();
 
@@ -402,21 +594,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         limparButton.addEventListener(
             "click",
-            () => {
-
-                const historico =
-                    obterHistorico();
-
-
-                if (historico.length === 0) {
-
-                    alert(
-                        "Não existe nenhum histórico para limpar."
-                    );
-
-                    return;
-                }
-
+            async () => {
 
                 const confirmar =
                     confirm(
@@ -425,22 +603,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 if (!confirmar) {
+
                     return;
                 }
 
 
-                localStorage.removeItem(
-                    "historicoCorridas"
-                );
-
-
-                atualizarHistorico();
-
-
                 alert(
-                    "Histórico limpo com sucesso!"
+                    "As corridas salvas no banco precisam ser excluídas pelo sistema do servidor."
                 );
-
             }
         );
     }
@@ -456,5 +626,4 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(
         "✅ Sistema de histórico pronto."
     );
-
 });

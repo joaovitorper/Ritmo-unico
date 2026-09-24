@@ -60,7 +60,7 @@ $nomeUsuario = $_SESSION["usuario_nome"] ?? "Corredor";
                     </span>
 
                     <h1>
-                        Olá, <?= htmlspecialchars($nomeUsuario) ?>! 👋
+                        Olá, <?= htmlspecialchars($nomeUsuario) ?>! 
                     </h1>
 
                     <p>
@@ -76,7 +76,7 @@ $nomeUsuario = $_SESSION["usuario_nome"] ?? "Corredor";
                 <div class="dashboard-card">
 
                     <span class="card-icon">
-                        🏃
+                    
                     </span>
 
                     <span class="card-label">
@@ -96,7 +96,7 @@ $nomeUsuario = $_SESSION["usuario_nome"] ?? "Corredor";
                 <div class="dashboard-card">
 
                     <span class="card-icon">
-                        ⏱️
+                        
                     </span>
 
                     <span class="card-label">
@@ -116,7 +116,7 @@ $nomeUsuario = $_SESSION["usuario_nome"] ?? "Corredor";
                 <div class="dashboard-card">
 
                     <span class="card-icon">
-                        🔥
+                        
                     </span>
 
                     <span class="card-label">
@@ -136,7 +136,7 @@ $nomeUsuario = $_SESSION["usuario_nome"] ?? "Corredor";
                 <div class="dashboard-card">
 
                     <span class="card-icon">
-                        🎯
+                        
                     </span>
 
                     <span class="card-label">

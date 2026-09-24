@@ -29,17 +29,32 @@ if (!isset($_SESSION['usuario_id'])) {
 
 $usuario_id = (int) $_SESSION['usuario_id'];
 
-$sql = "SELECT
-            id,
-            usuario_id,
-            data_corrida,
-            distancia,
-            tempo,
-            ritmo,
-            calorias
-        FROM corridas
-        WHERE usuario_id = ?
-        ORDER BY id DESC";
+$colunas = $conexao->query('SHOW COLUMNS FROM corridas');
+$camposDisponiveis = [];
+if ($colunas) {
+    while ($coluna = $colunas->fetch_assoc()) {
+        $camposDisponiveis[] = $coluna['Field'];
+    }
+}
+
+$camposSelecionados = [];
+foreach (['id', 'usuario_id', 'data_corrida', 'distancia', 'tempo', 'ritmo', 'pace', 'calorias'] as $campo) {
+    if (in_array($campo, $camposDisponiveis, true)) {
+        $camposSelecionados[] = $campo;
+    }
+}
+
+if (empty($camposSelecionados)) {
+    http_response_code(500);
+    echo json_encode([
+        'sucesso' => false,
+        'mensagem' => 'Estrutura da tabela de corridas não foi encontrada.'
+    ], JSON_UNESCAPED_UNICODE);
+    $conexao->close();
+    exit;
+}
+
+$sql = 'SELECT ' . implode(', ', $camposSelecionados) . ' FROM corridas WHERE usuario_id = ? ORDER BY id DESC';
 
 $stmt = $conexao->prepare($sql);
 if (!$stmt) {
@@ -58,6 +73,9 @@ $resultado = $stmt->get_result();
 
 $corridas = [];
 while ($corrida = $resultado->fetch_assoc()) {
+    if (!isset($corrida['calorias'])) {
+        $corrida['calorias'] = 0;
+    }
     $corridas[] = $corrida;
 }
 

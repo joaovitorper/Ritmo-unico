@@ -380,7 +380,7 @@ $nomeUsuario = $_SESSION['usuario_nome'] ?? 'Corredor';
 
 
                     <a
-                        href="home.php"
+                        href="dashboard.php"
                         class="corrida-nav-item">
                         Início
                     </a>
@@ -437,10 +437,10 @@ $nomeUsuario = $_SESSION['usuario_nome'] ?? 'Corredor';
             ========================================== -->
 
                 <a
-                    href="home.php"
+                    href="dashboard.php"
                     class="corrida-back">
 
-                    ← Voltar para início
+                    ← Voltar para dashboard
 
                 </a>
 

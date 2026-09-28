@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const PESO_KG = 70;
 
-    const API_CORRIDAS = "salvar_corrida.php";
+    const API_CORRIDAS = "../api/v1/corridas/cadastrar.php";
 
 
     const opcoesGPS = {

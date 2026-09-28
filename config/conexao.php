@@ -3,7 +3,7 @@
 $host = "localhost";
 $usuario = "root";
 $senha = "";
-$banco = "ritmo_unico";
+$banco = "ritmo unico";
 
 $conexao = new mysqli($host, $usuario, $senha, $banco);
 

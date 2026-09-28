@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $stmt->close();
                     $conexao->close();
 
-                    header("Location: home.php");
+                    header("Location: dashboard.php");
                     exit;
                 }
             }

@@ -222,7 +222,7 @@ if (!isset($_SESSION["usuario_id"])) {
 
         <nav class="historico-menu">
 
-            <a href="home.php">
+            <a href="dashboard.php">
                 Início
             </a>
 
@@ -259,11 +259,11 @@ if (!isset($_SESSION["usuario_id"])) {
         <!-- VOLTAR -->
 
         <a
-            href="home.php"
+            href="dashboard.php"
             id="voltar"
             class="back-home"
         >
-            ← Voltar para início
+            ← Voltar para dashboard
         </a>
 
 

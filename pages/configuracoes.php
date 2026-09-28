@@ -426,7 +426,7 @@ $csrf         = e($_SESSION['csrf']);
                     return;
                 }
 
-                window.location.href = 'home.php';
+                window.location.href = 'dashboard.php';
             }
 
             var voltar = document.getElementById('voltar');

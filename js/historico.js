@@ -580,7 +580,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 event.preventDefault();
 
                 window.location.href =
-                    "home.php";
+                    "dashboard.php";
             }
         );
     }

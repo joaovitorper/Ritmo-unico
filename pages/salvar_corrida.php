@@ -55,17 +55,17 @@ if (!is_array($dados)) {
 // USUÁRIO
 // =====================================================
 
-// IMPORTANTE:
-// Não vamos confiar no usuario_id enviado pelo JavaScript.
-// Pegamos o usuário diretamente da sessão.
-
 $usuario_id = (int) $_SESSION['usuario_id'];
 
 // =====================================================
-// DISTÂNCIA
+// DADOS DA CORRIDA
 // =====================================================
 
+$data_corrida = $dados['data_corrida'] ?? date('Y-m-d H:i:s');
 $distancia = $dados['distancia'] ?? null;
+$tempo = $dados['tempo'] ?? null;
+$ritmo = $dados['ritmo'] ?? $dados['pace'] ?? null;
+$calorias = $dados['calorias'] ?? null;
 
 if ($distancia === null || !is_numeric($distancia)) {
 
@@ -81,13 +81,7 @@ if ($distancia === null || !is_numeric($distancia)) {
 
 $distancia = (float) $distancia;
 
-// =====================================================
-// TEMPO
-// =====================================================
-
-$tempo = $dados['tempo'] ?? null;
-
-if ($tempo === null || !is_numeric($tempo)) {
+if ($tempo === null || $tempo === '') {
 
     http_response_code(400);
 
@@ -99,53 +93,15 @@ if ($tempo === null || !is_numeric($tempo)) {
     exit;
 }
 
-$tempo = (int) $tempo;
+$tempo = (string) $tempo;
 
-// =====================================================
-// RITMO
-// =====================================================
-
-$ritmo = $dados['ritmo'] ?? null;
-
-if ($ritmo !== null && $ritmo !== '') {
-
-    if (!is_numeric($ritmo)) {
-
-        http_response_code(400);
-
-        echo json_encode([
-            'sucesso' => false,
-            'mensagem' => 'Informe um ritmo válido.'
-        ], JSON_UNESCAPED_UNICODE);
-
-        exit;
-    }
-
-    $ritmo = (float) $ritmo;
-
+if ($ritmo === null || $ritmo === '') {
+    $ritmo = ($distancia > 0 && $tempo > 0) ? round(((float) $tempo / 60) / $distancia, 2) : 0;
 } else {
-
-    // Calcula automaticamente o ritmo
-    // tempo = segundos
-    // distância = quilômetros
-
-    if ($distancia > 0) {
-
-        $ritmo = round(
-            ($tempo / 60) / $distancia,
-            2
-        );
-
-    } else {
-
-        $ritmo = null;
-
-    }
+    $ritmo = (string) $ritmo;
 }
 
-// =====================================================
-// VALIDAÇÕES
-// =====================================================
+$calorias = ($calorias === null || $calorias === '') ? null : (float) $calorias;
 
 if ($distancia < 0) {
 
@@ -159,33 +115,43 @@ if ($distancia < 0) {
     exit;
 }
 
-if ($tempo < 0) {
-
-    http_response_code(400);
-
-    echo json_encode([
-        'sucesso' => false,
-        'mensagem' => 'O tempo não pode ser negativo.'
-    ], JSON_UNESCAPED_UNICODE);
-
-    exit;
+if ($tempo !== '' && !is_numeric($tempo)) {
+    $tempo = (string) $tempo;
 }
 
 // =====================================================
 // SALVAR NO MYSQL
 // =====================================================
 
-$sql = "
-    INSERT INTO corridas
-    (
-        usuario_id,
-        distancia,
-        tempo,
-        ritmo
-    )
-    VALUES
-    (?, ?, ?, ?)
-";
+$colunas = $conexao->query('SHOW COLUMNS FROM corridas');
+$camposDisponiveis = [];
+if ($colunas) {
+    while ($coluna = $colunas->fetch_assoc()) {
+        $camposDisponiveis[] = $coluna['Field'];
+    }
+}
+
+$camposInsert = ['usuario_id', 'data_corrida', 'distancia', 'tempo'];
+$valores = [$usuario_id, $data_corrida, $distancia, $tempo];
+$tipos = 'isds';
+
+if (in_array('ritmo', $camposDisponiveis, true)) {
+    $camposInsert[] = 'ritmo';
+    $valores[] = $ritmo;
+    $tipos .= 's';
+} elseif (in_array('pace', $camposDisponiveis, true)) {
+    $camposInsert[] = 'pace';
+    $valores[] = $ritmo;
+    $tipos .= 's';
+}
+
+if (in_array('calorias', $camposDisponiveis, true) && $calorias !== null) {
+    $camposInsert[] = 'calorias';
+    $valores[] = $calorias;
+    $tipos .= 'd';
+}
+
+$sql = 'INSERT INTO corridas (' . implode(', ', $camposInsert) . ') VALUES (' . implode(', ', array_fill(0, count($camposInsert), '?')) . ')';
 
 $stmt = $conexao->prepare($sql);
 
@@ -195,28 +161,14 @@ if (!$stmt) {
 
     echo json_encode([
         'sucesso' => false,
-        'mensagem' => 'Erro ao preparar o salvamento da corrida.'
+        'mensagem' => 'Erro ao preparar o salvamento da corrida.',
+        'debug' => $conexao->error
     ], JSON_UNESCAPED_UNICODE);
 
     exit;
 }
 
-// usuario_id = inteiro
-// distancia = decimal
-// tempo = inteiro
-// ritmo = decimal
-
-$stmt->bind_param(
-    'idid',
-    $usuario_id,
-    $distancia,
-    $tempo,
-    $ritmo
-);
-
-// =====================================================
-// EXECUTAR
-// =====================================================
+$stmt->bind_param($tipos, ...$valores);
 
 if ($stmt->execute()) {
 
@@ -232,7 +184,8 @@ if ($stmt->execute()) {
 
     echo json_encode([
         'sucesso' => false,
-        'mensagem' => 'Erro ao salvar a corrida.'
+        'mensagem' => 'Erro ao salvar a corrida.',
+        'debug' => $stmt->error
     ], JSON_UNESCAPED_UNICODE);
 
 }

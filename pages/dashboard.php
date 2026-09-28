@@ -213,7 +213,7 @@ $nomeUsuario = $_SESSION["usuario_nome"] ?? "Corredor";
 
             <nav class="dashboard-menu">
 
-                <a href="home.php">
+                <a href="dashboard.php">
                     Início
                 </a>
 

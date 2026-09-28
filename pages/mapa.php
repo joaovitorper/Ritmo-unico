@@ -156,7 +156,7 @@ if (!isset($_SESSION["usuario_id"])) {
 
         <nav class="mapa-menu">
 
-            <a href="home.php">
+            <a href="dashboard.php">
                 Início
             </a>
 

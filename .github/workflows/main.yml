@@ -1,0 +1,28 @@
+name: 🚀 Deploy website on push
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  web-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v6
+
+      - name: 📂 FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ftpupload.net
+          username: if0_42995131
+          password: ${{ Ritmo2026unico }}
+          protocol: ftp
+          port: 21
+          server-dir: /htdocs/
+          exclude: |
+            **/uploads/**
+            **/.git*
+            **/.git*/**

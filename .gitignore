@@ -1,1 +1,38 @@
-/config/conexao.php
+﻿# Arquivos de ambiente e segredos
+.env
+.env.*
+
+# Configuração local do banco (pode conter senha)
+config/conexao.php
+config/conexao_online.php
+
+# Arquivos de log e temporários
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# Dependências e bibliotecas locais
+vendor/
+node_modules/
+
+# Uploads, cache e arquivos gerados
+uploads/
+cache/
+_tmp/
+
+# Backups do banco e arquivos de desenvolvimento
+backup-ritmo-unico.sql
+*.sql.local
+
+# Arquivos de teste locais
+php_errors.log

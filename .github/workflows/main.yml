@@ -23,6 +23,5 @@ jobs:
           port: 21
           server-dir: /htdocs/
           exclude: |
+            **/.git/**
             **/uploads/**
-            **/.git*
-            **/.git*/**

@@ -1,4 +1,4 @@
-name: 🚀 Deploy website on push
+name: Deploy website on push
 
 on:
   push:
@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🚚 Get latest code
+      - name: Get latest code
         uses: actions/checkout@v6
 
-      - name: 🔐 Create database connection
+      - name: Create database connection
         run: |
           cat > config/conexao.php <<'PHP'
           <?php
@@ -32,7 +32,20 @@ jobs:
           $conexao->set_charset("utf8mb4");
           PHP
 
-      - name: 📂 FTP Deploy
+      - name: Verify database connection file
+        run: |
+          echo "Verificando usuario do banco..."
+          grep -F '$usuario = "if0_42995131";' config/conexao.php
+
+          echo "Verificando se a senha foi preenchida..."
+          if grep -Fq '$senha = "";' config/conexao.php; then
+            echo "ERRO: DB_PASSWORD esta vazio."
+            exit 1
+          else
+            echo "OK: senha foi preenchida."
+          fi
+
+      - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_SERVER }}

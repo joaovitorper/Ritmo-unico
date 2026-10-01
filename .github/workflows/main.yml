@@ -22,6 +22,7 @@ jobs:
           $usuario = "if0_42995131";
           $senha = "${{ secrets.DB_PASSWORD }}";
           $banco = "if0_42995131_ritmounico";
+          // Deploy atualizado em 01/10/2026
 
           $conexao = new mysqli($host, $usuario, $senha, $banco, 3306);
 

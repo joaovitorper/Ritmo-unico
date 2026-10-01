@@ -13,6 +13,25 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v6
 
+      - name: 🔐 Criar conexão com banco
+        run: |
+          cat > config/conexao.php <<'PHP'
+          <?php
+
+          $host = "${{ secrets.DB_HOST }}";
+          $usuario = "${{ secrets.DB_USERNAME }}";
+          $senha = "${{ secrets.DB_PASSWORD }}";
+          $banco = "${{ secrets.DB_NAME }}";
+
+          $conexao = new mysqli($host, $usuario, $senha, $banco, 3306);
+
+          if ($conexao->connect_error) {
+              die("Erro na conexão com o banco: " . $conexao->connect_error);
+          }
+
+          $conexao->set_charset("utf8mb4");
+          PHP
+
       - name: 📂 FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:

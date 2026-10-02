@@ -2,9 +2,9 @@
 .env
 .env.*
 
-# Configuração local do banco (pode conter senha)
-config/conexao.php
-config/conexao_online.php
+# # Configuração local do banco (pode conter senha)
+# config/conexao.php
+# config/conexao_online.php
 
 # Arquivos de log e temporários
 *.log

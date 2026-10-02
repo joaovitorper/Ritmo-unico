@@ -76,7 +76,7 @@ session_start();
                 <div class="titulo-area">
 
                     <h1>
-                        Ritmo Único
+                        Ritmo Únicos
                     </h1>
 
                     <span class="tag">
